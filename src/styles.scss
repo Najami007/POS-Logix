@@ -1,0 +1,401 @@
+@import url('./app/Shared/Navbar/navbar.scss');
+
+
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  // font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+
+//////////////////////////////////////////////////
+/// ///////////////////////////////////////
+/// 
+
+
+///////////////////////main page css //////////////////////////
+
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mat-drawer {
+  width: 200px;
+
+  // background-color: #0a142c !important;
+  
+}
+
+.mat-drawer-container {
+
+  height: 100%;
+  
+}
+
+
+
+////////////////////////////////////////////////////////////////////////
+/////////////////// Header styles start here ////////////////////////////
+/// ////////////////////////////////////////////////////////////////////
+
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fcf8f8;
+
+  border-bottom: 1px solid rgb(184, 181, 181);
+  h1{
+    font-family: Arial, Helvetica, sans-serif !important;
+    text-transform:uppercase;
+    margin-top: 4px !important;
+  }
+}
+
+.stylnone {
+  list-style: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.button {
+  border: 0;
+  outline: none;
+  background: transparent;
+
+}
+
+////////////////////////////////////////////////////////////////////////
+/////////////////// Header styles End here ////////////////////////////
+/// ////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////
+/// /////////////////////// Coa Form css ////////////////////////
+/// ///////////////////////////////////////////////////
+
+
+.coa {
+
+  //    max-width: 1500px;  
+  // margin: 10px auto;     
+  position: relative;
+  box-shadow: 0 10px 30px 0px rgba(0, 0, 0, 0.1);
+  // padding-left: 10px;
+  padding: 10px;
+  background-color: white;
+
+ 
+
+  .Coa-title {
+    text-transform: uppercase;
+    text-align: center;
+    position: relative;
+    letter-spacing: 5px;
+    font-size: 35px;
+    line-height: 30px;
+    padding-bottom: 10px;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    border-bottom: 1px solid gainsboro;
+  }
+
+  .pform {
+    mat-label {
+      color: gray;
+      font-size: small;
+    }
+  }
+
+  .radio-button {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+
+  .coa-table {
+
+    padding: 30px !important;
+    width: 100%;
+
+
+    thead {
+      font-size: large;
+      font-weight: 500;
+      // background-color:#f1eeee ;
+    }
+
+    tr:nth-child(even) {
+      // background-color: #f1eeee;
+      padding: 30px !important;
+
+    }
+
+    tr {
+      line-height: 40px;
+
+    }
+
+  }
+
+}
+
+
+
+////////////COa scss End here /////////////
+
+
+////////////////////////////////////////////////////////////////
+/////////////////// Voucher CSS Start Here //////////////////////////
+/// ///////////////////////////////////////////////////////////
+
+.Voucher{
+    // max-width: 1500px; 
+    // margin: 10px auto;    
+    position: relative;
+    box-shadow: 0 10px 30px 0px rgba(0, 0, 0, 0.1);
+    // padding-left: 30px;
+    padding: 10px;
+    background-color: white;
+   
+   
+
+    .title{
+      text-transform: uppercase;
+      text-align: center;
+      position: relative;
+      letter-spacing: 5px;
+      font-size: 35px;
+      line-height: 30px;
+      padding-bottom: 10px;
+      color: black;
+      font-family:Arial, Helvetica, sans-serif;
+      border-bottom: 1px solid gainsboro;
+    }
+
+    .pform .form-field{
+      position: relative;
+      margin: 10px 0;
+  }
+ 
+  .pform label{
+      color: gray;
+      font-size: small;
+  }
+  
+  .pform .radioBtn{
+      font-size: 25px !important;
+      line-height: 40px;
+  
+     
+      
+  }
+ 
+    table {
+      width: 100%;
+    }
+    
+    
+    
+  .container {
+    max-width: 1200px;
+    margin: 0px auto;
+  }
+  
+  button{
+    background-color: transparent;
+    border: none;
+    
+   
+  }
+  // .tRowBckgrnd{
+  //   background-color: rgb(231, 252, 245);
+  // }
+
+  
+}
+
+
+
+////////////////////////////////////////////////////////////////
+/////////////////// Voucher CSS End Here //////////////////////////
+/// ///////////////////////////////////////////////////////////
+ 
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+/// ////////////////////////// Ledger report css//////////
+/// ////////////////////////////////////////////////////
+
+
+
+.selRow {
+  
+  // margin: 10px auto;
+  // position: relative;
+  // box-shadow: 5px 0px 5px 10px rgba(233, 233, 233, 0.322);
+  // padding-left: 30px;
+  // padding: 30px;
+  // background-color: white;
+
+  button {
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+    border: none;
+    font-size: 15px;
+  }
+
+  mat-label{
+    color: gray;
+      font-size: small;
+  }
+
+}
+
+.Input{
+  border: 1px solid black;
+}
+
+.rptTitle {
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 5px;
+  font-size: 30px;
+  line-height: 20px;
+  // padding-top: 10px;
+  // padding-bottom: 5px;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.rptTable {
+  width: 100%;
+  // margin-left: 5px;
+  // background-color: rgb(252, 242, 242);
+
+  th {
+    border: 1px solid black;
+    font-size: 15px;
+    font-weight: bold;
+
+  }
+
+  td {
+    border: 1px solid black;
+    font-size: 12px;
+  }
+}
+
+
+
+
+
+
+
+
+/////////////////////////////
+/// 
+
+
+
+
+.total{
+  text-align: right;
+  font-weight: bold;
+}
+
+
+
+
+
+/////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.input-width {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.input-full-width {
+  width: 100%;
+}
+
+
+
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.bckgrnd {
+  margin: none;
+  // background-color: rgba(245, 220, 203, 0.322);
+  
+  width: 100%;
+  height: 100%;
+
+}
+
+.searchBar{
+  height: 40px;
+  width: 100%;
+  border:1px solid rgb(199, 195, 195);
+  background-color: gainsboro;
+  border-radius: 25px;
+  padding-left: 10px;
+}
+
+.btnTransparent{
+  background-color: transparent;
+  border: none;
+}
+
+
+.psearchbar{
+  height: 40px;
+  width: 100%;
+  border-color:lightgray;
+  border-radius: 5px;
+}
+
+
+
+.cursorPointer{
+ cursor: pointer;
+}

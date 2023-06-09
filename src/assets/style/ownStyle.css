@@ -1,0 +1,18 @@
+.rptTable {
+    width: 100%;
+    /* margin-left: 15px; */
+    background-color: rgb(252, 242, 242);
+  }
+
+
+  .rptTable th {
+    border: 1px solid black;
+    font-size: 15px;
+    font-weight: bold;
+
+  }
+
+  .rptTable td {
+    border: 1px solid black;
+    font-size: 12px;
+  }

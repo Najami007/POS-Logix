@@ -1,0 +1,153 @@
+<div class="bckgrnd bg-grey">
+    <div class="coa">
+        <h1 class="Coa-title">Charts Of Accounts</h1>
+
+        <form [formGroup]="COAForm">
+            <div class="container row m-3 justify-content-around ">
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pform mt-3 pt-4 ">
+
+
+                    <!-- Coa Types Selected Here -->
+                    
+                        <mat-form-field appearance="outline" class="w-100"> 
+                            <mat-label >Select Type </mat-label>
+                            <mat-select  formControlName="CoaTile" Data-live-Search="true">
+                                <mat-option *ngFor="let item of coaTypes "
+                                    value="{{item.type}}">{{item.type}}</mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+
+                   
+                        <mat-form-field appearance="outline" class="w-100"> 
+                            <mat-label>Select Level</mat-label>
+                            <mat-select class="" #AccountHeadLabel formControlName="AccountHeadLabel"
+                                (selectionChange)="ShowLevel()">
+
+                                <mat-option *ngFor="let item of CoaLevel"
+                                    [value]="item.level">{{item.level}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                  
+                    <!-- Coa Level 1 Selected Here -->
+                    
+                        <mat-form-field appearance="outline" *ngIf="hideLevel1" class="w-100">
+                            <mat-label>Level 1</mat-label>
+                            <mat-select class=""  #L1 formControlName="level1">
+                                <mat-option value="01">Current Asset</mat-option>
+                                <mat-option value="02">Fixed Asset</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                   
+                     <!-- Coa Level 2 Selected Here -->
+                    
+                        <mat-form-field appearance="outline" *ngIf="hideLevel2" class="w-100">
+                            <mat-label>Level 2</mat-label>
+                            <mat-select class=""  #L2 formControlName="level2">
+                                <mat-option value="01">Long Term</mat-option>
+                                <mat-option value="02">Short Term</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                   
+                    <!-- Coa level 2 Iput Field -->
+                 
+
+                        <mat-form-field appearance="outline" *ngIf="hideInputField" class="w-100">
+                            <mat-label>Enter Level</mat-label>
+                            <input matInput type="number" min="0" (keydown)="changeValue($event)" #EnterLevel aria-label="Username" (keyup)="setvalue()"
+                                formControlName="levelInput">
+                        </mat-form-field>
+                   
+
+                </div>
+
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pform " style=" margin-left: 15%;">
+                    <span>
+                        <h4>Account Head Label: {{AccountLabelHeadValue}}</h4>
+
+                    </span>
+                    <span>
+
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Enter Head Title</mat-label>
+                            <input matInput type="text" formControlName="HeadTitle" autofocus>
+                        </mat-form-field>
+
+
+                    </span>
+                    <br><br><br>
+                    <span>
+                        <h1 class="text-danger ">Is Transaction Allowed in this head?</h1>
+                        <mat-radio-group formControlName="TransactionAllowed">
+                            <mat-radio-button class="radio-button" #transactionAllow *ngFor="let item of Allow"
+                                [value]="item.val">
+                                {{item.val}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </span>
+                    <br><br>
+                    <span *ngIf="false">
+                        <h1 class="text-danger">Is it member Receipt?</h1>
+                        <mat-radio-button class="radio-button" *ngFor="let item of Allow" [value]="item.val">
+                            {{item.val}}
+                        </mat-radio-button>
+                    </span>
+                </div>
+
+
+            </div>
+
+        </form>
+
+        <!-- Save And Reset Button -->
+        <br><br>
+        <div class=" text-center">
+            <button class="btn btn-success col-md-1 ml-10" (click)="Save()">{{btnValue}}</button>
+
+
+            <button class="btn btn-danger col-md-1 ml-10" (click)="COAForm.reset()">Reset</button>
+        </div>
+
+
+
+        <br><hr><br>
+        <div>
+
+            <mat-form-field class="col-md-11" appearance="outline">
+                <mat-label>Search.....</mat-label>
+                <input [(ngModel)]="txtSearch" matInput type="search" class="text-secondary">
+                <mat-icon matPrefix class="text-secondary">search</mat-icon>
+            </mat-form-field>
+        
+            <table class="coa-table table table-hover bg-light">
+                <thead>
+                    <tr>
+                        <td>Sr.</td>
+                        <td>Account Code</td>
+                        <td>Account Title</td>
+                        <td>Type</td>
+                        <td>Action</td>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of tabledata | filter : txtSearch; let i=index" >
+                        <td>{{i+1}}</td>
+                        <td>{{item.ac}}</td>
+                        <td>{{item.at}}</td>
+                        <td>{{item.type}}</td>   
+                        <td ><button class="btnTransparent text-success"><mat-icon >edit</mat-icon></button>
+                            <button class="btnTransparent text-danger"><mat-icon >delete</mat-icon></button>
+                        </td>
+                     
+
+                    </tr>
+                   
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>

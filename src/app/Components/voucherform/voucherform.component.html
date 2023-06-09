@@ -1,0 +1,245 @@
+<div class="bckgrnd">
+    <div class="Voucher">
+       
+
+        <!-- <form> -->
+
+        <div class="container-fluid  mt-3">
+
+            <!-- --------------------First Row-------------- -->
+            <div class="pform row col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+
+
+                <!-- --------------------voucher Type selected here-------------- -->
+                
+                <mat-form-field class="col-lg-5 col-md-5 col-sm-5 col-xs-5" appearance="outline">
+                    <mat-label>Select Voucher Type </mat-label>
+                    <mat-select [(ngModel)]="vTypeselectedValue"  name="vType" 
+                        (selectionChange)="vTypeValue($event)" [disabled]="disableR1">
+                        <mat-option *ngFor="let item of vTypes " value="{{item.value}}">{{item.type}}</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+
+                   
+ 
+
+                <!-- --------------------voucher Nature cash or bank selected here-------------- -->
+                <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-1  row radioBtn mt-4" *ngFor="let type of Types">
+
+                    <h4 for="" class="">{{type.t}} <input #tType type="radio" [(ngModel)]="transactionTypeSeletedValue"
+                            name="transactionType" value="{{type.t}}"  [disabled]="disableR1">
+                    </h4>
+                </div>
+
+                <!-- --------------------voucher DAte selected here-------------- -->
+
+
+
+                <mat-form-field class="col-lg-5 col-md-5 col-sm-5 col-xs-5" appearance="outline"> 
+                    <mat-label>Select Voucher Date</mat-label>
+                    <input readonly="true" matInput type="text" name="voucherDate" 
+                        [(ngModel)]="vDate"  [matDatepicker]="voucherDate" [disabled]="disableR1">
+                    <mat-datepicker-toggle matSuffix [for]="voucherDate"></mat-datepicker-toggle>
+                    <mat-datepicker #voucherDate></mat-datepicker>
+                </mat-form-field>
+
+
+
+
+
+            </div>
+            <hr>
+
+            <!-- --------------------Second Row-------------- -->
+
+            <div class="pform row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="align-items: center;">
+
+                <!-- --------------------Bank Select Area-------------- -->
+
+
+                <mat-form-field class="col-lg-5 col-md-5 col-sm-5 col-xs-5" *ngIf="transactionTypeSeletedValue == 'Bank'" appearance="outline">
+                    <mat-label>Select Refrence COA </mat-label>
+                    <mat-select  [(ngModel)]="refrenceCOA"  [disabled]="disableBank" >
+                        <mat-option  *ngFor="let item of Bank "  value="{{item}}">{{item}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-lg-5 col-md-5 col-sm-5 col-xs-5" *ngIf="transactionTypeSeletedValue == 'Cash'" appearance="outline">
+                    <mat-label>Select Refrence COA </mat-label>
+                    <mat-select [(ngModel)]="refrenceCOA"  [disabled]="disableBank" >
+                        <mat-option value="Cash In Hand">Cash In Hand</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+                <!-- --------------------Party Name Select Area-------------- -->
+
+                <mat-form-field class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="float:right;" appearance="outline">
+                    <mat-label>Select Party Name </mat-label>
+                    <mat-select [(ngModel)]="party" Data-live-Search="true">
+                        <mat-option *ngFor="let item of parties " value="{{item}}">{{item}}</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+
+
+            <div class="container-fluid py-2 col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-light border " >
+                <div class="col-lg-12 row fw-bold mt-4">
+                    <span class="col-lg-5 ">Account Title</span>
+                    <span class="col-lg-3 text-end">Debit</span>
+                    <span class="col-lg-3 text-end">Credit</span>
+                </div>
+                <!-- --------------------Third row-------------- -->
+                <div class=" row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <!-- -------------------Coa Account Select Area-------------- -->
+
+
+
+                    <mat-form-field class="col-lg-5 col-md-5 col-sm-5 col-xs-5 " appearance="outline">
+                        <mat-label>Select COA Title </mat-label>
+                        <mat-select id="cTitle" class="cTitle" [(ngModel)]="COATitle" name="coaTitle" accesskey="c" >
+                            <!-- <input placeholder="Search...." matInput type="text"  class="p-2 border border-bottom rounded w-100"
+                                style="height: 40px;" [(ngModel)]="coaSearch" > -->
+                            <mat-option><ngx-mat-select-search
+                                [(ngModel)]="coaSearch"
+                                [placeholderLabel]="'Search...'"
+                                [noEntriesFoundLabel]="'Not found'"
+                                name="search"
+                              ></ngx-mat-select-search></mat-option>
+                            <mat-option *ngFor="let item of COA | filter:coaSearch "
+                                [value]="item.name">{{item.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <!-- -------------------Debit amount Enter Area-------------- -->
+
+                    <mat-form-field class=" col-lg-3 col-md-3 col-sm-3 col-xs-3" appearance="outline">
+
+                        <input matInput #DebitAmount [(ngModel)]="DAmount" (keydown)="changeValue($event)" [defaultValue]="0" type="number"
+                            min="0" [disabled]="disableDebit">
+                    </mat-form-field>
+                    <!-- -------------------Credit amount Enter Area-------------- -->
+
+
+                    <mat-form-field class=" col-lg-3 col-md-3 col-sm-3 col-xs-3" appearance="outline">
+
+                        <input matInput #CreditAmount [(ngModel)]="CAmount" [defaultValue]="0" (keydown)="changeValue($event)" type="number"
+                            min="0" [disabled]="disableCredit">
+                    </mat-form-field>
+
+                    <!-- -------------------Save Icon Button-------------- -->
+                    <div class="form-field col-lg-1 col-md-1 col-sm-1 col-xs-1 text-start ">
+                        <button class="text-success" type="button" (click)="save(DebitAmount,CreditAmount)">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                    </div>
+
+                    <!-- -------------------Table Area -------------- -->
+
+                    <table class=" table  mt-3">
+
+                        <thead >
+                            <tr class="col-lg-12 font-size">
+                                <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">S#</th>
+                                <th class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Title</th>
+                                <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Debit Amont</th>
+                                <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Credit Amount</th>
+                                <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Action</th>
+
+                            </tr>
+                        </thead>
+
+
+
+                        <tbody>
+
+                            <tr *ngFor="let item of VoucherData, ;index as index " >
+                                <td class="">{{index+1}}</td>
+                                <td class="">{{item.title}}</td>
+                                <td class="">{{item.vDebit}}</td>
+                                <td class="">{{item.vCredit}}</td>
+                                <td class=" "><button class=" text-danger"
+                                        (click)="deleteRow(item)"><mat-icon>delete</mat-icon></button></td>
+
+                            </tr>
+                            <tr class="fw-bold bg-light" >
+                                <td  colspan="2"> Total</td>
+                                <td >{{debittotal}}</td>
+                                <td >{{creditTotal}}</td>
+                                <td ></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+            <br>
+            <div>
+                <mat-form-field class="w-100 h-25 bg-light">
+                    <mat-label>Narration</mat-label>
+                    <textarea matInput [(ngModel)]="narration" name="Narration" placeholder="Narration"></textarea>
+                </mat-form-field>
+            </div>
+            <div style="text-align: center;font-size: 30px;">
+                <input type="button" id="save" class="btn btn-danger col-lg-6 " value="Save" (click)="submit()">
+            </div>
+        </div>
+        <!-- </form> -->
+    </div>
+    <hr>
+
+    <div class="container-fluid text-center">
+
+
+        <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Search.....</mat-label>
+            <input [(ngModel)]="txtSearch" matInput type="search" class="text-secondary">
+            <mat-icon matPrefix class="text-secondary">search</mat-icon>
+        </mat-form-field>
+
+        
+
+
+        <table class="col-lg-12  table table-hover bg-light">
+
+            <thead >
+                <tr class="col-lg-12">
+                    <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">S#</th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Date</th>
+                    <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Inv.#</th>
+                    <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Party</th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Amount</th>
+                    <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr  *ngFor="let item of tableData | slice:0:5 | filter:txtSearch ; index as index">
+
+                    <td>{{index+1}}</td>
+                    <td > {{item.date}}</td>
+                    <td >{{item.Invno}}</td>
+                    <td >{{item.party}}</td>
+                    <td>{{item.amount}}</td>
+                    <td >
+                        <mat-icon class="text-success">edit</mat-icon>
+                        <mat-icon class="text-danger">delete</mat-icon>
+                        <mat-icon class="text-primary">print</mat-icon>
+                       
+                    </td>
+
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

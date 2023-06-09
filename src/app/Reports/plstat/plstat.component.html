@@ -1,0 +1,47 @@
+<div class="bckgrnd">
+    <div class="container-fluid">
+        <h1 class="rptTitle">Profit & Loss Statement</h1>
+            <div class="selRow container-fluid ">
+                <div class="row text-center">
+         
+                        <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4 " >
+                            <mat-label>From Date</mat-label>
+                            <input matInput type="text"  readonly="true" [(ngModel)]="openingDate" [matDatepicker]="startDate">
+                            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                            <mat-datepicker #startDate></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <mat-label>To Date</mat-label>
+                            <input matInput type="text" readonly="true" [(ngModel)]="closingDate"  [matDatepicker]="EndDate">
+                            <mat-datepicker-toggle matSuffix [for]="EndDate"></mat-datepicker-toggle>
+                            <mat-datepicker #EndDate></mat-datepicker>
+                        </mat-form-field>
+                    
+
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt-4 text-end">
+                        <button class="fw-bold" >
+                            <mat-icon class="text-success">insert_drive_file</mat-icon>Get Rpt
+                        </button>   
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt-4 text-end">
+                        <button class="fw-bold" (click)="PrintTable()">
+                            <mat-icon class="text-primary">print</mat-icon>Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+                <!------------------- Table Area ---------------------- -->
+        <div id="printDiv" class="printDiv p-3" >
+            <table class="rptTable mt-3">
+
+               
+                
+            </table>
+        </div>
+
+
+    </div>
+</div>

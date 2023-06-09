@@ -1,0 +1,137 @@
+<mat-tab-group>
+    <mat-tab label="ADD PRODUCT" class="h-100">
+
+        <div class="h-100">
+            <div class="container-fluid  text-center w-75 bg-light pt-5">
+
+              <div>
+                <mat-form-field appearance="outline" class="w-50 pe-5 ">
+                    <mat-label>Select Category</mat-label>
+                    <mat-select>
+                        <mat-option value="demo">Demo</mat-option>
+                        
+                    </mat-select>
+                    <mat-hint>Select Product Category</mat-hint>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-50 ">
+                    <mat-label>Select Sub Category</mat-label>
+                    <mat-select>
+                        <mat-option value="demo">Demo</mat-option>
+                    </mat-select>
+                    <mat-hint>Select Product Sub-Category</mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="pt-5">
+                <mat-form-field appearance="outline" class="w-50 pe-5">
+                    <mat-label>Product Name</mat-label>
+                   <input matInput type="text">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-50 ">
+                    <mat-label>Barcode Type</mat-label>
+                    <mat-select>
+                        <mat-option value="1">Auto</mat-option>
+                        <mat-option value="2">Manual</mat-option>
+                    </mat-select>
+                </mat-form-field>
+              
+                <mat-form-field appearance="outline" class="w-50 pe-5">
+                    <mat-label>Product Barcode</mat-label>
+                   <input matInput type="text">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-50 ">
+                    <mat-label>Barcode 1</mat-label>
+                    <input matInput type="text">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-50 pe-5">
+                    <mat-label>Barcode 2</mat-label>
+                    <input matInput type="text">
+                </mat-form-field>
+              
+                <mat-form-field appearance="outline" class="w-50 ">
+                    <mat-label>Barcode 3</mat-label>
+                    <input matInput type="text">
+                </mat-form-field>
+              
+              
+                <mat-form-field appearance="outline" class="w-50 pe-5 ">
+                    <mat-label>Cost Price</mat-label>
+                    <input matInput type="text">
+                </mat-form-field>
+              
+                <mat-form-field appearance="outline" class="w-50 ">
+                    <mat-label>CTC Price</mat-label>
+                    <input matInput type="text">
+                </mat-form-field>
+              
+                <mat-form-field appearance="outline" class="w-50 pe-5 ">
+                    <mat-label>Whole Sale Price</mat-label>
+                    <input matInput type="text">
+                </mat-form-field>
+              
+                <mat-form-field appearance="outline" class="w-50 ">
+                    <mat-label>Retail Price</mat-label>
+                    <input matInput type="text">
+                </mat-form-field>
+              
+                <mat-form-field appearance="outline" class="w-50 pe-5">
+                    <mat-label>GST</mat-label>
+                    <input matInput type="text">
+                    <mat-hint>General Sales Tax</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-50 ">
+                    <mat-label>UOM</mat-label>
+                    <input matInput type="text">
+                    <mat-hint>Unit Of Measurement</mat-hint>
+                </mat-form-field>
+              
+              
+            </div>
+
+            
+            </div>
+            <div class="p-5 container-fluid text-center w-100">
+                <button class="btn btn-success me-5 w-25"><mat-icon class="pt-1" >save</mat-icon>Save</button>
+                <button class="btn btn-danger w-25"> <mat-icon class="pt-1">cached</mat-icon>Reset</button>
+            </div>
+
+        </div>
+
+
+    </mat-tab>
+    <mat-tab label="SAVED PRODUCTS" class="h-100">
+
+        <div class="container-fluid bg-light ">
+            <mat-form-field appearance="outline" class="w-100 pt-2">
+                <mat-label>Search.....</mat-label>
+                <input type="text" matInput>
+            </mat-form-field>
+            <hr>
+            <table class="table table-hover">
+                <thead>
+                    <th>S#</th>
+                    <th>Product Name</th>
+                    <th>Product Barcode</th>
+                    <th>Cost Price</th>
+                    <th>Sale Price</th>
+                    <th>GST</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><mat-icon class="text-success">edit</mat-icon>
+                            <mat-icon class="text-danger">delete</mat-icon></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </mat-tab>
+</mat-tab-group>

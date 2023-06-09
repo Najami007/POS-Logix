@@ -1,0 +1,88 @@
+<div class="bckgrnd bg-grey">
+    <div class="container-fluid">
+        <h1 class="rptTitle">Ledger Report</h1>
+            <div class="selRow bg-grey container-fluid ">
+                <div class="row ">
+                    
+                        <mat-form-field class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <mat-label>Select Account Head</mat-label>
+                            <mat-select >
+                                <input placeholder="Search...."  type="text" class="p-2 border border-bottom rounded w-100" style="height: 40px;" [(ngModel)]="txtSearch" >
+                                <mat-option *ngFor="let item of CoaHeads | filter:txtSearch; " value="{{item.name}}">{{item.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+         
+                        <mat-form-field class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
+                            <mat-label>From Date</mat-label>
+                            <input matInput type="text"  readonly="true" [defaultValue]="curDate | date :'m/d/yyyy'" [matDatepicker]="startDate">
+                            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                            <mat-datepicker #startDate></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <mat-label>To Date</mat-label>
+                            <input matInput type="text" readonly="true" [defaultValue]="curDate |date :'m/d/yyyy'"  [matDatepicker]="EndDate">
+                            <mat-datepicker-toggle matSuffix [for]="EndDate"></mat-datepicker-toggle>
+                            <mat-datepicker #EndDate></mat-datepicker>
+                        </mat-form-field>
+                    
+
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt-4 text-end">
+                        <button class="fw-bold" >
+                            <mat-icon class="text-success">insert_drive_file</mat-icon>Get Rpt
+                        </button>   
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt-4 text-end">
+                        <button class="fw-bold" (click)="PrintTable()">
+                            <mat-icon class="text-primary">print</mat-icon>Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+<hr>
+            
+                <!------------------- Table Area ---------------------- -->
+        <div id="printDiv" class=" printDiv p-3" >
+            <table class="rptTable mt-3">
+
+                <thead >
+                    <tr class="text-center">
+                        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">S#</th>
+                        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Date</th>
+                        <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Party</th>
+                        <th class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Narration</th>
+                        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Debit</th>
+                        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Credit</th>
+                        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Balance</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tableData;let i=index" >
+                        <th class="fw-normal text-center">{{i+1}}</th>
+                        <td >{{item.date | date : 'MM/dd/yyyy'}}</td>
+                        <td >{{item.party}}</td>
+                        <td >{{item.nar}}</td>
+                        <td class="text-end" >{{item.debit |number}}</td>
+                        <td class="text-end">{{item.credit |number}}</td>
+                        <td class="text-end">{{(item.debit)-(item.credit) |number}}</td>
+
+                    </tr>
+                    <br>
+                    <tr class="fw-bold">
+                        <td class="text-end text-center" colspan="4">Total</td>
+                        <td class="text-end">{{debitTotal |number}}</td>
+                        <td class="text-end">{{creditTotal |number}}</td>
+                        <td class="text-end">{{debitTotal - creditTotal |number}}</td>
+
+                    </tr>
+
+
+                </tbody>
+                
+            </table>
+        </div>
+
+
+    </div>
+</div>
