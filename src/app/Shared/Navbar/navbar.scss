@@ -1,8 +1,9 @@
-/*mat-nav-list{
-    background-color: aliceblue;
-}*/
+mat-nav-list{
+    background-color: rgb(26, 26, 26);
+}
 .navHeader {
     text-align: center;
+   
     
 }
 .navHeader img {
@@ -12,12 +13,12 @@
 
 .mat-divider {
    
-    border-color: rgb(11, 11, 11);
-    border: 1px dashed;
+   
+    border: 1px dashed white !important;
 }
 
 .list-item {
-    color: #1c1d1d !important;
+    color: #ffffff !important;
     font-size: 0.8rem;
     height: 44px !important;
     margin-bottom: 4px ;
@@ -45,9 +46,9 @@
     */
 }
 .list-item :hover {
-        background-color: #000000 !important;
+        background-color: #978e8e !important;
         border-radius: 4px;
-        color: rgb(0, 0, 0) !important;
+        color: rgb(255, 255, 255) !important;
         
     }
 .list-item .sideicon {
@@ -58,7 +59,7 @@
 
 .list-item-active {
     color: rgb(255, 255, 255) !important;
-    background-color: rgb(17, 17, 42);
+    background-color: rgb(255, 80, 36);
     /*
     ::ng-deep {
 

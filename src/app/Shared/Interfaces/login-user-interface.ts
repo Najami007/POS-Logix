@@ -4,6 +4,7 @@ export interface userInterface{
   userEmail: string;
   userType: string;
   region: string;
+  sectionID:number;
   roleId: number;
   token?: string;
 }

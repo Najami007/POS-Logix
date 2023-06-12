@@ -83,6 +83,7 @@ export class GlobalDataModule  {
        }
       },
       error:error=>{
+        console.log(error);
         this.msg.WarnNotify('Error Occurred While Login Process')
       }
     })

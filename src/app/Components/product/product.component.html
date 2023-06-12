@@ -1,5 +1,5 @@
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-    <mat-tab label="ADD PRODUCT" class="h-100">
+<mat-tab-group mat-stretch-tabs="true" mat-align-tabs="center" animationDuration="2000ms" >
+    <mat-tab label="ADD PRODUCT" class="h-100" >
 
         <div class="mb-3">
             <div class="container-fluid text-center w-75 border bg-light pt-5 mt-5">
@@ -7,8 +7,8 @@
               <div>
                 <mat-form-field appearance="outline" class="w-50 pe-5 ">
                     <mat-label>Select Category</mat-label>
-                    <mat-select [(ngModel)]="myCategoryID" name="pCategory">
-                        <mat-option  *ngFor="let item of CategoriesNames" [value]="item.categoryID">{{item.categoryName}}</mat-option>
+                    <mat-select [(ngModel)]="myCategoryID" (selectionChange)="getSubCategory()" name="pCategory">
+                        <mat-option  *ngFor="let item of CategoriesList" [value]="item.categoryID">{{item.categoryName}}</mat-option>
                         
                     </mat-select>
                     <mat-hint>Select Product Category</mat-hint>
@@ -16,7 +16,7 @@
                 <mat-form-field appearance="outline" class="w-50 ">
                     <mat-label>Select Sub Category</mat-label>
                     <mat-select [(ngModel)]="mySubCategoryID" name="pSubCategory">
-                        <mat-option *ngFor="let item of SubCategoriesNames" [value]="item.subCategoryID">{{item.subCategoryName}}</mat-option>
+                        <mat-option *ngFor="let item of SubCategoriesList" [value]="item.subCategoryID">{{item.subCategoryName}}</mat-option>
                     </mat-select>
                     <mat-hint>Select Product Sub-Category</mat-hint>
                 </mat-form-field>
@@ -28,7 +28,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="w-50 ">
                     <mat-label>Barcode Type</mat-label>
-                    <mat-select [(ngModel)]="myBarcodeType" name="pType" >
+                    <mat-select [(ngModel)]="myBarcodeType"  name="pType" >
                         <mat-option [value]="'auto'">Auto</mat-option>
                         <mat-option [value]="'manual'">Manual</mat-option>
                     </mat-select>
@@ -69,8 +69,8 @@
                 </mat-form-field>
               
                 <mat-form-field appearance="outline" class="w-50 ">
-                    <mat-label>Retail Price</mat-label>
-                    <input matInput type="text" [(ngModel)]="myRetailPrice" name="pRetail">
+                    <mat-label>Sale Price</mat-label>
+                    <input matInput type="text" [(ngModel)]="mySalePrice" name="pSale">
                 </mat-form-field>
               
                 <mat-form-field appearance="outline" class="w-50 pe-5">
@@ -85,7 +85,7 @@
                     <mat-hint>Unit Of Measurement</mat-hint>
                 </mat-form-field>
                 <div class="p-5 ">
-                    <button class="btn btn-success me-5 w-25"><mat-icon class="pt-1" >save</mat-icon>Save</button>
+                    <button #toggleBtn  class="btn btn-success me-5 w-25"  (click)="insertProduct() "><mat-icon class="pt-1" >save</mat-icon>{{actionBtn}}</button>
                     <button class="btn btn-danger w-25" (click)="reset()"> <mat-icon class="pt-1">cached</mat-icon>Reset</button>
                 </div>
               
@@ -118,15 +118,15 @@
                     <th>Action</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><mat-icon class="text-success">edit</mat-icon>
-                            <mat-icon class="text-danger">delete</mat-icon></td>
+                    <tr *ngFor="let item of ProductsData index as index">
+                        <td>{{index +1}}</td>
+                        <td> {{item.productName}}</td>
+                        <td>{{item.pBarcode}}</td>
+                        <td>{{item.costPrice}}</td>
+                        <td>{{item.salePrice}}</td>
+                        <td>{{item.gst}}</td>
+                        <td><mat-icon class="text-success cursorPointer" (click)="editProduct(item)">edit</mat-icon>
+                            <mat-icon class="text-danger cursorPointer" (click)="deleteProduct(item.productID)">delete</mat-icon></td>
                     </tr>
                 </tbody>
             </table>

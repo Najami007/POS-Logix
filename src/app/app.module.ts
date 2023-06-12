@@ -6,18 +6,8 @@ import { SideNavbarComponent } from './Components/Navigation/side-navbar/side-na
 import { VoucherformComponent } from './Components/voucherform/voucherform.component';
 import { CoaformComponent } from './Components/coaform/coaform.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatIconModule} from '@angular/material/icon';
-import {MatSelectModule} from '@angular/material/select';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav'; 
-import {MatDividerModule} from '@angular/material/divider';
-import {MatListModule} from '@angular/material/list';
-import {MatMenuModule} from '@angular/material/menu';
+
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { DashBoardComponent } from './Components/dash-board/dash-board.component';
@@ -50,6 +40,7 @@ import { ProductComponent } from './Components/product/product.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,24 +65,14 @@ import { ProductComponent } from './Components/product/product.component';
     ProductSubcategoryComponent,
     AddProductSubcategoryComponent,
     ProductComponent,
+    
     // FilterPipe,
     
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatIconModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatRadioModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatDividerModule,
-    MatListModule,
-    MatMenuModule,
     MatFormFieldModule,
-    MatInputModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -110,7 +91,8 @@ import { ProductComponent } from './Components/product/product.component';
     }),
     MatProgressBarModule,
     NgxMatSelectSearchModule,
-    MaterialModule
+    MaterialModule,
+    
   
 
   ],

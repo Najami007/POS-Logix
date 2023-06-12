@@ -1,8 +1,8 @@
-<mat-nav-list>
-    <div class="navHeader text-center text-black pt-4 m-2">
-        <h1>MENU ITEM</h1>
+<mat-nav-list class="h-100">
+    <div class="navHeader text-center text-white pt-4 m-2">
+        <h1><mat-icon class="pt-1">format_list_bulleted</mat-icon>  MENU ITEM</h1>
     </div>
-    <mat-divider></mat-divider>
+    <mat-divider ></mat-divider>
     <div class="py-2 d-flex flex-column nav">
         <a class="list-item" routerLink="./dashBoard" routerLinkActive="list-item-active"><mat-icon class="sideicon">dashboard</mat-icon>
             DashBoard</a>
@@ -13,7 +13,7 @@
         <a class="list-item cursor text-left" routerLinkActive="list-item-active" (click)="collapse()" ><mat-icon class="sideicon">assignment</mat-icon>
             Reports<mat-icon class="sideicon pt-1">{{reporticon}}</mat-icon></a>
 
-            <div *ngIf="Expanded" class="m-1 p-1 d-flex flex-column rounded  " style="background-color: rgba(255, 255, 255, 0.736);">
+            <div *ngIf="Expanded" class="m-1 p-1 d-flex flex-column rounded  " style="background-color: rgba(32, 32, 32, 0.736);">
                 <a class="list-item " routerLink="./ledger" routerLinkActive="list-item-active">Ledger</a>
                 <a class="list-item" routerLink="./trialBalance" routerLinkActive="list-item-active">Trial Balance</a>
                 <a class="list-item" routerLink="./plStat" routerLinkActive="list-item-active">Profit & Loss Statement</a>
