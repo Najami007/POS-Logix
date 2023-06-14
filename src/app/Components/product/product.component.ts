@@ -7,6 +7,7 @@ import { AppComponent } from 'src/app/app.component';
 import { environment } from 'src/environments/environment.development';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -23,7 +24,9 @@ clickEvent(event:any) {
 event.srcElement.setAttribute('disabled', true);
 }
 
-  constructor(private globalData:GlobalDataModule,
+  constructor(
+
+    private globalData:GlobalDataModule,
     private http:HttpClient,
     private msg:NotificationService,
    
@@ -62,15 +65,9 @@ event.srcElement.setAttribute('disabled', true);
   myMaxLimit:any;
   myMinLimit:any;
 
-  // ChangeType(){
-  //   if(this.myBarcodeType == 1){
-  //     this.hide = true;
-  //   }else{
-  //     this.hide = false;
-  //   }
-  // }
 
-
+  selectedTabIndex:any;
+ 
   //////////////////getting categories data/////////////////////////////
   getCategory(){
     this.http.get(environment.apiUrl+'api/productCategory/getcategory',{responseType:'json'}).subscribe({
@@ -127,17 +124,15 @@ event.srcElement.setAttribute('disabled', true);
       this.msg.WarnNotify("Enter Product Name");
 
     }
-    // else if(this.myBarcodeType == 'manual'){
-    //   if(this.myBarcode == '' || this.myBarcode == undefined){
-    //     this.msg.WarnNotify("Enter the Barcode");
-    //   }else if (this.myBarcode3 != '' && this.myBarcode2 == '' && this.myBarcode != ''){
-    //     this.msg.WarnNotify("Enter the Barcode 2")
-    //   }else if(this.myBarcode2 != '' && (this.myBarcode1 == '' || this.myBarcode == '')){
-    //     this.msg.WarnNotify("Enter The Barcode 1");
-    //   }else if(this.myBarcode1 != '' && this.myBarcode == ''){
-    //     this.msg.WarnNotify("Enter The Barcode");
-    //   }
-    // }
+    else if(this.myBarcodeType == 'manual'){
+      if(this.myBarcode == '' || this.myBarcode == undefined){
+        this.msg.WarnNotify("Enter the Barcode");
+      }else if (this.myBarcode3 != '' && this.myBarcode2 == ''){
+        this.msg.WarnNotify("Enter the Barcode 2")
+      }else if(this.myBarcode2 != '' && this.myBarcode1 == ''){
+        this.msg.WarnNotify("Enter The Barcode 1");
+      }
+    }
       else if(this.myCostPrice == '' || this.myCostPrice == undefined){
       this.msg.WarnNotify('Enter the Product Cost Price')
     }else if(this.myCTCPrice == '' || this.myCTCPrice == undefined){
@@ -150,14 +145,14 @@ event.srcElement.setAttribute('disabled', true);
       this.msg.WarnNotify("Enter The GST")
     }else if(this.myUOM == '' || this.myUOM == undefined){
       this.msg.WarnNotify("Enter The UOM")
-    }else if (this.myCostPrice == 0 || this.myCostPrice >this.myCTCPrice || this.myCostPrice > this.myWholeSalePrice || this.myCostPrice >this.mySalePrice){
+    }else if (this.myCostPrice == 0 ||this.myCostPrice == "" || this.myCostPrice <= this.myCTCPrice ){
       this.msg.WarnNotify("Cost Price is not Valid!")
-    }else if (this.myCTCPrice == 0 || this.myCTCPrice < this.myCostPrice || this.myCTCPrice > this.myWholeSalePrice || this.myCTCPrice >this.mySalePrice){
+    }else if (this.myCTCPrice == 0 || this.myCTCPrice == 0 || this.myCTCPrice <= this.myWholeSalePrice ){
       this.msg.WarnNotify ("CTC Price is not Valid!")
-    }else if (this.myWholeSalePrice == 0 || this.myWholeSalePrice < this.myCTCPrice || this.myWholeSalePrice < this.myCostPrice || this.myWholeSalePrice > this.mySalePrice){
+    }else if (this.myWholeSalePrice == 0 || this.myWholeSalePrice == "" || this.myWholeSalePrice <= this.mySalePrice){
       this.msg.WarnNotify("Whole sale Price is not Valid!")
-    }else if(this.mySalePrice == 0 || this.mySalePrice < this.myWholeSalePrice || this.mySalePrice < this.myCTCPrice || this.mySalePrice < this.myCostPrice){
-      this.msg.WarnNotify("Retail Price is not Valid !")
+    }else if(this.mySalePrice == 0 || this.mySalePrice == "" ){
+      this.msg.WarnNotify("Sale Price is not Valid !")
     }else{
      
       ////////////// if the button type is save//////////////////////////
@@ -264,10 +259,12 @@ event.srcElement.setAttribute('disabled', true);
   
       // const selectedIndex = this.tabGroup.selectedIndex;
       // this.tabGroup.selectedIndex = selectedIndex === 1 ? 0 : 1;
+        this.selectedTabIndex = 0;
   
     }
 
-
+    
+  
     deleteProduct(id:any){
 
       Swal.fire({
@@ -314,51 +311,6 @@ event.srcElement.setAttribute('disabled', true);
 
  
 
-  fieldValidation(){
-    if(this.myCategoryID == '' || this.myCategoryID == undefined){
-      this.msg.WarnNotify("Select Product Category");
-    }else if(this.mySubCategoryID == '' || this.mySubCategoryID == undefined){
-      this.msg.WarnNotify("Select Product SubCategory")
-    }else if(this.myProductName == '' || this.myProductName == undefined){
-      this.msg.WarnNotify("Enter Product Name");
-
-    }else if(this.myBarcodeType == 'manual'){
-      if(this.myBarcode == '' || this.myBarcode == undefined){
-        this.msg.WarnNotify("Enter the Barcode");
-      }else if (this.myBarcode3 != '' && this.myBarcode2 == '' && this.myBarcode != ''){
-        this.msg.WarnNotify("Enter the Barcode 2")
-      }else if(this.myBarcode2 != '' && this.myBarcode1 == '' && this.myBarcode != ''){
-        this.msg.WarnNotify("Enter The Barcode 1");
-      }else if(this.myBarcode1 != '' && this.myBarcode == ''){
-        this.msg.WarnNotify("Enter The Barcode");
-      }
-    }else if(this.myCostPrice == '' || this.myCostPrice == undefined){
-      this.msg.WarnNotify('Enter the Product Cost Price')
-    }else if(this.myCTCPrice == '' || this.myCTCPrice == undefined){
-      this.msg.WarnNotify('Enter The CTC Price')
-    }else if(this.myWholeSalePrice == '' || this.myWholeSalePrice == undefined){
-      this.msg.WarnNotify("Enter The WholeSale Price")
-    }else if(this.mySalePrice == '' || this.mySalePrice == undefined){
-      this.msg.WarnNotify("Enter The Retail Price")
-    }else if( this.myGst == undefined){
-      this.msg.WarnNotify("Enter The GST")
-    }else if(this.myUOM == '' || this.myUOM == undefined){
-      this.msg.WarnNotify("Enter The UOM")
-    }else if (this.myCostPrice == 0 || this.myCostPrice >this.myCTCPrice || this.myCostPrice > this.myWholeSalePrice || this.myCostPrice >this.mySalePrice){
-      this.msg.WarnNotify("Cost Price is not Valid!")
-    }else if (this.myCTCPrice == 0 || this.myCTCPrice < this.myCostPrice || this.myCTCPrice > this.myWholeSalePrice || this.myCTCPrice >this.mySalePrice){
-      this.msg.WarnNotify ("CTC Price is not Valid!")
-    }else if (this.myWholeSalePrice == 0 || this.myWholeSalePrice < this.myCTCPrice || this.myWholeSalePrice < this.myCostPrice || this.myWholeSalePrice > this.mySalePrice){
-      this.msg.WarnNotify("Whole sale Price is not Valid!")
-    }else if(this.mySalePrice == 0 || this.mySalePrice < this.myWholeSalePrice || this.mySalePrice < this.myCTCPrice || this.mySalePrice < this.myCostPrice){
-      this.msg.WarnNotify("Retail Price is not Valid !")
-    }else{
-     
-      this.Validation = false;
-      console.log(this.Validation);
-    }
-  }
-
 
   //////////////////////////reset the fields//////////////////////
   reset(){
@@ -375,5 +327,6 @@ event.srcElement.setAttribute('disabled', true);
     this.mySalePrice= '';
     this.myGst = 0;
     this.myUOM = '';
+    this.selectedTabIndex="";
   }
 }
