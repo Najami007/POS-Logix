@@ -117,6 +117,8 @@
                     <th>Product Name</th>
                     <th>Product Barcode</th>
                     <th>Cost Price</th>
+                    <th>CTC Price</th>
+                    <th>WholeSale Price</th>
                     <th>Sale Price</th>
                     <th>GST</th>
                     <th>Action</th>
@@ -127,6 +129,8 @@
                         <td> {{item.productName}}</td>
                         <td>{{item.pBarcode}}</td>
                         <td>{{item.costPrice}}</td>
+                        <td>{{item.ctcPrice}}</td>
+                        <td>{{item.wholeSalePrice}}</td>
                         <td>{{item.salePrice}}</td>
                         <td>{{item.gst}}</td>
                         <td><mat-icon class="text-success cursorPointer" (click)="editProduct(item)">edit</mat-icon>

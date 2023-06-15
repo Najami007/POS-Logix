@@ -37,6 +37,7 @@ import { AddProductCategoryComponent } from './Components/settings/product-categ
 import { ProductSubcategoryComponent } from './Components/settings/product-subcategory/product-subcategory.component';
 import { AddProductSubcategoryComponent } from './Components/settings/product-subcategory/add-product-subcategory/add-product-subcategory.component';
 import { ProductComponent } from './Components/product/product.component';
+import { SaleComponent } from './Components/sale/sale.component';
 
 
 
@@ -65,6 +66,7 @@ import { ProductComponent } from './Components/product/product.component';
     ProductSubcategoryComponent,
     AddProductSubcategoryComponent,
     ProductComponent,
+    SaleComponent,
     
     // FilterPipe,
     

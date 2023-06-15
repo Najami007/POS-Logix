@@ -1,0 +1,182 @@
+<div class="h-100 col-lg-12 p-2 container d-flex">
+    <div class="col-lg-8 m-1 ">
+        <div>
+            <mat-card class="d-flex mb-4 p-3">
+            
+            
+                <div class="d-flex justify-content-between">
+
+                   
+                    <div class="w-50  d-flex flex-column">
+                        <input type="text" matInput  name="searchProduct" class="w-75 h-75 p-1 mb-2 border border-bottom rounded" [(ngModel)]="PBarcode" placeholder="Search Barcode / Name"> 
+                    
+                    <!-- <mat-form-field  *ngIf="PBarcode != '' && PBarcode != undefined">
+                        <mat-select>
+                            <mat-option *ngFor="let item of productsData | filter:PBarcode ">{{item.productName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                    <div class="w-100 d-flex flex-column SearchConatiner" *ngIf="PBarcode != '' && PBarcode != undefined">   
+                       <a href="#" *ngFor="let item of productsData| slice:0:3 | filter:PBarcode " >{{item.productName}}</a>
+                    </div>
+                    </div>
+            
+
+                <div>
+                    <mat-form-field appearance="outline" class="me-1">
+                        <mat-label>Select Party</mat-label>
+                        <mat-select value="cash">
+                            <mat-option value="cash">Cash</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class=" btn btn-success h-75"><mat-icon class="pt-1">assignment_return</mat-icon>Sale Return</button>
+                </div>
+                </div>
+           
+            
+            
+        </mat-card>
+        </div>
+        <div class="h-75">
+            <mat-card class="border rounded ">
+               
+                <table class="table h-100">
+                    <thead style="background-color: rgb(209, 240, 163);height: 40px;" class="text-center " >
+                        <th>S#</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                       
+                    </thead>
+
+                    <tbody style="height: 30px;" class="text-center">
+                        <tr>
+                            <td>1</td>
+                            <td>Pepsi</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td>20</td>
+                            <td><mat-icon class="text-secondary">close</mat-icon></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Pepsi</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td>20</td>
+                            <td><mat-icon class="text-secondary">close</mat-icon></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Pepsi</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td>20</td>
+                            <td><mat-icon class="text-secondary">close</mat-icon></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Pepsi</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td>20</td>
+                            <td><mat-icon class="text-secondary">close</mat-icon></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Pepsi</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td>20</td>
+                            <td><mat-icon class="text-secondary">close</mat-icon></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Pepsi</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td>20</td>
+                            <td><mat-icon class="text-secondary">close</mat-icon></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Pepsi</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td>20</td>
+                            <td><mat-icon class="text-secondary">close</mat-icon></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Pepsi</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td>20</td>
+                            <td><mat-icon class="text-secondary">close</mat-icon></td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Pepsi</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td>20</td>
+                            <td><mat-icon class="text-secondary">close</mat-icon></td>
+                        </tr>
+                        
+                        <tr>
+                            <td colspan="3">Total</td>
+                            <td>18</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+          
+    </mat-card>
+        </div>
+    </div>
+    <div class="h-100 col-lg-4 m-1"  >
+        <mat-card class="p-4" style="height:80%;position:fixed; ">
+           <mat-card class="mb-2" >
+            <div class="p-2 pt-3 d-flex justify-content-between">
+                <h2 class="text-secondary">SubTotal</h2>
+            <input type="number"  class="w-50  border-0 border-bottom fontroboto text-end h-70" [(ngModel)]="subtoatal" readonly>
+            </div>
+          </mat-card>
+          <mat-card class="mb-2">
+            <div class="p-2 pt-3 d-flex justify-content-between">
+                <h2 class="text-secondary">Discount</h2>
+            <input type="number"  class="numOnly w-50 border-0 border-bottom text-end h-70" [(ngModel)]="discount">
+            </div>
+          </mat-card>
+          <mat-card class="mb-2">
+            <div class="p-2 pt-3 d-flex justify-content-between">
+                <h2 class="text-danger">Total</h2>
+            <input type="number"  class="numOnly w-50 border-0 border-bottom text-end h-70" [(ngModel)]="total" readonly>
+            </div>
+          </mat-card>
+          <div class="d-flex justify-content-between text-secondary">
+            <mat-card class="mb-2 me-1">
+                <div class="p-2  pt-3 d-flex justify-content-between">
+                    <h2 class="text-secondary ">Paid</h2>
+                <input type="number"  class="numOnly w-50 border-0 border-bottom text-end h-70" [(ngModel)]="paid">
+                </div>
+              </mat-card>
+              <mat-card class="mb-2 ">
+                <div class="p-2 pt-3 d-flex justify-content-between">
+                    <h2 class="text-danger display-2">Due</h2>
+                <input type="number"   class="numOnly w-50 border-0 border-bottom text-end h-70" [(ngModel)]="due" readonly>
+                </div>
+              </mat-card>
+        </div> 
+
+
+            <h5 class="border-bottom text-secondary ">Add Payment</h5>
+
+            <button class="btn btn-success w-50 m-1"><mat-icon class="pt-1">attach_money</mat-icon> Cash</button>
+            <button class="btn btn-success w-50 m-1"><mat-icon class="pt-1">credit_card</mat-icon> Credit Card</button>
+            <button class="btn btn-success w-50 m-1"><mat-icon class="pt-1">refresh</mat-icon> Clear</button>
+        </mat-card>
+    </div>
+</div>

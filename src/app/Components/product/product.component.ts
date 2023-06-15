@@ -145,11 +145,11 @@ event.srcElement.setAttribute('disabled', true);
       this.msg.WarnNotify("Enter The GST")
     }else if(this.myUOM == '' || this.myUOM == undefined){
       this.msg.WarnNotify("Enter The UOM")
-    }else if (this.myCostPrice == 0 ||this.myCostPrice == "" || this.myCostPrice <= this.myCTCPrice ){
+    }else if (this.myCostPrice == 0 ||this.myCostPrice == "" || this.myCostPrice >= this.myCTCPrice ){
       this.msg.WarnNotify("Cost Price is not Valid!")
-    }else if (this.myCTCPrice == 0 || this.myCTCPrice == 0 || this.myCTCPrice <= this.myWholeSalePrice ){
+    }else if (this.myCTCPrice == 0 || this.myCTCPrice == 0 || this.myCTCPrice >= this.myWholeSalePrice ){
       this.msg.WarnNotify ("CTC Price is not Valid!")
-    }else if (this.myWholeSalePrice == 0 || this.myWholeSalePrice == "" || this.myWholeSalePrice <= this.mySalePrice){
+    }else if (this.myWholeSalePrice == 0 || this.myWholeSalePrice == "" || this.myWholeSalePrice >= this.mySalePrice){
       this.msg.WarnNotify("Whole sale Price is not Valid!")
     }else if(this.mySalePrice == 0 || this.mySalePrice == "" ){
       this.msg.WarnNotify("Sale Price is not Valid !")
