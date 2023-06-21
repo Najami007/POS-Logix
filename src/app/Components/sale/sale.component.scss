@@ -5,8 +5,9 @@ input:focus{
 }
 
 .SearchConatiner{
-border: 1px solid rgb(180, 180, 180);
-background-color: rgb(237, 237, 236);
+border: 0px solid rgb(180, 180, 180);
+background-color: rgb(242, 246, 252);
+margin-top: 50px;
 width: 100%;
 z-index:1000;
 position: absolute;
@@ -21,6 +22,7 @@ overflow-y: scroll;
     color:gray;
     height: 30px;
     display: block;
+    border-bottom: 1px solid rgb(174, 174, 174);
  }
 
 }

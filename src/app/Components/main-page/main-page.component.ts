@@ -17,6 +17,9 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(){
    
+    if(localStorage.getItem('currentUser') == null || localStorage.getItem('currentUser') == '' ){
+      this.route.navigate(['login']);
+    }
   }
 
   sideBarToggler(){

@@ -92,9 +92,13 @@
                         <td>{{item.mobileNo}}</td>
                         <td>{{item.cityName}}</td>
                         <!-- <td>{{item.partyAddress}}</td> -->
-                        <td><mat-icon class="text-success" (click)="getPartyID(item)">edit</mat-icon>
-                            <mat-icon class="text-danger" (click)="DeleteParty(item.partyID)"> delete</mat-icon></td>
-                       
+                        <td >
+                            <div *ngIf="item.partyID != 1">
+                                <mat-icon class="text-success"(click)="getPartyID(item)">edit</mat-icon>
+                            <mat-icon class="text-danger" (click)="DeleteParty(item.partyID)"> delete</mat-icon>
+                            </div>
+                        </td>
+                     
                     </tr>
                 </tbody>
             </table>
