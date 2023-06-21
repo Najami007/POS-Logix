@@ -21,6 +21,7 @@ export class SaleComponent implements OnInit {
     this.globalData.setHeaderTitle('Sale');
     this.getProducts();
     this.getCustomer();
+    this.getInvoices();
    
   }
 
@@ -29,6 +30,8 @@ export class SaleComponent implements OnInit {
   PBarcode = '';
   holdData: any = [];
   curDate =new Date();
+  Invoices:any;
+  searchtxt:any;
 
   myPartyID = 1;
   myTotalQty = 0;
@@ -41,6 +44,8 @@ export class SaleComponent implements OnInit {
   myDue = 0;
   myRemarks='-';
 
+
+  ///////////////////////get the customers Data////////////////////
   getCustomer() {
     this.http.get(environment.apiUrl + 'api/party/getcustomer').subscribe({
       next: (value) => {
@@ -52,6 +57,7 @@ export class SaleComponent implements OnInit {
     });
   }
 
+  //////////////////////get the products Data///////////////////////
   getProducts() {
     this.http.get(environment.apiUrl + 'api/product/getproduct').subscribe({
       next: (value) => {
@@ -63,6 +69,23 @@ export class SaleComponent implements OnInit {
     });
   }
 
+
+
+  ///////////////get the Saved Invoice data///////////////////////
+
+  getInvoices(){
+    this.http.get(environment.apiUrl+'api/sale/getSaleInvoice').subscribe({
+      next:value=>{
+        this.Invoices = value;
+        console.log(this.Invoices);
+      },
+      error:error=>{
+        console.log(error);
+      }
+    })
+  }
+
+  ///////////////gives the total of products quantity and total Bill Amount etc///////////////////
   getTotal() {
     this.mySubtoatal = 0;
     this.myTotalQty = 0;
@@ -188,6 +211,7 @@ export class SaleComponent implements OnInit {
 
       partyID : this.myPartyID,
       cashReceived:this.myPaid,
+      // cashReturn:this.myDue,
       InvoiceDate:this.curDate,
       changed:this.myDue,
       discount:this.myDiscount,
@@ -207,6 +231,7 @@ export class SaleComponent implements OnInit {
         console.log(value);
         this.msg.SuccessNotify(value);
         this.reset();
+        this.getInvoices();
 
       },
       error:error=>{
