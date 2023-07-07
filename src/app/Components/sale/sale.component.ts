@@ -22,9 +22,10 @@ export class SaleComponent implements OnInit {
     this.getProducts();
     this.getCustomer();
     this.getInvoices();
+    
    
   }
-
+  tabIndex : any;
   productsData: any;
   customersList: any;
   PBarcode = '';
@@ -32,6 +33,7 @@ export class SaleComponent implements OnInit {
   curDate =new Date();
   Invoices:any;
   searchtxt:any;
+  btnType = 'Save & Print';
 
   myPartyID = 1;
   myTotalQty = 0;
@@ -43,6 +45,7 @@ export class SaleComponent implements OnInit {
   myPaid = 0;
   myDue = 0;
   myRemarks='-';
+  InvoiceNo:any; ///////for Update Invocie invoice NO Stored in it
 
 
   ///////////////////////get the customers Data////////////////////
@@ -61,6 +64,7 @@ export class SaleComponent implements OnInit {
   getProducts() {
     this.http.get(environment.apiUrl + 'api/product/getproduct').subscribe({
       next: (value) => {
+        console.log(value);
         this.productsData = value;
       },
       error: (error) => {
@@ -91,8 +95,8 @@ export class SaleComponent implements OnInit {
     this.myTotalQty = 0;
     for (var i = 0; i < this.holdData.length; i++) {
       this.mySubtoatal +=
-        this.holdData[i].Quantity * this.holdData[i].SalePrice;
-      this.myTotalQty += parseFloat(this.holdData[i].Quantity);
+        this.holdData[i].quantity * this.holdData[i].salePrice;
+      this.myTotalQty += parseFloat(this.holdData[i].quantity);
       this.myTotal = this.mySubtoatal - this.myDiscount;
       this.myDue = this.myPaid - this.myTotal;
     }
@@ -150,19 +154,19 @@ export class SaleComponent implements OnInit {
 
     if (condition == undefined) {
       this.holdData.push({
-        ProductID: data.productID,
-        ProductName: data.productName,
-        SalePrice: data.salePrice,
-        Quantity: 1,
-        CostPrice: data.costPrice,
-        Gst:data.gst,
+        productID: data.productID,
+        productName: data.productName,
+        salePrice: data.salePrice,
+        quantity: 1,
+        costPrice: data.costPrice,
+        gst:data.gst,
        
       });
       this.getTotal();
       this.PBarcode = '';
       $('#searchProduct').trigger('focus');
     } else {
-      this.holdData[index].Quantity += 1;
+      this.holdData[index].quantity += 1;
       this.getTotal();
       this.PBarcode = '';
       $('#searchProduct').trigger('focus');
@@ -181,7 +185,7 @@ export class SaleComponent implements OnInit {
   ////////calls on Change of Quantity of the product//////////////
   onQtyChange(item: any) {
     var index = this.holdData.indexOf(item);
-    var myQty = this.holdData[index].Quantity;
+    var myQty = this.holdData[index].quantity;
     var curQty = myQty;
     // console.log(myQty);
     // console.log(index);
@@ -192,11 +196,11 @@ export class SaleComponent implements OnInit {
       
       this.msg.WarnNotify("Zero , Empty or Negative Value Not Allowed");
       
-      this.holdData[index].Quantity = 1 ;
+      this.holdData[index].quantity = 1 ;
       this.getTotal();
     }else{
-    this.holdData[index].Quantity = qty;
-    this.holdData[index].Quantity = myQty;
+    this.holdData[index].quantity = qty;
+    this.holdData[index].quantity = myQty;
     
     console.log(this.holdData);
     this.getTotal();
@@ -206,41 +210,128 @@ export class SaleComponent implements OnInit {
 
 
 
-  CashSale(){
-    this.http.post(environment.apiUrl+'api/sale/insert',{
+////////////////// will run The Cash Sale//////////////
 
+  CashSale(){
+    if(this.holdData == '' || this.holdData == undefined){
+      this.msg.WarnNotify("Please Select some Product")
+    }else if(this.myPartyID == 1 && this.myPaid ==  0 || this.myPaid == undefined){
+      this.msg.WarnNotify("Please Select Some Party Or Enter Cash")
+    }
+    else{
+      if(this.btnType == "Save & Print"){
+        this.http.post(environment.apiUrl+'api/sale/insert',{
+    
+          partyID : this.myPartyID,
+          cashReceived:this.myPaid,
+          // cashReturn:this.myDue,
+          InvoiceDate:this.curDate,
+          changed:this.myDue,
+          discount:this.myDiscount,
+          type:'S',
+          subType:'Sale',
+          sectionID:this.globalData.currentUserValue.sectionID,
+          remarks:this.myRemarks,
+          createdBy:this.globalData.currentUserValue.userID,
+          hdnRemarks:'Sale Invoice',
+          locationID:1,
+          inoviceDetails: JSON.stringify(this.holdData),
+    
+          
+    
+        },{responseType:'text'}).subscribe({
+          next:value=>{
+            console.log(value);
+            this.msg.SuccessNotify(value);
+            this.reset();
+            this.getInvoices();
+    
+          },
+          error:error=>{
+            console.log(error);
+            this.msg.WarnNotify("Error Occured While Saving Invoice");
+          }
+        });
+       }else if(this.btnType == "Update"){
+        this.updateInvoice(this.InvoiceNo);
+       }
+    }
+
+
+   
+  }
+
+
+
+  //////////////////will update the inovoice
+  updateInvoice(invId:any){
+
+    this.http.put(environment.apiUrl+'api/sale/updateInvoice?id='+invId,{
       partyID : this.myPartyID,
       cashReceived:this.myPaid,
       // cashReturn:this.myDue,
       InvoiceDate:this.curDate,
       changed:this.myDue,
       discount:this.myDiscount,
-      type:'S',
-      subType:'Sale',
       sectionID:this.globalData.currentUserValue.sectionID,
       remarks:this.myRemarks,
-      createdBy:this.globalData.currentUserValue.userID,
-      hdnRemarks:'Sale Invoice',
-      locationID:1,
+      modifiedBy:this.globalData.currentUserValue.userID,
+      // hdnRemarks:'Sale Invoice',
+      // locationID:1,
       inoviceDetails: JSON.stringify(this.holdData),
-
-      
-
     },{responseType:'text'}).subscribe({
       next:value=>{
         console.log(value);
         this.msg.SuccessNotify(value);
         this.reset();
         this.getInvoices();
-
+        this.InvoiceNo = '';
       },
       error:error=>{
         console.log(error);
-        this.msg.WarnNotify("Error Occured While Saving Invoice");
+        this.msg.WarnNotify("Error Occured While Updating Invoice");
       }
-    });
+    })
+
   }
 
+  ////////////////// Will run to Edit the Invoice////////////////
+  editInvoice(row:any){
+    var data :any;
+
+    this.http.get(environment.apiUrl+'api/sale/getInvDetailByID?id='+ row.invoiceNo,{responseType:'json'}).subscribe(
+      {
+        next:value=>{
+          data = value;
+          console.log(data);
+          if(data != undefined || data != ''){
+          this.holdData = data;
+          this.getTotal();
+         
+          
+          }
+        },
+        error:error=>{
+          this.msg.WarnNotify("Error Occured While Editing the Invoice");
+          console.log(error);
+        }
+      }
+    );
+    this.myDiscount = row.discount;
+    this.myPaid = row.cashReceived;
+    this.myPartyID = row.partyID;
+    this.InvoiceNo = row.invoiceNo;
+    this.btnType = "Update";
+    this.tabIndex = 0;
+    // $("salePage").css("background-color","blue");
+    // $('#salePage').css('background-color','red');
+   
+  }
+
+
+
+
+  ////////////////////////function Will Reset the Whole Sale Page////////////////////////
 
   reset(){
     this.myDiscount = 0;
@@ -252,6 +343,7 @@ export class SaleComponent implements OnInit {
     this.myTotal = 0;
     this.holdData = [];
     this.getTotal();
+    this.tabIndex = 0;
 
   }
 }

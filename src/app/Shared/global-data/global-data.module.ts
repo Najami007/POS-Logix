@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../service/notification.service';
 import { userInterface } from '../Interfaces/login-user-interface';
 import { BehaviorSubject, Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 
 
 
@@ -69,8 +70,23 @@ export class GlobalDataModule  {
         
        
        if(value !=null ){
-        this.rout.navigate(["main"]);
-        this.msg.SuccessNotify('Login Succesfully');
+        Swal.fire({
+          title:'',
+          text:"Login Successful",
+          position:'center',
+          icon:'success',
+          showConfirmButton:true,
+          confirmButtonText:'OK',
+          confirmButtonColor:'Green',
+          timer:2000,
+          timerProgressBar:true,
+
+        }).then((value)=>{
+   
+          this.rout.navigate(["main"]);
+        })
+        
+        
         // this.curUserValue = window.btoa(value.toString());
         // this.UserValue._encuid=window.btoa(this.curUserValue.userID);;
         // this.UserValue._encuname= window.btoa(this.curUserValue.userName);

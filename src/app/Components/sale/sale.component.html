@@ -1,9 +1,9 @@
-<mat-tab-group mat-stretch-tabs="true" mat-align-tabs="center">
-    <mat-tab label="Sale" class="h-100">
+<mat-tab-group mat-stretch-tabs="true" mat-align-tabs="center" [selectedIndex]="tabIndex" (selectedTabChange)="tabIndex = ''">
+    <mat-tab label="Sale Page" class="h-100" >
 
-        <div class="h-100 col-lg-12 p-2 container d-flex">
-            <div class="col-lg-8 m-1 ">
-                <div>
+        <div class="h-100 col-lg-12 p-2 container d-flex" >
+            <div class="col-lg-7 m-1 " >
+                <div >
                     <mat-card class="d-flex mb-4 p-3">
                     
                     
@@ -41,10 +41,10 @@
                     
                 </mat-card>
                 </div>
-                <div class="h-75">
+                <div class="h-75" >
                     <mat-card class="border rounded ">
                        
-                        <table class="table h-100">
+                        <table class="table h-100 salePage"  id="salePage">
                             <thead style="background-color: rgb(209, 240, 163);height: 40px;" class="text-center " >
                                 <th>S#</th>
                                 <th>Product Name</th>
@@ -56,13 +56,13 @@
                             </thead>
         
                             <tbody style="height: 30px;" class="text-center">
-                                <tr *ngFor="let item of holdData.reverse() index as index">
+                                <tr *ngFor="let item of holdData index as index">
                                     <td>{{index+1}}</td>
-                                    <td>{{item.ProductName}}</td>
-                                    <td>{{item.SalePrice}}</td>
-                                    <td><input type="number" [(ngModel)]="item.Quantity" min="0" class="text-center w-25" (change)="onQtyChange(item)" id="pQty"></td>
+                                    <td>{{item.productName}}</td>
+                                    <td>{{item.salePrice}}</td>
+                                    <td><input type="number" [(ngModel)]="item.quantity" min="0" class="text-center w-25" (change)="onQtyChange(item)" id="pQty"></td>
                                     <!-- <td>{{item.total}}</td> -->
-                                    <td>{{item.SalePrice * item.Quantity}}</td>
+                                    <td>{{item.salePrice * item.quantity}}</td>
                                     <td><mat-icon class="text-secondary" (click)="delRow(item)">close</mat-icon></td>
                                 </tr>
                               
@@ -117,7 +117,7 @@
         
                     <h5 class="border-bottom text-secondary ">Add Payment</h5>
         
-                    <button class="btn btn-success w-50 m-1" (click)="CashSale()"><mat-icon class="pt-1">attach_money</mat-icon> Cash</button>
+                    <button class="btn btn-success w-50 m-1" (click)="CashSale()"><mat-icon class="pt-1">attach_money</mat-icon> {{btnType}}</button>
                     <button class="btn btn-success w-50 m-1"><mat-icon class="pt-1">credit_card</mat-icon> Credit Card</button>
                     <div class="mt-5 text-start">
                         <button class="btn btn-danger w-50 m-1" (click)="reset()"><mat-icon class="pt-1">refresh</mat-icon> Clear</button>
@@ -127,6 +127,9 @@
         </div>
 
     </mat-tab>
+
+
+      <!-- ====================================Saved Record=============================== -->
     <mat-tab label="Saved Record" class="h-100">
 
         <div class="border-top mt-2">
@@ -148,14 +151,14 @@
                         <th> Action</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of Invoices.reverse()    | filter:searchtxt ; index as index">
+                        <tr *ngFor="let item of Invoices    | filter:searchtxt ; index as index">
                             <td>{{index + 1}}</td>
                             <td>{{item.invoiceNo}}</td>
                             <td>{{item.invoiceDate | date  }}</td>
-                            <td>{{item.cashReceived}}</td>
+                            <td>{{item.credit}}</td>
                             <td>{{item.partyName}}</td>
                             <td class="cursorPointer">
-                                <mat-icon class="text-success">edit</mat-icon>
+                                <mat-icon class="text-success" (click)="editInvoice(item)">edit</mat-icon>
                                 <mat-icon class="text-dark">print</mat-icon>
                                 
 

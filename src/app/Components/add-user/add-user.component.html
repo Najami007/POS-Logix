@@ -85,8 +85,8 @@
                         <td>{{index+1}}</td>
                         <td>{{item.userName}}</td>
                         <td>{{item.userEmail}}</td>
-                        <td><mat-icon class="text-success " (click)="getUserById(item)">edit</mat-icon>
-                            <mat-icon class="text-danger" (click)="deleteUser(item.userID)">delete</mat-icon></td>
+                        <td><mat-icon class="text-success cursorPointer " (click)="getUserById(item)">edit</mat-icon>
+                            <mat-icon class="text-danger cursorPointer" (click)="deleteUser(item.userID)">delete</mat-icon></td>
                     </tr>
                 </tbody>
             </table>

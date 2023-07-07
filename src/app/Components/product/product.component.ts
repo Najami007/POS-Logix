@@ -102,7 +102,7 @@ event.srcElement.setAttribute('disabled', true);
   getProductData(){
     this.http.get(environment.apiUrl+'api/product/getproduct').subscribe({
       next:value=>{
-        console.log(value);
+        // console.log(value);
         this.ProductsData = value;
       },
       error:error=>{

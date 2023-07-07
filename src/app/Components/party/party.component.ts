@@ -87,7 +87,7 @@ export class PartyComponent implements OnInit{
     {
       next:value =>{
         this.partyData = value;
-        console.log(value);
+        // console.log(value);
       
       },
       error: error=>{
