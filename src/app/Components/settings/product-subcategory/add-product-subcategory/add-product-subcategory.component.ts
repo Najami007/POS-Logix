@@ -44,6 +44,7 @@ export class AddProductSubcategoryComponent implements OnInit {
 
 
   getCategory(){
+   
     this.http.get(environment.apiUrl+'api/productCategory/getcategory',).subscribe({
       next:value=>{
         this.categoryName = value;
@@ -58,30 +59,37 @@ export class AddProductSubcategoryComponent implements OnInit {
 
   addSubCategory(){
     
-  if(this.actionbtn == 'Save'){
-    this.http.post(environment.apiUrl+'api/productSubCategory/insertsubcategory',{
-      categoryId: this.CategoryID,
-      subCategoryName:this.SubCategoryName,
-      createdBy:this.global.currentUserValue.userID,
-
-    },{responseType:'text'}).subscribe({
-      next:value=>{
-        if(value == 'Sub Category Already Exists'){
-          this.msg.WarnNotify(value)
-        }else{
-          // this.msg.SuccessNotify(value);
-        this.reset();
-        this.dialogRef.close();
-        }
-
-      },
-      error:error=>{
-        this.msg.WarnNotify(error);
+    if(this.CategoryID == "" || this.CategoryID == undefined){
+      this.msg.WarnNotify("PLease Select The Product Category");
+    }else if(this.SubCategoryName == '' || this.SubCategoryName == undefined){
+      this.msg.WarnNotify("Please Enter the Subcategory Name");
+    }else{
+      if(this.actionbtn == 'Save'){
+        this.http.post(environment.apiUrl+'api/productSubCategory/insertsubcategory',{
+          categoryId: this.CategoryID,
+          subCategoryName:this.SubCategoryName,
+          createdBy:this.global.currentUserValue.userID,
+    
+        },{responseType:'text'}).subscribe({
+          next:value=>{
+            if(value == 'Sub Category Already Exists'){
+              this.msg.WarnNotify(value)
+            }else{
+              // this.msg.SuccessNotify(value);
+            this.reset();
+            this.dialogRef.close();
+            }
+    
+          },
+          error:error=>{
+            this.msg.WarnNotify(error);
+          }
+        })
+      }else{
+        this.updateSubCategory();
       }
-    })
-  }else{
-    this.updateSubCategory();
-  }
+    }
+  
   }
 
   updateSubCategory(){
@@ -125,5 +133,8 @@ reset(){
   this.actionbtn = "Save";
 }
 
+closeDialogue(){
+  this.dialogRef.close('Update');
+}
 
 }

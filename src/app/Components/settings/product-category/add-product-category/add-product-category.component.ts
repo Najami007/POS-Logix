@@ -38,24 +38,29 @@ export class AddProductCategoryComponent implements OnInit {
 
 
   addCategory(){
-   if(this.actionbtn =='Save'){
-    this.http.post(environment.apiUrl+'api/productCategory/insertCategory',{
-      categoryName:this.CategoryName,
-      createdBy:this.global.currentUserValue.userID,
-    },{responseType:'text'}).subscribe({
-      next:value=>{
-        if(value == 'Category Already Exists'){
-          this.msg.WarnNotify(value);
-        }else{
-          this.msg.SuccessNotify(value);
-          this.reset();
-          this.dialogRef.close(); 
-        }
-      }
-    })
-   }else{
-    this.updateCategory();
-   }
+    if(this.CategoryName == '' || this.CategoryName == undefined){
+      this.msg.WarnNotify("Please Enter The Category Name");
+    }else{
+      if(this.actionbtn =='Save'){
+        this.http.post(environment.apiUrl+'api/productCategory/insertCategory',{
+          categoryName:this.CategoryName,
+          createdBy:this.global.currentUserValue.userID,
+        },{responseType:'text'}).subscribe({
+          next:value=>{
+            if(value == 'Category Already Exists'){
+              this.msg.WarnNotify(value);
+            }else{
+              this.msg.SuccessNotify(value);
+              this.reset();
+              this.dialogRef.close(); 
+            }
+          }
+        })
+       }else{
+        this.updateCategory();
+       }
+    }
+  
   }
 
 
@@ -89,4 +94,7 @@ export class AddProductCategoryComponent implements OnInit {
   }
 
 
+  closeDialogue(){
+    this.dialogRef.close('Update');
+  }
 }

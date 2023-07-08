@@ -1,6 +1,6 @@
 <div >
 
-    <div class="text-center  mt-3"><h2>ADD Product Sub-Category</h2></div>
+    <div class="text-center  mt-3 d-flex justify-content-between p-3"><h2>ADD Product Sub-Category</h2><mat-icon class="cursorPointer" (click)="closeDialogue()">cancel</mat-icon></div>
 
     <div class="text-center container-fluid " >
         <mat-form-field class="w-100" appearance="outline">
@@ -19,6 +19,6 @@
     </div>
     <div class="justify-content-center d-flex" >
         <button class="btn btn-success m-1" (click)="addSubCategory()"><mat-icon class="pt-1" >save</mat-icon> {{actionbtn}} </button>
-        <button class="btn btn-danger m-1 " ><mat-icon class="pt-1">cached</mat-icon> Reset </button>
+        <button class="btn btn-danger m-1 " (click)="reset()"><mat-icon class="pt-1">cached</mat-icon> Reset </button>
     </div>
 </div>

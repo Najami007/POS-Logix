@@ -39,28 +39,33 @@ export class AddcityformComponent implements OnInit{
 
 
   addCity(){
-    if(!this.editData){
-      this.http.post(environment.apiUrl+'api/city/insertcity',{
-        cityName:this.cityName,
-        createdBy:this.global.currentUserValue.userID,
-      },{responseType:'text'}).subscribe({
-        next:(value:any)=>{
-          if(value == "City Name Already Exists"){
-            this.msg.WarnNotify(value);
-          }else{
-            this.msg.SuccessNotify(value);
-          this.reset();
-          this.dialogRef.close();
-          }
-        },
-        error:error=>{
-          console.log(error);
-          this.msg.WarnNotify(error.toString());
-        }
-      })
+    if(this.cityName == '' || this.cityName == undefined){
+      this.msg.WarnNotify("Please Eneter the City Name");
     }else{
-      this.updateProduct();
+      if(!this.editData){
+        this.http.post(environment.apiUrl+'api/city/insertcity',{
+          cityName:this.cityName,
+          createdBy:this.global.currentUserValue.userID,
+        },{responseType:'text'}).subscribe({
+          next:(value:any)=>{
+            if(value == "City Name Already Exists"){
+              this.msg.WarnNotify(value);
+            }else{
+              this.msg.SuccessNotify(value);
+            this.reset();
+            this.dialogRef.close();
+            }
+          },
+          error:error=>{
+            console.log(error);
+            this.msg.WarnNotify(error.toString());
+          }
+        })
+      }else{
+        this.updateProduct();
+      }
     }
+   
   }
 
 
@@ -87,4 +92,7 @@ export class AddcityformComponent implements OnInit{
     this.cityName = '';
   }
 
+  closeDialogue(){
+    this.dialogRef.close('Update');
+  }
 }
