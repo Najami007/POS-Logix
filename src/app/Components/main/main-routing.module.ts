@@ -14,6 +14,7 @@ import { AddUserComponent } from '../add-user/add-user.component';
 import { SettingsComponent } from '../settings/settings.component';
 import { ProductComponent } from '../product/product.component';
 import { SaleComponent } from '../sale/sale.component';
+import { PurchaseComponent } from '../purchase/purchase.component';
 
 
 
@@ -31,6 +32,7 @@ const routes: Routes = [
   {path:'Settings',component:SettingsComponent},
   {path:'product',component:ProductComponent},
   {path:'sale',component:SaleComponent},
+  {path:'purchase',component:PurchaseComponent},
   {path:'', redirectTo:'/main/dashBoard',pathMatch:'full'}
   ]},
 ];

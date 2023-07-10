@@ -1,8 +1,8 @@
 <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="center" [selectedIndex]="tabIndex" (selectedTabChange)="tabIndex = ''">
     <mat-tab label="Sale Page" class="h-100" >
 
-        <div class="h-100 col-lg-12 p-2 container d-flex" >
-            <div class="col-lg-7 m-1 " >
+        <div class="h-100 col-lg-12 p-2 container-fluid d-flex" >
+            <div class="col-lg-8 m-1 " >
                 <div >
                     <mat-card class="d-flex mb-4 p-3">
                     
@@ -42,6 +42,9 @@
                 </mat-card>
                 </div>
                 <div class="h-75" >
+
+
+                    <!-- ============================== table Area =================== -->
                     <mat-card class="border rounded ">
                        
                         <table class="table h-100 salePage"  id="salePage">
@@ -79,12 +82,17 @@
             </mat-card>
                 </div>
             </div>
-            <div class="h-100 col-lg-4 m-1"  >
+
+
+
+            <!-- /////////////////// Payment Section and Total Seciton/////////////// -->
+            <div class="h-100 col-lg-3 m-1"  >
                 <mat-card class="p-4" style="position:fixed; ">
                    <mat-card class="mb-2" >
-                    <div class="p-2 pt-3 d-flex justify-content-between">
-                        <h2 class="text-secondary">SubTotal</h2>
-                    <input type="number"  class="w-50  border-0 border-bottom fontroboto text-end h-70" [(ngModel)]="mySubtoatal" readonly>
+                    <div class="p-2 pt-3 ">
+                        <p class="text-secondary">SubTotal</p>
+                        <h1 style="font-size: 70px;" class="text-center text-danger">{{mySubtoatal}}</h1>
+                    <!-- <input type="number"  class="w-50  border-0 border-bottom fontroboto text-end h-70" [(ngModel)]="mySubtoatal" readonly> -->
                     </div>
                   </mat-card>
                   <mat-card class="mb-2">
@@ -95,8 +103,9 @@
                   </mat-card>
                   <mat-card class="mb-2">
                     <div class="p-2 pt-3 d-flex justify-content-between">
-                        <h2 class="text-danger">Total</h2>
-                    <input type="number"  class="numOnly w-50 border-0 border-bottom text-end h-70" [(ngModel)]="myTotal" readonly>
+                        <h2 class="text-secondary" >Total</h2>
+                        <h1 class="text-secondary">{{myTotal}}</h1>
+                    <!-- <input type="number"  class="numOnly w-50 border-0 border-bottom text-end h-70" [(ngModel)]="myTotal" readonly> -->
                     </div>
                   </mat-card>
                   <div class="d-flex justify-content-between text-secondary">
