@@ -15,7 +15,7 @@
                     <div class="w-100 d-flex flex-column SearchConatiner cursorPointer"
                         *ngIf="PBarcode != '' && PBarcode != undefined">
                         <mat-card>
-                            <a *ngFor="let item of productsData| filter:PBarcode " (click)="holdDatafunc(item)">{{item.productName}} (
+                            <a *ngFor="let item of productsData| filter:PBarcode" (click)="holdDataFunction(item)" >{{item.productName}} (
                                 <b>{{item.pBarcode}}</b> )</a>
                         </mat-card>
                     </div>
@@ -57,15 +57,15 @@
                 <tbody style="height: 30px;" class="text-center">
                     <tr *ngFor="let item of holdData index as index">
                         <th>{{index+1}}</th>
-                    <th>{{item.barcode}}</th>
+                    <th>{{item.pBarcode}}</th>
                     <th>{{item.productName}}</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th><mat-icon>clear</mat-icon></th>
+                    <th><input type="number" [(ngModel)]="item.costPrice" min="0" class="text-center w-25" (click)="onCostChange(item)"  id="pCostPrice"></th>
+                    <th><input type="number" [(ngModel)]="item.ctcPrice" min="0" class="text-center w-25"  id="pCtcPrice"></th>
+                    <th><input type="number" [(ngModel)]="item.wholeSalePrice" min="0" class="text-center w-25"  id="pWholeSalePrice"></th>
+                    <th><input type="number" [(ngModel)]="item.salePrice" min="0" class="text-center w-25"  id="pSalePrice"></th>
+                    <th><input type="number" [(ngModel)]="item.quantity" min="0" class="text-center w-25" (click)="onQtyChange(item)"  id="pQty"></th>
+                    <th>{{item.costPrice * item.quantity}}</th>
+                    <th><mat-icon class="cursorPointer" (click)="delRow(item)">clear</mat-icon></th>
                     </tr>
                     
                     
@@ -147,7 +147,7 @@
 
                     <div class="p-2 pt-3 text-center">
                         <h2 class="text-secondary display-2">Total</h2>
-                        <h1 style="font-size: 80px;" class=" text-danger">500</h1>
+                        <h1 style="font-size: 80px;" class=" text-danger">{{mySubtoatal}}</h1>
                     </div>
 
                 </mat-card>

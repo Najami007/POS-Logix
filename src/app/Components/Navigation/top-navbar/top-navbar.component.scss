@@ -17,7 +17,7 @@ mat-nav-list{
     border: 1px dashed white !important;
 }*/
 
-.list-item {
+.list-itm {
     color: #505050 !important;
     font-size: 0.8rem;
     height: 44px !important;
@@ -45,19 +45,19 @@ mat-nav-list{
 
     */
 }
-.list-item :hover {
+.list-itm :hover {
         background-color: #978e8e !important;
         border-radius: 4px;
         color: rgb(255, 255, 255) !important;
         
     }
-.list-item .sideicon {
+.list-itm .sideicon {
     vertical-align: bottom;
     margin-right: 1rem;
 }
 
 
-.list-item-active {
+.active {
     color: rgb(255, 255, 255) !important;
     background-color: rgb(255, 80, 36);
     border-radius: 25px;

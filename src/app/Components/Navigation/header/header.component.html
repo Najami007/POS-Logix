@@ -1,5 +1,5 @@
 <mat-toolbar  class="bg-grey">  
-    <mat-toolbar-row class="justify-content-between d-flex">
+    <mat-toolbar-row class="justify-content-between d-flex border-bottom">
        <div style="display: flex;" class="justify-content-left"> 
         <button class="button" mat-icon-button (click)="toggleSideBar()"><mat-icon>{{Menu}}</mat-icon> </button>
         
@@ -29,6 +29,9 @@
                 
             </ul>  
         </div>
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+        <app-top-navbar></app-top-navbar>
     </mat-toolbar-row>
 </mat-toolbar>
 

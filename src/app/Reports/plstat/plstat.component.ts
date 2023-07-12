@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
+import * as $ from 'jquery'
 
 @Component({
   selector: 'app-plstat',

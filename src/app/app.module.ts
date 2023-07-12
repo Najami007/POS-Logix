@@ -39,6 +39,16 @@ import { AddProductSubcategoryComponent } from './Components/settings/product-su
 import { ProductComponent } from './Components/product/product.component';
 import { SaleComponent } from './Components/sale/sale.component';
 import { PurchaseComponent } from './Components/purchase/purchase.component';
+import { TopNavbarComponent } from './Components/Navigation/top-navbar/top-navbar.component';
+import { BankComponent } from './Components/bank/bank.component';
+import { FloorComponent } from './Components/settings/floor/floor.component';
+import { AddFloorComponent } from './Components/settings/floor/add-floor/add-floor.component';
+import { ShopCategoryComponent } from './Components/settings/shop-category/shop-category.component';
+import { AddShopCategoryComponent } from './Components/settings/shop-category/add-shop-category/add-shop-category.component';
+
+import { CAMComponent } from './Components/settings/cam/cam.component';
+import { AddCAMComponent } from './Components/settings/cam/add-cam/add-cam.component';
+
 
 
 
@@ -69,6 +79,16 @@ import { PurchaseComponent } from './Components/purchase/purchase.component';
     ProductComponent,
     SaleComponent,
     PurchaseComponent,
+    TopNavbarComponent,
+    BankComponent,
+    FloorComponent,
+    AddFloorComponent,
+    ShopCategoryComponent,
+    AddShopCategoryComponent,
+  
+    CAMComponent,
+    AddCAMComponent,
+
     
     // FilterPipe,
     

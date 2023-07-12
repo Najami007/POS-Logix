@@ -33,6 +33,9 @@ export class AddUserComponent implements OnInit{
   uPassword: String = '';
   confirmPassword : String = '';
   uId = '';
+  uContact:any;
+  uRoleID:any;
+  uPinCode:any;
 
    userData:any = [];
    progressbar = true;
