@@ -3,19 +3,21 @@ import { Component,Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
-import { CAMComponent } from '../cam.component';
+import { RentComponent } from '../rent.component';
 
 @Component({
-  selector: 'app-add-cam',
-  templateUrl: './add-cam.component.html',
-  styleUrls: ['./add-cam.component.scss']
+  selector: 'app-add-rent',
+  templateUrl: './add-rent.component.html',
+  styleUrls: ['./add-rent.component.scss']
 })
-export class AddCAMComponent {
+export class AddRentComponent {
+
+
 
   constructor(
     private http:HttpClient,
     @Inject(MAT_DIALOG_DATA) public editData : any,
-    private dialogRef: MatDialogRef<CAMComponent>,
+    private dialogRef: MatDialogRef<RentComponent>,
     private global:GlobalDataModule,
     private msg:NotificationService
   ){
@@ -26,23 +28,23 @@ export class AddCAMComponent {
   actionbtn='Save';
   floorID:any;
   shopCategoryID:any;
-  CAMTitle:any;
-  camCharges:any;
+  rentTitle:any;
+  rentCharges:any;
   Description:any;
 
 
 
   reset(){
     this.actionbtn='Save';
-    this.floorID='';
-    this.shopCategoryID='';
-    this.CAMTitle='';
-    this.camCharges='';
-    this.Description='';
-  
+    this.floorID ='';
+    this.shopCategoryID ='';
+    this.rentTitle ='';
+    this.rentCharges ='';
+    this.Description ='';
   }
   
   closeDialogue(){
     this.dialogRef.close('Update');
   }
+
 }

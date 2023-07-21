@@ -58,9 +58,11 @@ mat-nav-list{
 
 
 .active {
-    color: rgb(255, 255, 255) !important;
-    background-color: rgb(255, 80, 36);
-    border-radius: 25px;
+    color: rgb(6, 6, 6) !important;
+    /*background-color: rgb(255, 80, 36);
+    border-radius: 25px;*/
+    border-bottom: 1px solid rgb(204, 202, 202);
+    font-weight: bold;
     /*
     ::ng-deep {
 

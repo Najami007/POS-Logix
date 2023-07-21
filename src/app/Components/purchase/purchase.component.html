@@ -59,11 +59,11 @@
                         <th>{{index+1}}</th>
                     <th>{{item.pBarcode}}</th>
                     <th>{{item.productName}}</th>
-                    <th><input type="number" [(ngModel)]="item.costPrice" min="0" class="text-center w-25" (click)="onCostChange(item)"  id="pCostPrice"></th>
-                    <th><input type="number" [(ngModel)]="item.ctcPrice" min="0" class="text-center w-25"  id="pCtcPrice"></th>
-                    <th><input type="number" [(ngModel)]="item.wholeSalePrice" min="0" class="text-center w-25"  id="pWholeSalePrice"></th>
-                    <th><input type="number" [(ngModel)]="item.salePrice" min="0" class="text-center w-25"  id="pSalePrice"></th>
-                    <th><input type="number" [(ngModel)]="item.quantity" min="0" class="text-center w-25" (click)="onQtyChange(item)"  id="pQty"></th>
+                    <th ><input type="number" [(ngModel)]="item.costPrice" min="0" class="text-center w-50" (change)="onCostChange(item)"  id="pCostPrice"></th>
+                    <th><input type="number" [(ngModel)]="item.ctcPrice" min="0" class="text-center w-50"  id="pCtcPrice"></th>
+                    <th><input type="number" [(ngModel)]="item.wholeSalePrice" min="0" class="text-center w-50"  id="pWholeSalePrice"></th>
+                    <th><input type="number" [(ngModel)]="item.salePrice" min="0" class="text-center w-50"  id="pSalePrice"></th>
+                    <th><input type="number" [(ngModel)]="item.quantity" min="0" class="text-center w-50" (change)="onQtyChange(item)"  id="pQty"></th>
                     <th>{{item.costPrice * item.quantity}}</th>
                     <th><mat-icon class="cursorPointer" (click)="delRow(item)">clear</mat-icon></th>
                     </tr>
@@ -145,7 +145,7 @@
                 <mat-card class="d-flex flex-column border-0 border-start col-lg-4 me-2 p-2  ">
 
 
-                    <div class="p-2 pt-3 text-center">
+                    <div class="p-2 pt-3  text-center">
                         <h2 class="text-secondary display-2">Total</h2>
                         <h1 style="font-size: 80px;" class=" text-danger">{{mySubtoatal}}</h1>
                     </div>

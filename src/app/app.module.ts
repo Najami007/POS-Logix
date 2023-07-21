@@ -48,6 +48,15 @@ import { AddShopCategoryComponent } from './Components/settings/shop-category/ad
 
 import { CAMComponent } from './Components/settings/cam/cam.component';
 import { AddCAMComponent } from './Components/settings/cam/add-cam/add-cam.component';
+import { RentComponent } from './Components/settings/rent/rent.component';
+import { AddRentComponent } from './Components/settings/rent/add-rent/add-rent.component';
+import { ServicesComponent } from './Components/settings/services/services.component';
+import { AddServicesComponent } from './Components/settings/services/add-services/add-services.component';
+import { OwnerProfileComponent } from './Components/owner-profile/owner-profile.component';
+import { ShopComponent } from './Components/shop/shop.component';
+import { AddShopComponent } from './Components/shop/add-shop/add-shop.component';
+
+
 
 
 
@@ -88,6 +97,16 @@ import { AddCAMComponent } from './Components/settings/cam/add-cam/add-cam.compo
   
     CAMComponent,
     AddCAMComponent,
+    RentComponent,
+    AddRentComponent,
+    ServicesComponent,
+    AddServicesComponent,
+    OwnerProfileComponent,
+    ShopComponent,
+    AddShopComponent,
+    
+   
+
 
     
     // FilterPipe,

@@ -3,19 +3,21 @@ import { Component,Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
-import { CAMComponent } from '../cam.component';
+import { ServicesComponent } from '../services.component';
 
 @Component({
-  selector: 'app-add-cam',
-  templateUrl: './add-cam.component.html',
-  styleUrls: ['./add-cam.component.scss']
+  selector: 'app-add-services',
+  templateUrl: './add-services.component.html',
+  styleUrls: ['./add-services.component.scss']
 })
-export class AddCAMComponent {
+export class AddServicesComponent {
+
+
 
   constructor(
     private http:HttpClient,
     @Inject(MAT_DIALOG_DATA) public editData : any,
-    private dialogRef: MatDialogRef<CAMComponent>,
+    private dialogRef: MatDialogRef<ServicesComponent>,
     private global:GlobalDataModule,
     private msg:NotificationService
   ){
@@ -24,25 +26,22 @@ export class AddCAMComponent {
 
 
   actionbtn='Save';
-  floorID:any;
-  shopCategoryID:any;
-  CAMTitle:any;
-  camCharges:any;
+  serviceTitle:any;
+  serviceCharges:any;
   Description:any;
 
 
 
   reset(){
     this.actionbtn='Save';
-    this.floorID='';
-    this.shopCategoryID='';
-    this.CAMTitle='';
-    this.camCharges='';
-    this.Description='';
-  
+    this.serviceTitle ='';
+    this.serviceCharges ='';
+    this.Description ='';
   }
   
   closeDialogue(){
     this.dialogRef.close('Update');
   }
+
+
 }

@@ -13,20 +13,24 @@
                 Add Party</a>
             <a class="list-itm" routerLink="./AddUser" routerLinkActive="active">
                 Add User</a>
+            <a class="list-itm" routerLink="./OwnerProfile" routerLinkActive="active">
+                    Owner Profile</a>
+            <a class="list-itm" routerLink="./shop" routerLinkActive="active">
+                    Shop</a>
             <a class="list-itm" routerLink="./bank" routerLinkActive="active">
                     Add Bank</a> 
             <a class="list-itm" routerLink="./Settings" routerLinkActive="active">
                 Settings</a>
 
-            <div class=" dropdown">
-                <a class="list-itm dropdown-toggle" type="button"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="dropdown cursorPointer">
+                <a class="list-itm dropdown-toggle"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Reports</a>
-                <ul class="dropdown-menu bg-light " >
-                    <li> <a class="list-itm " routerLink="./ledger" routerLinkActive="active">Ledger</a></li>
-                    <li><a class="list-itm" routerLink="./trialBalance" routerLinkActive="active">Trial Balance</a></li>
-                    <li><a class="list-itm" routerLink="./plStat" routerLinkActive="active">Profit & Loss Statement</a></li>
-                    <li><a class="list-itm " routerLink="./bsStat" routerLinkActive="active">Balance Sheet</a></li>
-                </ul>
+                <div class="dropdown-menu" >
+                     <a class="dropdown-item" routerLink="./ledger" routerLinkActive="active">Ledger</a>
+                    <a class="dropdown-item" routerLink="./trialBalance" routerLinkActive="active">Trial Balance</a>
+                    <a class="dropdown-item" routerLink="./plStat" routerLinkActive="active">Profit & Loss Statement</a>
+                    <a class="dropdown-item" routerLink="./bsStat" routerLinkActive="active">Balance Sheet</a>
+                </div>
             </div>
             
             
