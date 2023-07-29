@@ -103,6 +103,11 @@ export class GlobalDataModule  {
         this.msg.WarnNotify('Error Occurred While Login Process')
       }
     })
+
+    // if(Email == 'a' && password == 'a'){
+    //   this.rout.navigate(["main"]);
+    // }
+    
   }
 
   ////////////////////////////////////////////////////

@@ -62,6 +62,7 @@ import { AddShopComponent } from './Components/shop/add-shop/add-shop.component'
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -104,6 +105,7 @@ import { AddShopComponent } from './Components/shop/add-shop/add-shop.component'
     OwnerProfileComponent,
     ShopComponent,
     AddShopComponent,
+
     
    
 

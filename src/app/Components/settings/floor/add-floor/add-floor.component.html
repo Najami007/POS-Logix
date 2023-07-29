@@ -11,7 +11,7 @@
         
     </div>
     <div class="justify-content-center d-flex" >
-        <button class="btn btn-success m-1" ><mat-icon class="pt-1"  >save</mat-icon> {{actionbtn}} </button>
+        <button class="btn btn-success m-1" (click)="addFloor()" accesskey="s"><mat-icon class="pt-1"  >save</mat-icon> {{actionbtn}} </button>
         <button class="btn btn-danger m-1 " (click)="reset()"><mat-icon class="pt-1">cached</mat-icon> Reset </button>
     </div>
 </div>

@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ShopCategoryComponent } from '../shop-category.component';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-add-shop-category',
@@ -27,10 +28,15 @@ export class AddShopCategoryComponent implements OnInit {
 
 
   ngOnInit(): void {
-   
+    if(this.editData){
+      this.actionbtn = "Update";
+      this.shopCategoryName = this.editData.shopCategoryName;
+      this.shopCategoryID = this.editData.shopCategoryID;
+    }
   }
 
 
+  shopCategoryID:any;
   shopCategoryName:any;
   actionbtn = 'Save';
 
@@ -45,6 +51,52 @@ export class AddShopCategoryComponent implements OnInit {
   reset(){
     this.shopCategoryName = '';
     this.actionbtn = 'Save';
+  }
+
+
+  addCategory(){
+    if(this.shopCategoryName == '' || this.shopCategoryName == undefined){
+      this.msg.WarnNotify('Category Name Required');
+    }else{
+      if(this.actionbtn == 'Save'){
+        this.http.post(environment.mallApiUrl+'InsertCatagory',{
+          ShopCategoryName:this.shopCategoryName,
+          UserID:this.global.currentUserValue.userID,
+        }).subscribe(
+          (Response:any)=>{
+            if(Response.msg == 'Data Saved Successfully'){
+              console.log(Response.msg);
+              this.reset();
+              this.dialogRef.close();
+            }else{
+              this.msg.WarnNotify(Response.msg);
+            }
+            
+          }
+        )
+      }else if(this.actionbtn == 'Update'){
+        this.updateCategory();
+      }
+    }
+    
+  }
+
+
+
+  updateCategory(){
+    console.log(this.shopCategoryID,this.shopCategoryName);
+    this.http.post(environment.mallApiUrl+'UpdateCatagory',{
+      ShopCategoryID:this.shopCategoryID,
+      ShopCategoryName:this.shopCategoryName,
+      UserID:this.global.currentUserValue.userID,
+    }).subscribe(
+      
+      (Response:any)=>{
+        console.log(Response.msg);
+        this.reset();
+        this.dialogRef.close('Update');
+      }
+    )
   }
 
 
