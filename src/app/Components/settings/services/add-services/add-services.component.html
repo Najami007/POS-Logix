@@ -10,6 +10,10 @@
             <input matInput type="text" [(ngModel)]="serviceTitle">
         </mat-form-field>
         <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Service Code</mat-label>
+            <input matInput id="serviceCode"  type="text" [(ngModel)]="serviceCode">
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
             <mat-label>Service Charges</mat-label>
             <input matInput type="number" [(ngModel)]="serviceCharges">
         </mat-form-field>
@@ -21,7 +25,7 @@
 
     </div>
     <div class="justify-content-center d-flex">
-        <button class="btn btn-success m-1" ><mat-icon class="pt-1">save</mat-icon>
+        <button class="btn btn-success m-1" accesskey="s" (click)="addService()" ><mat-icon class="pt-1">save</mat-icon>
             {{actionbtn}} </button>
         <button class="btn btn-danger m-1 " (click)="reset()"><mat-icon class="pt-1">cached</mat-icon> Reset </button>
     </div>

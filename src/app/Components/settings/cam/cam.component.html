@@ -15,14 +15,16 @@
                 <th>Delete</th>
             </thead>
             <tbody >
-                <tr >
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><mat-icon class="text-success cursorPointer" >edit</mat-icon></td>
-                    <td><mat-icon class="text-danger cursorPointer" >delete</mat-icon></td>
+                <tr *ngFor="let item of CAMData;index as index" >
+                    <td>{{index+1}}</td>
+                    <td>{{item.camTitle}}</td>
+                    <!-- <td>{{Floors[item.shopFloorID].shopFloorName}}</td>
+                    <td>{{shopCategorys[item.shopCategoryID].shopCategoryName}}</td> -->
+                    <td>{{item.shopFloorName}}</td>
+                    <td>{{item.shopCategoryName}}</td>
+                    <td>{{item.camCharges}}</td>
+                    <td><mat-icon class="text-success cursorPointer" (click)="editCAM(item)">edit</mat-icon></td>
+                    <td><mat-icon class="text-danger cursorPointer" (click)="deleteCAM(item)" >delete</mat-icon></td>
                 </tr>
             </tbody>
         </table>

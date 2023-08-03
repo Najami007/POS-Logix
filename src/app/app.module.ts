@@ -55,6 +55,7 @@ import { AddServicesComponent } from './Components/settings/services/add-service
 import { OwnerProfileComponent } from './Components/owner-profile/owner-profile.component';
 import { ShopComponent } from './Components/shop/shop.component';
 import { AddShopComponent } from './Components/shop/add-shop/add-shop.component';
+import { MapShopComponent } from './Components/map-shop/map-shop.component';
 
 
 
@@ -105,6 +106,7 @@ import { AddShopComponent } from './Components/shop/add-shop/add-shop.component'
     OwnerProfileComponent,
     ShopComponent,
     AddShopComponent,
+    MapShopComponent,
 
     
    

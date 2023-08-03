@@ -42,26 +42,22 @@ export class AddcityformComponent implements OnInit{
     if(this.cityName == '' || this.cityName == undefined){
       this.msg.WarnNotify("Please Eneter the City Name");
     }else{
-      if(!this.editData){
-        this.http.post(environment.apiUrl+'api/city/insertcity',{
-          cityName:this.cityName,
-          createdBy:this.global.currentUserValue.userID,
-        },{responseType:'text'}).subscribe({
-          next:(value:any)=>{
-            if(value == "City Name Already Exists"){
-              this.msg.WarnNotify(value);
+      if(this.actionbtn == 'Save'){
+        this.http.post(environment.mallApiUrl+'insertcity',{
+          CityName:this.cityName,
+          UserID:this.global.currentUserValue.userID,
+        }).subscribe(
+          (Response:any)=>{
+            if(Response.msg == 'Data Saved Successfully'){
+              this.msg.SuccessNotify(Response.msg);
+              this.reset();
+              this.dialogRef.close();
             }else{
-              this.msg.SuccessNotify(value);
-            this.reset();
-            this.dialogRef.close();
+              this.msg.WarnNotify(Response.msg);
             }
-          },
-          error:error=>{
-            console.log(error);
-            this.msg.WarnNotify(error.toString());
           }
-        })
-      }else{
+        )
+      }else if(this.actionbtn == 'Update'){
         this.updateProduct();
       }
     }
@@ -70,26 +66,27 @@ export class AddcityformComponent implements OnInit{
 
 
   updateProduct(){
-    this.http.put(environment.apiUrl+'api/city/updatecity?id='+this.editData.cityID,{
-      cityName : this.cityName,
-      modifiedBy:this.global.currentUserValue.userID,
-    },{responseType:'text'}).subscribe({
-      next:value=>{
-       if(value == "City Name Already Exists"){
-        this.msg.WarnNotify(value);
-
-       }else{
-        this.msg.SuccessNotify(value),
-        this.reset();
-        this.dialogRef.close("update");
-       }
+    this.http.post(environment.mallApiUrl+'updatecity',{
+      CityID:this.editData.cityID,
+      CityName : this.cityName,
+      UserID:this.global.currentUserValue.userID,
+    }).subscribe(
+      (Response:any)=>{
+        if(Response.msg == 'Data Updated Successfully'){
+          this.msg.SuccessNotify(Response.msg);
+          this.reset();
+          this.dialogRef.close('Update');
+        }else{
+          this.msg.WarnNotify(Response.msg);
+        }
       }
-    })
+    )
   }
 
 
   reset(){
     this.cityName = '';
+    this.actionbtn = 'Save';
   }
 
   closeDialogue(){

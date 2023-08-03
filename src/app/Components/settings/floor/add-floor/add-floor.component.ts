@@ -54,7 +54,7 @@ export class AddFloorComponent implements OnInit{
           if(Response.msg == 'Data Saved Successfully'){
             this.msg.SuccessNotify(Response.msg);
             this.reset();
-            this.closeDialogue();
+            this.dialogRef.close();
           }else{
             this.msg.WarnNotify(Response.msg);
             console.log(Response.msg)

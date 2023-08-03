@@ -55,7 +55,7 @@ export class ShopCategoryComponent implements OnInit{
       {
         next:value=>{
           this.CategoriesData = value;
-          console.log(value);
+          
         },
         error:error=>{
           this.msg.WarnNotify('Error Occured While Getting Data');

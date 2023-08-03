@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
 import { ShopComponent } from '../shop.component';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-add-shop',
@@ -23,6 +24,21 @@ export class AddShopComponent implements OnInit{
   }
   ngOnInit(){
     this.global.setHeaderTitle("Add Shop");
+    this.getCam();
+    this.getRent();
+    this.getOwner();
+
+    if(this.editData){
+      this.actionbtn= 'Update';
+      this.shopTitle = this.editData.shopTitle;
+      this.shopCode = this.editData.shopCode;
+      this.shopArea = this.editData.shopAreaSQ;
+      this.camID = this.editData.camID;
+      this.rentID = this.editData.rentID;
+      this.partyID = this.editData.partyID;
+      this.purchaseDate = this.editData.purchaseDate;
+      this.description = this.editData.shopDescription;
+    }
   }
 
 
@@ -31,9 +47,168 @@ export class AddShopComponent implements OnInit{
   rentID:any;
   shopTitle:any;
   shopCode:any;
-  area:any;
+  shopArea:any;
+  description:any;
+  partyID:any;
+  purchaseDate:any;
 
 
+
+
+  CamData:any;
+  rentData:any;
+  ownerData:any;
+
+
+
+  /////////////////////////////
+
+  
+
+  getOwner(){
+    
+    this.http.get(environment.mallApiUrl+'getowner').subscribe(
+      {
+        next:value=>{
+          this.ownerData = value;
+          // console.log(value);
+        },
+        error:error=>{
+          this.msg.WarnNotify('Error Occured while Loading Data');
+          console.log(error);
+        }
+      }
+    )
+  }
+
+  //////////////////////////////////////////////////
+
+  getCam(){
+    this.http.get(environment.mallApiUrl+'GetCam').subscribe(
+      {
+        next:value=>{
+          this.CamData = value;
+          // console.log(value);
+        },
+        error:error=>{
+          console.log(error);
+          this.msg.WarnNotify('Error Occured while Loading Data');
+        }
+      }
+    )
+  }
+
+
+
+  //////////////////////////////////////////
+  getRent(){
+    this.http.get(environment.mallApiUrl+'getrent').subscribe(
+      {
+        next:value=>{
+          this.rentData = value;
+           //console.log(value);
+        },
+        error:error=>{
+          console.log(error);
+        }
+        
+      }
+    )
+  }
+
+
+
+  /////////////////////////////////////////////
+
+  addShop(){
+
+    if(this.shopTitle == '' || this.shopTitle == undefined){
+      this.msg.WarnNotify('Shop Title required')
+    }else if(this.shopCode == '' || this.shopCode == undefined){
+      this.msg.WarnNotify('Shop Code Required')
+    }else if(this.shopArea == '' || this.shopArea == undefined){
+      this.msg.WarnNotify('Shop Area Required')
+    }else if(this.camID == '' || this.camID == undefined){
+      this.msg.WarnNotify('Cam Title Required')
+    }else if(this.rentID == '' || this.rentID == undefined){
+      this.msg.WarnNotify('Rent Title Required')
+    }else if(this.partyID == '' || this.partyID == undefined){
+      this.msg.WarnNotify('Owner Name Required')
+    }else if(this.purchaseDate == '' || this.purchaseDate == undefined){
+      this.msg.WarnNotify('Purchase Date Required')
+    }else if(this.description == '' || this.description == undefined){
+      this.description = '-';
+    }else{
+      if(this.actionbtn == 'Save'){
+        this.InsertShop();
+      }else if(this.actionbtn == 'Update'){
+        this.updateShop();
+      }
+      
+    }
+
+  
+    
+  }
+
+
+
+  InsertShop(){
+    this.http.post(environment.mallApiUrl+'InsertShop',{
+      CamID:this.camID,
+      RentID:this.rentID,
+      ShopTitle:this.shopTitle,
+      ShopCode:this.shopCode.toString(),
+      ShopDescription:this.description,
+      ShopAreaSQ:this.shopArea,
+      PartyID:this.partyID,
+      PurchaseDate:this.purchaseDate,
+      UserID:this.global.currentUserValue.userID,
+    }).subscribe(
+      (Response:any)=>{
+        console.log(Response.msg);
+        if(Response.msg == 'Data Saved Successfully'){
+          this.msg.SuccessNotify(Response.msg);
+          this.dialogRef.close();
+          this.reset();
+        }else{
+          this.msg.WarnNotify(Response.msg);
+        }
+      }
+    )
+  }
+
+
+  ///////////////////////////////////
+
+
+  updateShop(){
+    this.http.post(environment.mallApiUrl+'UpdateShop',{
+      ShopID:this.editData.shopID,
+      ShopOwnerID:this.editData.shopOwnerID,
+      CamID:this.camID,
+      RentID:this.rentID,
+      ShopTitle:this.shopTitle,
+      ShopCode:this.shopCode.toString(),
+      ShopDescription:this.description,
+      ShopAreaSQ:this.shopArea,
+      PartyID:this.partyID,
+      PurchaseDate:this.purchaseDate,
+      UserID:this.global.currentUserValue.userID,
+    }).subscribe(
+      (Response:any)=>{
+        if(Response.msg == 'Data Updated Successfully'){
+          this.msg.SuccessNotify(Response.msg);
+          this.dialogRef.close('Update');
+          this.reset();
+        }else{
+          this.msg.WarnNotify(Response.msg);
+        }
+      }
+    )
+  }
+
+  ///////////////////////////////////////////////////
 
   reset(){
     this.actionbtn='Save';
@@ -41,7 +216,10 @@ export class AddShopComponent implements OnInit{
     this.rentID='';
     this.shopTitle='';
     this.shopCode='';
-    this.area='';
+    this.shopArea='';
+    this.description='';
+    this.partyID='';
+    this.purchaseDate='';
   
   }
   

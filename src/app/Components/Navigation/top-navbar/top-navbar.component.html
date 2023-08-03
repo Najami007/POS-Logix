@@ -9,29 +9,48 @@
                 Charts of Accounts</a>
             <a class="list-itm" routerLink="./voucher" routerLinkActive="active">
                 Voucher</a>
-            <a class="list-itm" routerLink="./party" routerLinkActive="active">
+            <!-- <a class="list-itm" routerLink="./party" routerLinkActive="active">
                 Add Party</a>
             <a class="list-itm" routerLink="./AddUser" routerLinkActive="active">
                 Add User</a>
             <a class="list-itm" routerLink="./OwnerProfile" routerLinkActive="active">
                     Owner Profile</a>
             <a class="list-itm" routerLink="./shop" routerLinkActive="active">
-                    Shop</a>
+                    Shop</a> -->
             <a class="list-itm" routerLink="./bank" routerLinkActive="active">
                     Add Bank</a> 
-            <a class="list-itm" routerLink="./Settings" routerLinkActive="active">
-                Settings</a>
+            <!-- <a class="list-itm" routerLink="./Settings" routerLinkActive="active">
+                Settings</a> -->
+                <div class="dropdown cursorPointer ">
+                    <a class="list-itm ">
+                        Settings <mat-icon class="sideicon mb-1">arrow_drop_down</mat-icon></a>
+                        <div class="dropdown-content">
+                            <a class="list-itm" routerLink="./party" routerLinkActive="active">
+                                Add Party</a>
+                            <a class="list-itm" routerLink="./AddUser" routerLinkActive="active">
+                                Add User</a>
+                            <a class="list-itm" routerLink="./OwnerProfile" routerLinkActive="active">
+                                    Owner Profile</a>
+                            <a class="list-itm" routerLink="./shop" routerLinkActive="active">
+                                    Shop</a>
+                                    <a class="list-itm" routerLink="./Settings" routerLinkActive="active">
+                                        Settings</a>
+                        </div>
+                        </div>
+               
 
-            <div class="dropdown cursorPointer">
-                <a class="list-itm dropdown-toggle"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Reports</a>
-                <div class="dropdown-menu" >
-                    <a class="dropdown-itm" routerLink="./ledger" routerLinkActive="active">Ledger</a>
-                    <a class="dropdown-itm" routerLink="./trialBalance" routerLinkActive="active">Trial Balance</a>
-                    <a class="dropdown-itm" routerLink="./plStat" routerLinkActive="active">Profit & Loss Statement</a>
-                    <a class="dropdown-itm" routerLink="./bsStat" routerLinkActive="active">Balance Sheet</a>
+            <div class="dropdown cursorPointer ">
+                <a class="list-itm" >
+                    Reports<mat-icon class="sideicon mb-1">arrow_drop_down</mat-icon></a>
+                <div class="dropdown-content" >
+                    <a class="list-itm" routerLink="./ledger" routerLinkActive="active">Ledger</a>
+                    <a class="list-itm" routerLink="./trialBalance" routerLinkActive="active">Trial Balance</a>
+                    <a class="list-itm" routerLink="./plStat" routerLinkActive="active">Profit & Loss Statement</a>
+                    <a class="list-itm" routerLink="./bsStat" routerLinkActive="active">Balance Sheet</a>
                 </div>
             </div>
+            
+            
             
             
 

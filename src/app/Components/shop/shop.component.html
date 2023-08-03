@@ -1,14 +1,23 @@
 <div class="bg-white p-5">
     
     <div class="text-center p-5 bg-light  pt-5">
-        <div class="text-start" ><button autofocus class="btn btn-primary" (click)="OpenDialogue()"><mat-icon class="pt-1">
-            add</mat-icon>ADD Shop</button></div>
+        <div class="text-start d-flex ">
+            <button autofocus class="btn btn-primary me-2 col-lg-2" style="height: 55px;" (click)="OpenDialogue()"><mat-icon class="pt-1">
+            add</mat-icon>ADD Shop</button>
+            <mat-form-field class="col-lg-10" appearance="outline">
+                <mat-label>Search</mat-label>
+                <input [(ngModel)]="searchtxt" matInput type="search" class="text-secondary">
+                <mat-icon matPrefix class="text-secondary">search</mat-icon>
+            </mat-form-field>
+        </div>
             <br>
         <table class="table table-hover h-100"> 
             <thead>
                 <th>S#</th>
                 <th>Shop Title</th>
                 <th>Shop Code</th>
+                <th>Owner Name</th>
+                <th>Purchase Date</th>
                 <th>Area</th>
                 <th>CAM Title</th>
                 <th>Rent Title</th>
@@ -16,15 +25,17 @@
                 <th>Delete</th>
             </thead>
             <tbody >
-                <tr >
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><mat-icon class="text-success cursorPointer" >edit</mat-icon></td>
-                    <td><mat-icon class="text-danger cursorPointer" >delete</mat-icon></td>
+                <tr *ngFor="let item of shopData |filter:searchtxt;index as index">
+                    <td>{{index+1}}</td>
+                    <td>{{item.shopTitle}}</td>
+                    <td>{{item.shopCode}}</td>
+                    <td>{{item.partyName}}</td>
+                    <td>{{item.purchaseDate | date}}</td>
+                    <td>{{item.shopAreaSQ}} (Sqf.)</td>
+                    <td>{{item.camTitle}}</td>
+                    <td>{{item.rentTitle}}</td>
+                    <td><mat-icon class="text-success cursorPointer" (click)="editShop(item)" >edit</mat-icon></td>
+                    <td><mat-icon class="text-danger cursorPointer"  (click)="deleteShop(item)">delete</mat-icon></td>
                 </tr>
             </tbody>
         </table>

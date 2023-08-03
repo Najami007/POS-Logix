@@ -4,37 +4,56 @@
         <p class="dialogueTitle">ADD Shop DETAILS</p><mat-icon class="cursorPointer" (click)="closeDialogue()">cancel</mat-icon>
     </div>
 
-    <div class="text-center container-fluid ">
+    <div class="col-lg-12 container-fluid">
     
-        <mat-form-field class="w-100" appearance="outline">
+        <mat-form-field class="col-lg-5 me-5" appearance="outline">
             <mat-label>Shop Title</mat-label>
             <input matInput type="text" [(ngModel)]="shopTitle">
         </mat-form-field>
-        <mat-form-field class="w-100" appearance="outline">
+        <mat-form-field class="col-lg-5 " appearance="outline">
             <mat-label>Shop Code</mat-label>
             <input matInput type="number" [(ngModel)]="shopCode">
         </mat-form-field>
-        <mat-form-field class="w-100" appearance="outline">
+        <mat-form-field class="col-lg-5 me-5" appearance="outline">
             <mat-label>Area</mat-label>
-            <input matInput type="number" [(ngModel)]="area">
+            <input matInput type="number" [(ngModel)]="shopArea">
         </mat-form-field>
-        <mat-form-field class="w-100" appearance="outline">
+        <mat-form-field class=" col-lg-5 " appearance="outline">
             <mat-label>Cam Title</mat-label>
             <mat-select [(ngModel)]="camID">
-                <mat-option value="demo">demo</mat-option>
+                <mat-option *ngFor="let item of CamData" [value]="item.camID">{{item.camTitle}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field class="w-100" appearance="outline">
+        <mat-form-field class=" col-lg-5 me-5" appearance="outline">
             <mat-label>Rent Title</mat-label>
             <mat-select [(ngModel)]="rentID">
-                <mat-option value="demo">demo</mat-option>
+                <mat-option *ngFor="let item of rentData" [value]="item.rentID">{{item.rentTitle}}</mat-option>
             </mat-select>
         </mat-form-field>
+
+        <mat-form-field class="col-lg-5 " appearance="outline">
+            <mat-label>Owner Name</mat-label>
+            <mat-select [(ngModel)]="partyID">
+                <mat-option *ngFor="let item of ownerData" [value]="item.partyID">{{item.partyName}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-lg-5 me-5" appearance="outline"> 
+            <mat-label>Purchase Date</mat-label>
+            <input readonly="true" matInput type="text" name="voucherDate" 
+                [(ngModel)]="purchaseDate"  [matDatepicker]="PurDate" >
+            <mat-datepicker-toggle matSuffix [for]="PurDate"></mat-datepicker-toggle>
+            <mat-datepicker #PurDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="col-lg-5 " appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput type="number" [(ngModel)]="description"></textarea>
+        </mat-form-field>
+
 
 
     </div>
-    <div class="justify-content-center d-flex">
-        <button class="btn btn-success m-1" ><mat-icon class="pt-1">save</mat-icon>
+    <div class="justify-content-center d-flex"> 
+        <button class="btn btn-success m-1" accesskey="s"  (click)="addShop()"><mat-icon class="pt-1">save</mat-icon>
             {{actionbtn}} </button>
         <button class="btn btn-danger m-1 " (click)="reset()"><mat-icon class="pt-1">cached</mat-icon> Reset </button>
     </div>

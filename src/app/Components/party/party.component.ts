@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment.development';
 import { error, valHooks } from 'jquery';
 import { __values } from 'tslib';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-party',
@@ -39,7 +40,7 @@ export class PartyComponent implements OnInit{
   CitiesNames : any = []
 
   getCityNames(){
-    this.http.get(environment.apiUrl+'api/city/getCity').subscribe(
+    this.http.get(environment.mallApiUrl+'getcity').subscribe(
       {
         next : value =>{
           this.CitiesNames = value;
@@ -65,17 +66,20 @@ export class PartyComponent implements OnInit{
 
 
 
-  searchtxt='';
+  searchtxt:any;
   btnType = "Save";
-  curPartyId= '';
-  partyType = '';
-  partyName = '';
-  partyCNIC = '';
-  partyPhoneno= '';
-  partyMobileno='';
-  City = '';
-  partyAddress='';
-  description = '';
+  curPartyId:any;
+  partyType :any;
+  partyName :any;
+  partyCNIC :any;
+  partyPhoneno:any;
+  partyMobileno:any;
+  City :any;
+  partyAddress:any;
+  description :any;
+  bankName:any;
+  bankAccountTitle:any;
+  bankAccountNo:any;
   validate = true;
 
 
@@ -83,14 +87,15 @@ export class PartyComponent implements OnInit{
 
 
   getParty(){
-    this.http.get(environment.apiUrl+'api/party/getParty').subscribe(
+    this.http.get(environment.mallApiUrl+'getparty').subscribe(
     {
       next:value =>{
         this.partyData = value;
-        // console.log(value);
+        console.log(value);
       
       },
       error: error=>{
+        this.msg.WarnNotify('Error Occured While Loading Data')
         console.log(error);
       }        
       
@@ -101,84 +106,86 @@ export class PartyComponent implements OnInit{
 
 
   saveParty(){
-if(this.validate){
-this.fieldValidation();
+    if(this.partyType == "" || this.partyType == undefined){
+      this.msg.WarnNotify("Select The Party Type");
+    }else if(this.partyName == "" || this.partyName == undefined){
+      this.msg.WarnNotify("Enter The Party Name");
+      
+    }else if(this.partyCNIC == "" || this.partyCNIC == undefined ){
+      this.msg.WarnNotify("Enter Party CNIC")
+    }else if(this.partyMobileno == "" || this.partyMobileno == undefined){
+      this.msg.WarnNotify("Enter Party Mobile Number")
+    }else if(this.City == "" || this.City == undefined){
+      this.msg.WarnNotify("Select The City")
+    }else if(this.partyAddress == "" || this.partyAddress == undefined){
+      this.msg.WarnNotify("Enter The Party Address")
+    }else if(this.description == "" || this.description == undefined){
+    this.description = "-";
+  }else if(this.partyCNIC.length < 15){
+    this.msg.WarnNotify("Please Enter the Valid CNIC No.")
+  }else if(this.partyMobileno.length < 12){
+    this.msg.WarnNotify("Please Enter the Valid Mobile NO.")
+  }else{
 
-  if(this.btnType == "Save"){
+    if(this.btnType == "Save"){
 
-    this.http.post(environment.apiUrl+'api/party/insertparty',{
-      partyName : this.partyName,
-      partyAddress : this.partyAddress,
-      partyCNIC: this.partyCNIC,
-      // partyAlias:'',
-      type: this.partyType.toString(),
-      // cityName:"",
-       cityID: this.City,
-       phoneNo: this.partyPhoneno,
-       remarks: this.description,
-       mobileNo: this.partyMobileno,
-       createdBy: this.globalData.currentUserValue.userID,
- 
-     },{responseType:'text'}).subscribe(
-       {
-         next:value=>{
- 
-           if(value == "Data Added Successfully"){
-             this.msg.SuccessNotify(value.toString());
-             this.getParty();
-             this.reset();
-           }else{
-            var noti = value;
-            this.msg.WarnNotify("Not A Valid CNIC NO.");
-            
-           }
-          
-         },
-         error:error=>{
-           this.msg.WarnNotify(error);
-           console.log(error);
-         
-         }
-       }
-     )
-  }
-
-  if(this.btnType == 'Update'){
-    this.fieldValidation();
-    this.http.put(environment.apiUrl+'api/party/updateparty?id='+ this.curPartyId,{
-
-      partyName : this.partyName,
-      partyAddress : this.partyAddress,
-      partyCNIC: this.partyCNIC,
-      // partyAlias:'',
-      type: this.partyType.toString(),
-      // cityName:"",
-       cityID: this.City,
-       phoneNo: this.partyPhoneno,
-       remarks: this.description,
-       mobileNo: this.partyMobileno,
-       modifiedBy: this.globalData.currentUserValue.userID,  
-    },{responseType:'text'}).subscribe(
-      {
-        next:value=>{
-          if(value == 'Data Updated Succesfully'){
-            this.msg.SuccessNotify(value);
+      this.http.post(environment.mallApiUrl+'insertparty',{
+        PartyType:this.partyType,
+        PartyName:this.partyName,
+        PartyAddress:this.partyAddress,
+        PartyCNIC:this.partyCNIC,
+        CityID:this.City,
+        PartyMobileNo:this.partyMobileno,
+        BankAccountTitle:this.bankAccountTitle,
+        BankAccountNo:this.bankAccountNo,
+        BankName:this.bankName,
+        PartyDescription:this.description,
+        UserID:this.globalData.currentUserValue.userID,
+   
+       }).subscribe(
+         (Response:any)=>{
+          if(Response.msg == 'Data Saved Successfully'){
+            this.msg.SuccessNotify(Response.msg);
             this.getParty();
             this.reset();
           }else{
-            var noti = value;
-            this.msg.WarnNotify("Not A Valid CNIC NO.");
+            console.log(Response.msg);
+            this.msg.WarnNotify(Response.msg);
           }
-        },
-        error:error=>{
-          this.msg.WarnNotify(error);
-          console.log(error);
-        }
-      }
-    )
+         }
+       )
+    }else if(this.btnType == 'Update'){
+   
+      this.http.post(environment.mallApiUrl+'updateparty',{
+  
+        PartyID:this.curPartyId,
+        PartyType:this.partyType,
+        PartyName:this.partyName,
+        PartyAddress:this.partyAddress,
+        PartyCNIC:this.partyCNIC,
+        CityID:this.City,
+        PartyMobileNo:this.partyMobileno,
+        BankAccountTitle:this.bankAccountTitle,
+        BankAccountNo:this.bankAccountNo,
+        BankName:this.bankName,
+        PartyDescription:this.description,
+        UserID:this.globalData.currentUserValue.userID,
+      }).subscribe(
+        (Response:any)=>{
+      
+          if(Response.msg == 'Data Updated Successfully'){
+            this.msg.SuccessNotify(Response.msg);
+            this.getParty();
+            this.reset();
+          }else{
+            
+            this.msg.WarnNotify(Response.msg);
+          }
+         }
+      )
+    }
   }
-    
-  }
+
 
 
   }
@@ -207,87 +214,62 @@ this.fieldValidation();
     }
   }
 
-  ///////////////////getting the party data for update/////////////////////
 
-  // getPartyID(id:any){
-  //   var currentParty = this.partyData.find((e :any)=>{return e.partyID == id});
-  //   this.curPartyId = currentParty.partyID;
-  //   this.partyType = currentParty.type;
-  //   this.partyName = currentParty.partyName;
-  //   this.partyCNIC = currentParty.partyCNIC;
-  //   this.partyMobileno = currentParty.mobileNo;
-  //   this.partyPhoneno = currentParty.phoneNo;
-  //   this.partyAddress = currentParty.partyAddress;
-  //   this.City = currentParty.cityID.toString();
-  //   this.description = currentParty.remarks;
-  //   this.btnType = "Update";
-
-  // }
-  getPartyID(item:any){
+  editParty(item:any){
 
     this.curPartyId = item.partyID;
-    this.partyType = item.type;
+    
+    this.partyType = item.partyType;
     this.partyName = item.partyName;
     this.partyCNIC = item.partyCNIC;
-    this.partyMobileno = item.mobileNo;
-    this.partyPhoneno = item.phoneNo;
+    this.partyMobileno = item.partyMobileNo;
+    this.bankName = item.bankName;
+    this.bankAccountTitle= item.bankAccountTitle;
+    this.bankAccountNo =item.bankAccountNo;
+   
     this.partyAddress = item.partyAddress;
     this.City = item.cityID.toString();
-    this.description = item.remarks;
+    this.description = item.partyDescription;
     this.btnType = "Update";
 
   }
 
 ////////////////to Delete The Party/////////////////////////
-  DeleteParty(id:any){
-    this.http.put(environment.apiUrl+'api/party/deleteparty?id='+id,{
-      deletedBy:this.globalData.currentUserValue.userID,
-    },{responseType:'text'}).subscribe(
-      {
-        next:value=>{
-          if(value == "Party Deleted Successfully"){
-            this.msg.SuccessNotify(value);
+  DeleteParty(row:any){
+
+    Swal.fire({
+      title:'Alert!',
+      text:'Confirm to Delete the Data',
+      position:'center',
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm',
+    }).then((result)=>{
+      if(result.isConfirmed){
+
+        //////on confirm button pressed the api will run
+        this.http.post(environment.mallApiUrl+'deleteparty',{
+          PartyID:row.partyID,
+          deletedBy:this.globalData.currentUserValue.userID,
+        }).subscribe(
+         (Response:any)=>{
+          if(Response.msg == 'Data Deleted Successfully'){
+            this.msg.SuccessNotify(Response.msg);
             this.getParty();
-
+            
           }else{
-            this.msg.WarnNotify(value);
+            this.msg.WarnNotify(Response.msg);
           }
-        },
-        error:error=>{
-          this.msg.WarnNotify(error);
-          console.log(error);
-        }
+         }
+        )
       }
-    )
+    });
+
+   
   }
 
-
-  fieldValidation(){
-    if(this.partyType == "" || this.partyType == undefined){
-      this.msg.WarnNotify("Select The Party Type");
-    }else if(this.partyName == "" || this.partyName == undefined){
-      this.msg.WarnNotify("Enter The Party Name");
-      
-    }else if(this.partyCNIC == "" || this.partyCNIC == undefined ){
-      this.msg.WarnNotify("Enter Party CNIC")
-    }else if(this.partyPhoneno == "" || this.partyPhoneno == undefined){
-      this.msg.WarnNotify("Enter Phone Number")
-    }else if(this.partyMobileno == "" || this.partyMobileno == undefined){
-      this.msg.WarnNotify("Enter Party Mobile Number")
-    }else if(this.City == "" || this.City == undefined){
-      this.msg.WarnNotify("Select The City")
-    }else if(this.partyAddress == "" || this.partyAddress == undefined){
-      this.msg.WarnNotify("Enter The Party Address")
-    }else if(this.description == "" || this.description == undefined){
-    this.description = "-";
-  }else if(this.partyCNIC.length < 15){
-    this.msg.WarnNotify("Please Enter the Valid CNIC No.")
-  }else if(this.partyPhoneno.length < 11 ){
-    this.msg.WarnNotify("Please Enter The Valid Phone Number");
-  }else if(this.partyMobileno.length < 12){
-    this.msg.WarnNotify("Please Enter the Valid Mobile NO.")
-  }
-  }
 
 
 
@@ -299,6 +281,9 @@ this.fieldValidation();
    this.partyPhoneno = '';
    this.partyMobileno = '';
    this.City = '';
+   this.bankAccountNo='';
+   this.bankName='';
+   this.bankAccountTitle='';
    this.partyAddress="";
    this.description = '';
    this.btnType = "Save";

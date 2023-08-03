@@ -9,14 +9,14 @@
             <mat-label>Select Floor Name</mat-label>
             <mat-select [(ngModel)]="floorID">
 
-                <mat-option>demo</mat-option>
+                <mat-option *ngFor="let item of Floors" [value]="item.shopFloorID">{{item.shopFloorName}}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="w-100" appearance="outline">
             <mat-label>Select Category Name</mat-label>
             <mat-select [(ngModel)]="shopCategoryID">
 
-                <mat-option>demo</mat-option>
+                <mat-option *ngFor="let item of shopCategories" [value]="item.shopCategoryID">{{item.shopCategoryName}}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="w-100" appearance="outline">
@@ -35,7 +35,7 @@
 
     </div>
     <div class="justify-content-center d-flex">
-        <button class="btn btn-success m-1" ><mat-icon class="pt-1">save</mat-icon>
+        <button class="btn btn-success m-1" accesskey="s" (click)="addRent()" ><mat-icon class="pt-1">save</mat-icon>
             {{actionbtn}} </button>
         <button class="btn btn-danger m-1 " (click)="reset()"><mat-icon class="pt-1">cached</mat-icon> Reset </button>
     </div>

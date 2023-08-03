@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddcityformComponent } from './addcityform/addcityform.component';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
 import { error } from 'jquery';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -42,33 +43,18 @@ export class CityComponent implements OnInit{
 
 
   getCity(){
-    this.http.get(environment.apiUrl+'api/city/getCity').subscribe({
+    this.http.get(environment.mallApiUrl+'getcity').subscribe({
       next:value=>{
         this.citiesData = value;
       },
       error:error=>{
-        console.log(error.toString())
+        console.log(error);
       }
     })
   }
 
 
-  deleteCity(id:any){
-    this.http.put(environment.apiUrl+'api/city/deletecity?id='+id,{
-      deletedBy:this.globaldata.currentUserValue.userID,
-    },{responseType:'text'}).subscribe(
-      {
-        next:value=>{
-          this.msg.SuccessNotify(value);
-          this.getCity();
-        },
-        error:error=>{
-          this.msg.WarnNotify("Error Occured While Deleteing City!")
-          console.log(error);
-        }
-      }
-    )
-  }
+ 
 
   updateCity(row:any){
 
@@ -77,12 +63,46 @@ export class CityComponent implements OnInit{
       data:row
     }).afterClosed().subscribe( {
       next:value=>{
-        if(value === "update"){
+        if(value == "Update"){
           this.getCity();
         }
       }
     })
   }
+
+
+  deleteCity(row:any){
+    Swal.fire({
+      title:'Alert!',
+      text:'Confirm to Delete the Data',
+      position:'center',
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm',
+    }).then((result)=>{
+      if(result.isConfirmed){
+
+        //////on confirm button pressed the api will run
+        this.http.post(environment.mallApiUrl+'deletecity',{
+          CityID:row.cityID,
+          UserID:this.globaldata.currentUserValue.userID,
+        }).subscribe(
+          (Response:any)=>{
+            if(Response.msg == 'Data Deleted Successfully'){
+              this.msg.SuccessNotify(Response.msg);
+              this.getCity();
+            }else{
+              this.msg.WarnNotify(Response.msg);
+            }
+          }
+        )
+      }
+    });
+  }
+
+
 
 
 }

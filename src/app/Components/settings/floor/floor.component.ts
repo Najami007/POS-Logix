@@ -37,7 +37,7 @@ export class FloorComponent implements OnInit {
     this.http.get(environment.mallApiUrl+'GetFloor').subscribe({
       next:value=>{
         this.FloorsData = value;
-        console.log(value);
+        
       },
       error:error=>{
         this.msg.WarnNotify('Error Occured While Loading Saved Data');
@@ -104,7 +104,7 @@ export class FloorComponent implements OnInit {
       width:"40%",
 
     }).afterClosed().subscribe(val=>{
-     
+     this.getFloor();
     })
   }
 
