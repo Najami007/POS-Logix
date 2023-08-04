@@ -18,6 +18,7 @@ import { PurchaseComponent } from '../purchase/purchase.component';
 import { BankComponent } from '../bank/bank.component';
 import { OwnerProfileComponent } from '../owner-profile/owner-profile.component';
 import { ShopComponent } from '../shop/shop.component';
+import { MapShopComponent } from '../map-shop/map-shop.component';
 
 
 
@@ -39,6 +40,7 @@ const routes: Routes = [
   {path:'bank',component:BankComponent},
   {path:'OwnerProfile',component:OwnerProfileComponent},
   {path:'shop',component:ShopComponent},
+  {path:'mapshop',component:MapShopComponent},
 
   {path:'', redirectTo:'/main/dashBoard',pathMatch:'full'}
   ]},

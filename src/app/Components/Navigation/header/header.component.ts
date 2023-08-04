@@ -25,11 +25,10 @@ export class HeaderComponent implements OnInit {
    UserName = '';
 
   ngOnInit():void {
-    // if(this.globalData.currentUserValue.userID == null){
-    //   this.route.navigate(['login']);
-    // }
-    this.UserName = this.globalData.currentUserValue.userName.toUpperCase();
+   
+    
     this.globalData.header_title$.subscribe((str:string)=>{this.title = str});
+    this.UserName = this.globalData.currentUserValue.userName.toUpperCase();
     
    
   }

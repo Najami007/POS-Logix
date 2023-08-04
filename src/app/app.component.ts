@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'AccountsModule';
+  title = 'Mall Management';
 constructor(){}
   
 

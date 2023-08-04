@@ -62,6 +62,13 @@ export class GlobalDataModule  {
   /////////////////////login funciton///////////////////////
   ////////////////////////////////////////////////////////
   login(Email:String,password:string){
+
+    // if(Email == 'a' && password == 'a'){
+    //   this.rout.navigate(["main"]);
+    // }else{
+    //   this.msg.WarnNotify('Enter Valid Email or password')
+    // }
+
     this.http.post(environment.apiUrl+'api/user/auth',{
       loginEmail: Email,
       loginPassword: password,
@@ -104,9 +111,6 @@ export class GlobalDataModule  {
       }
     })
 
-    // if(Email == 'a' && password == 'a'){
-    //   this.rout.navigate(["main"]);
-    // }
     
   }
 
