@@ -1,4 +1,8 @@
-﻿////////////////////////////////////////////////////////////////
+﻿
+
+
+
+////////////////////////////////////////////////////////////////
 //////////////////////// CNIC Validation //////////////////////
 //////////////////////////////////////////////////////////////    
 $(".CNIC").keydown(function (e) {
@@ -454,12 +458,15 @@ function validateDate(firstDate, secondDate) {
 }
 
 //-------123 & - only
-$(".numOnly").on("keypress keyup blur", function (event) {
-    $(this).val($(this).val().replace(/[^\d].+/, ""));
-    if ((event.which < 48 || event.which > 57) ) {
-        event.preventDefault();
-    }
-});
+function numonly(){
+    $(".numOnly").on("keypress keyup blur", function (event) {
+        $(this).val($(this).val().replace(/[^\d].+/, ""));
+        if ((event.which < 48 || event.which > 57) ) {
+            event.preventDefault();
+        }
+    });
+}
+
 
 $(".floatOnly").on("keypress keyup blur", function (event) {
     $(this).val($(this).val().replace(/[^0-9\.]/g, ''));

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @Component({
   selector: 'app-dash-board',
@@ -7,13 +8,20 @@ import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module'
   styleUrls: ['./dash-board.component.scss']
 })
 export class DashBoardComponent implements OnInit{
+  
 
   constructor(private globalData :GlobalDataModule){
 
   }
-
+  
+  
   ngOnInit(): void {
     this.globalData.setHeaderTitle('DashBoard');
   }
+
+
+
+
+  
 
 }

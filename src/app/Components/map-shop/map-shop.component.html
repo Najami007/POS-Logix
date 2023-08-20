@@ -5,7 +5,7 @@
                 <div class=" p-3">
                     <mat-form-field appearance="outline" class="p-3 w-25">
                         <mat-label>Select Shop</mat-label>
-                        <mat-select id="shop" [(ngModel)]="ShopID">
+                        <mat-select id="shop" (selectionChange)="onShopIDChage()" [(ngModel)]="ShopID">
                             <mat-option *ngFor="let item of ShopList" [value]="item.shopID">{{item.shopTitle}}</mat-option>
                         </mat-select>
         
@@ -23,8 +23,8 @@
                     <!-- start Date -->
                     <mat-form-field class="p-3 w-25" appearance="outline">
                         <mat-label>Select Start Date</mat-label>
-                        <input readonly="true" matInput type="text" name="voucherDate" [(ngModel)]="startDate"
-                            [matDatepicker]="date">
+                        <input readonly="true"  matInput type="text" name="voucherDate" [(ngModel)]="startDate"
+                        [matDatepicker]="date">
                         <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
                         <mat-datepicker #date></mat-datepicker>
                     </mat-form-field>
@@ -37,28 +37,24 @@
         
         
         
-                    <mat-form-field appearance="outline" class="p-3 w-25">
+                    <!-- <mat-form-field appearance="outline" class="p-3 w-25">
                         <mat-label>Select CAM Title</mat-label>
-                        <mat-select id="cam" (selectionChange)="onCamIDChange()" [(ngModel)]="camID">
-                            <mat-option *ngFor="let item of CAMList" [value]="item.camID">{{item.camTitle}}</mat-option>
-                        </mat-select>
-        
-                    </mat-form-field>
+                        
+                        <input matInput id="cam" [(ngModel)]="camID" min="1"  type="number">
+                    </mat-form-field> -->
+
                     <mat-form-field appearance="outline" class="p-3 w-25">
                         <mat-label>CAM Charges</mat-label>
-                        <input matInput id="camCharges" [(ngModel)]="camCharges" min="1" max="31" type="number">
+                        <input matInput id="camCharges" [(ngModel)]="camCharges" min="1"  type="number">
                     </mat-form-field>
         
-                    <mat-form-field appearance="outline" class="p-3 w-25">
+                    <!-- <mat-form-field appearance="outline" class="p-3 w-25">
                         <mat-label>Select Rent Title</mat-label>
-                        <mat-select id="rent"  (selectionChange)="onRentIDChange()" [(ngModel)]="RentID">
-                            <mat-option *ngFor="let item of RentList" [value]="item.rentID">{{item.rentTitle}}</mat-option>
-                        </mat-select>
-        
-                    </mat-form-field>
+                        <input matInput id="rent" [(ngModel)]="RentID" min="1"  type="number">
+                    </mat-form-field> -->
                     <mat-form-field appearance="outline" class="p-3 w-25">
                         <mat-label>Rent Charges</mat-label>
-                        <input matInput id="rentCharges" [(ngModel)]="rentCharges" min="1" max="31" type="number">
+                        <input matInput id="rentCharges" [(ngModel)]="rentCharges" min="1" type="number">
                     </mat-form-field>
         
                 </div>
@@ -68,7 +64,7 @@
               <div>
                 <mat-form-field appearance="outline" class="col-md-3 p-3">
                     <mat-label>Select Service Title</mat-label>
-                    <mat-select id="service" [(ngModel)]="serviceID">
+                    <mat-select id="service" (selectionChange)="onServiceIDChange()" [(ngModel)]="serviceID">
                         <mat-option *ngFor="let item of servicesList" [value]="item.serviceID">{{item.serviceTitle}}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -87,7 +83,8 @@
                 <mat-form-field class="p-3 w-25" appearance="outline">
                     <mat-label>Select Start Date</mat-label>
                     <input readonly="true" matInput type="text" name="voucherDate" [(ngModel)]="serviceMonth"
-                        [matDatepicker]="servicemonth">
+                    [matDatepicker]="servicemonth">
+                      
                     <mat-datepicker-toggle matSuffix [for]="servicemonth"></mat-datepicker-toggle>
                     <mat-datepicker #servicemonth></mat-datepicker>
                 </mat-form-field>
@@ -112,14 +109,16 @@
                     <tbody>
                         <tr *ngFor="let item of ServicesData;index as index">
                             <td>{{index+1}}</td>
-                            <td>{{item.ServiceID}}</td>
+                            <td>{{item.serviceTitle}}</td>
                             <td>{{item.ServiceCharges}}</td>
                             <td>{{item.ServiceType}}</td>
                             <td>{{item.TmpServiceMonth |date}}</td>
-                            <td><mat-icon>delete</mat-icon></td>
+                            <td><mat-icon >delete</mat-icon></td>
                         </tr>
                     </tbody>
                 </table>
+                
+                  
               </div>
                
         
@@ -152,7 +151,8 @@
                     <th>Payment Date</th>
                     <th>CAM</th>
                     <th>Rent</th>
-                    <th colspan="2">Action</th>
+                    <th >Add Service</th>
+                    <th >UnMap</th>
                    </tr>
                 </thead>
                 <tbody>
@@ -164,11 +164,12 @@
                         <td>{{item.rentPaymentDate}}</td>
                         <td>{{item.camCharges}}</td>
                         <td>{{item.rentCharges}}</td>
-                        <td><mat-icon class="text-success">edit</mat-icon></td>
-                        <td><mat-icon class="text-danger">delete</mat-icon></td>
+                        <td><mat-icon class="text-success cursorPointer" (click)="addNewShopService(item)">edit</mat-icon></td>
+                        <td ><mat-icon class="text-danger cursorPointer " (click)="UnMapShop(item)" >delete</mat-icon></td>
                     </tr>
                 </tbody>
             </table>
+          
         </div>
     </mat-tab>
 </mat-tab-group>

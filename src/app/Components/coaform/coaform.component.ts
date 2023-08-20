@@ -2,13 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl } from '@angular/forms';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { error } from 'jquery';
+// import { error } from 'jquery';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
 import { AppComponent } from 'src/app/app.component';
 import { environment } from 'src/environments/environment.development';
+import Swal from 'sweetalert2';
+import * as $ from 'jquery';
 
 
+
+// declare function numOnly(): void;
 @Component({
   selector: 'app-coaform',
   templateUrl: './coaform.component.html',
@@ -54,43 +58,42 @@ export class CoaformComponent implements OnInit {
   coaLevel3List:any;
   coaLevel4List:any;
 
-  Levels:any;
+  LevelList:any;
 
   Allow = [
     {value:true, text: 'Yes' },
-    {value:false, text: 'No' },
+    // {value:'false', text: 'No' },
   ]
 
+  valueChange(){
+    console.log(this.TransactionAllowed);
+  }
   
   //////////////setting the value of account head level above Head Name field/////////////////
 
   AccountLabelHeadValue:any = '';
   setvalue(){
     
-      // if(this.coaLevel== 1){
-      //   this.AccountLabelHeadValue = this.levelInput ;
-      // }else if(this.coaLevel == 2){
-      //    if(this.levelInput == null){
-      //     this.AccountLabelHeadValue = '';
-      //    }
-      //    this.AccountLabelHeadValue =  this.level1 + '.' + this.levelInput ;
-      // }else if(this.coaLevel == 3){
-      //   if(this.levelInput == null){
-      //     this.AccountLabelHeadValue = '';
-      //    }
-      //    this.AccountLabelHeadValue = this.level1 + '.'+this.level2+ '.' + this.levelInput ;
-      // }else if(this.coaLevel == 4){
-      //   if(this.levelInput == null){
-      //     this.AccountLabelHeadValue = '';
-      //    }
-      //    this.AccountLabelHeadValue = this.level1 + '.'+this.level2+ '.' +this.level3+ '.' + this.levelInput ;
-      // }
+      if(this.coaLevel == 1){
+        this.AccountLabelHeadValue = this.level1 ;
+      }else if(this.coaLevel == 2){
+         
+         this.AccountLabelHeadValue =  this.level1 + '.' + this.level2 ;
+      }else if(this.coaLevel == 3){
+       
+         this.AccountLabelHeadValue = this.level1 + '.'+this.level2+ '.' + this.level3 ;
+      }else if(this.coaLevel == 4){
+        // if(this.levelInput == null){
+        //   this.AccountLabelHeadValue = '';
+        //  }
+         this.AccountLabelHeadValue = this.level1 + '.'+this.level2+ '.' +this.level3+ '.' + this.level4 ;
+      }
   }
 
   
 
 onCoaTypeChange(){
-  this.Levels =[
+  this.LevelList =[
     {value:1,level: 'level 1' },
     {value:2, level: 'level 2' },
     {value:3, level: 'level 3' },
@@ -100,6 +103,14 @@ onCoaTypeChange(){
   this.getLevel1();
   
 }
+
+onCoaLevelChange(){
+  this.level1 = '';
+  this.level2 = '';
+  this.level3 = '';
+  this.level4 = '';
+}
+
 onlevel1Change(){
   this.getLevel2();
 }
@@ -110,6 +121,15 @@ onlevel3Change(){
   this.getLevel4();
 }
   
+// $(".numOnly").on("keypress keyup blur", function (event) {
+//   $(this).val($(this).val().replace(/[^\d].+/, ""));
+//   if ((event.which < 48 || event.which > 57) ) {
+//       event.preventDefault();
+//   }
+// });
+
+
+
 
 
 
@@ -137,7 +157,7 @@ onlevel3Change(){
     this.http.get(environment.mallApiUrl+'GetChartOfAccount').subscribe(
       {
         next:value=>{
-          // console.log(value);
+          console.log(value);
           this.ChartsofAccountsData = value;
         },
         error:error=>{
@@ -154,7 +174,7 @@ onlevel3Change(){
     this.http.get(environment.mallApiUrl+'getlevel1?level0='+this.CoaType).subscribe(
       {
         next:value=>{
-          console.log(value);
+          // console.log(value);
           this.coaLevel1List = value;
         },
         error:error=>{
@@ -170,7 +190,7 @@ onlevel3Change(){
     this.http.get(environment.mallApiUrl+'getlevel2?level0='+this.CoaType+'&level1='+this.level1).subscribe(
       {
         next:value=>{
-          console.log(value);
+          // console.log(value);
           this.coaLevel2List = value;
         },
         error:error=>{
@@ -186,7 +206,7 @@ onlevel3Change(){
     this.http.get(environment.mallApiUrl+'getlevel3?level0='+this.CoaType+'&level1='+this.level1+'&level2='+this.level2).subscribe(
       {
         next:value=>{
-          console.log(value);
+          // console.log(value);
           this.coaLevel3List = value;
         },
         error:error=>{
@@ -202,7 +222,7 @@ onlevel3Change(){
     this.http.get(environment.mallApiUrl+'getlevel4?level0='+this.CoaType+'&level1='+this.level1+'&level2='+this.level2+'&level3='+this.level3).subscribe(
       {
         next:value=>{
-          console.log(value);
+          // console.log(value);
           this.coaLevel4List = value;
         },
         error:error=>{
@@ -216,39 +236,122 @@ onlevel3Change(){
   //////////////////////////save Button Functtion/////////////////////////////
 
   Save() {
-   
-    console.log(this.CoaTitle,this.CoaType,this.level1,this.level2,this.level3,this.level4,this.TransactionAllowed);
+
+    if(this.CoaType == '' || this.CoaType == undefined){
+      this.msg.WarnNotify('Select the Charts Of Accouts Type')
+    }else if(this.coaLevel == '' || this.coaLevel == undefined){
+      this.msg.WarnNotify('Select COA Level')
+    }
+    // else if(this.coaLevel == 1){
+    //   if(this.level1 == '' || this.level1 == undefined){
+    //     this.msg.WarnNotify('Please Enter the Charts of Accounts Level')
+    //   }
+    // }else if(this.coaLevel == 2){
+    //   if(this.level1 == '' || this.level1 == undefined){
+    //     this.msg.WarnNotify('Select Level 1')
+    //   }
+    //    if(this.level2 == '' || this.level2 == undefined){
+    //     this.msg.WarnNotify('Enter Level 2')
+    //   }
+    // }else if(this.coaLevel == 3){
+    //   if(this.level1 == '' || this.level1 == undefined){
+    //     this.msg.WarnNotify('Select Level 1')
+    //   }
+    //    if(this.level2 == '' || this.level2 == undefined){
+    //     this.msg.WarnNotify('Select Level 2')
+    //   }
+    //    if(this.level3 == '' || this.level3 == undefined){
+    //     this.msg.WarnNotify('Enter level 3')
+    //   }
+    // }else if(this.coaLevel == 4 ){
+    //   if(this.level1 == '' || this.level1 == undefined){
+    //     this.msg.WarnNotify('Select Level 1')
+    //   }
+    //    if(this.level2 == '' || this.level2 == undefined){
+    //     this.msg.WarnNotify('Select Level 2')
+    //   }
+    //    if(this.level3 == '' || this.level3 == undefined){
+    //     this.msg.WarnNotify('Select level 3')
+    //   }
+    //    if(this.level4 == '' || this.level4 == undefined){
+    //     this.msg.WarnNotify('Enter level 4')
+    //   }
+    // }
+    else if(this.CoaTitle == '' || this.CoaTitle == undefined){
+      this.msg.WarnNotify('COA Title Required')
+    }
+    else{
+      // alert();
+      alert(this.TransactionAllowed);
       this.http.post(environment.mallApiUrl+'InsertChartOfAccount',{
     CoaTitle: this.CoaTitle,
     CoaTypeID: this.CoaType,
-    Level1: this.level1,
-    Level2: this.level2,
-    Level3:this.level3,
-    Level4:this.level4,
+    Level1: this.level1.toString(),
+    Level2: this.level2.toString(),
+    Level3:this.level3.toString(),
+    Level4:this.level4.toString(),
     TransactionAllowed: this.TransactionAllowed,
     Editable: false,
     IsService: false,
     UserID: this.globalData.currentUserValue.userID,
+    
       }).subscribe(
         (Response:any)=>{
+          console.log(this.TransactionAllowed);
           if(Response.msg == "Data Saved Successfully"){
             this.msg.SuccessNotify(Response.msg);
+            this.GetChartOfAccount();
+            this.reset();
           }else{
             this.msg.WarnNotify(Response.msg);
           }
-        },
-        (error:any)=>{
-          this.error = error;
-          // this.msg.WarnNotify(error);
-          console.log(this.error);
         }
+        
       )
       
-    
-
-
+    }
+   
   }
 
+
+///////////////////////////////////////////////////////////////////////////////
+  deleteCoa(row:any){
+    Swal.fire({
+      title:'Alert!',
+      text:'Confirm to Delete the Data',
+      position:'center',
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm',
+    }).then((result)=>{
+      if(result.isConfirmed){
+
+        //////on confirm button pressed the api will run
+        this.http.post(environment.mallApiUrl+'DeleteChartOfAccount',{
+          CoaID: row.coaID,
+          AccountCode:row.accountCode,
+          UserID: this.globalData.currentUserValue.userID,
+            }).subscribe(
+              (Response:any)=>{
+                if(Response.msg == "Data Deleted Successfully"){
+                  this.msg.SuccessNotify(Response.msg);
+                  this.GetChartOfAccount();
+                }else{
+                  this.msg.WarnNotify(Response.msg);
+                }
+              },
+              (error:any)=>{
+                this.error = error;
+                // this.msg.WarnNotify(error);
+                console.log(this.error);
+              }
+            )
+      }
+    });
+    
+  }
  //////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////will change the level Input field value if ///////////////////////////
   ////////////////////// value is in minue ///////////////////////////////////
@@ -261,6 +364,18 @@ onlevel3Change(){
   }
 
 
+  reset(){
+    this.CoaType = '';
+    this.coaLevel = '';
+    this.level1 = '';
+    this.level2 = '';
+    this.level3 = '';
+    this.level4 = '';
+    this.AccountLabelHeadValue = '';
+    this.CoaTitle = '';
+    this.TransactionAllowed = "";
+
+  }
 
 
 

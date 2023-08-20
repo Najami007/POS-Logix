@@ -56,6 +56,12 @@ import { OwnerProfileComponent } from './Components/owner-profile/owner-profile.
 import { ShopComponent } from './Components/shop/shop.component';
 import { AddShopComponent } from './Components/shop/add-shop/add-shop.component';
 import { MapShopComponent } from './Components/map-shop/map-shop.component';
+import { MallSaleComponent } from './Components/mall-sale/mall-sale.component';
+import { AddServiceComponent } from './Components/map-shop/add-shopservice/add-service.component';
+import { UnmapShopComponent } from './Components/map-shop/unmap-shop/unmap-shop.component';
+import { ShopBillComponent } from './Components/shop-bill/shop-bill.component';
+import { BillformComponent } from './Components/shop-bill/billform/billform.component';
+
 
 
 
@@ -107,6 +113,11 @@ import { MapShopComponent } from './Components/map-shop/map-shop.component';
     ShopComponent,
     AddShopComponent,
     MapShopComponent,
+    MallSaleComponent,
+    AddServiceComponent,
+    UnmapShopComponent,
+    ShopBillComponent,
+    BillformComponent,
 
     
    
