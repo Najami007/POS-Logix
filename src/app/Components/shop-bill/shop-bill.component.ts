@@ -1,6 +1,6 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
@@ -19,6 +19,9 @@ import Swal from 'sweetalert2';
 })
 export class ShopBillComponent implements OnInit{
 
+  // @Output() eventEmitterprint = new EventEmitter();
+
+// @ViewChild(BillformComponent) billForm:any;
 
   mappedShopData:any
   searchShop:any;
@@ -113,7 +116,7 @@ export class ShopBillComponent implements OnInit{
     this.http.get(environment.mallApiUrl+'getbill').subscribe(
       {
         next:value=>{
-          console.log(value);
+          // console.log(value);
           this.SavedBillList = value;
         },
         error:error=>{
@@ -132,9 +135,22 @@ export class ShopBillComponent implements OnInit{
     this.dialogue.open(BillformComponent,{
       width:'40%',
       data:row,
-    }).afterClosed().subscribe(val=>{
-      this.getSavedBill();
-    })
+    }).afterClosed().subscribe(
+      {
+        next:value=>{
+            this.getSavedBill();
+
+
+            ///////////////////////// will print out bill after Save////////
+             if(value > 0){
+               setTimeout(() => {
+                this.printAfterSave(value);
+               }, 500);
+             }
+          
+        }
+      }
+    )
    }
 
 
@@ -148,42 +164,61 @@ export class ShopBillComponent implements OnInit{
     this.pCustomername = row.partyName;
     this.TotalCharges = row.charges;
     this.billRemarks = row.remarks;
-    this.tableData.push(
-      {title:'Rent',charges:row.rentCharges * row.shopAreaSQ},
-      {title:'CAM',charges:row.camCharges * row.shopAreaSQ},
-      {title:'Wapda',charges:row.wapdaCharges},
-     );
+ 
 
-
-
-    this.getSingleBill(row);
+    this.getSingleBill(row.billNo,'#printBill');
    
 
-   
+    
     
     
   }
 
 
+  ///////////////////////////////////////////////////////////
+
+  printAfterSave(billNo:number){
+    this.resetPrint();
+
+    var curRow = this.SavedBillList.find((obj:any)=> obj.billNo === billNo);
+    // console.log(curRow);
+
+    this.pBillNo = curRow.billNo;
+    this.pBillDate = curRow.billDate;
+    this.pShopName = curRow.shopTitle;
+    this.pCustomername = curRow.partyName;
+    this.TotalCharges = curRow.charges;
+    this.billRemarks = curRow.remarks;
+
+    this.getSingleBill(billNo,'#afterSavePrint');
+   
+  }
+
   ////////////////////////////////////////////////////////
 
-  getSingleBill(row:any){
+  getSingleBill(billNo:any,printDiv:any){
     
-    this.http.get(environment.mallApiUrl+'getsinglebill?billno='+row.billNo).subscribe(
+    this.http.get(environment.mallApiUrl+'getsinglebill?billno='+billNo).subscribe(
       (Response:any)=>{
-         
+        //console.log(Response);
         this.billData = Response;
         if(Response.length > 0){
+          this.tableData.push(
+            {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},
+            {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
+            {title:'Wapda',charges:Response[0].wapdaCharges},
+           );
           
+         
          for(var i = 0; Response.length > i;i++ ){
           this.tableData.push(
             {title:Response[i].serviceTitle,charges:Response[i].serviceCharges});
             
          }
+         
          setTimeout(() => {
-          this.globaldata.printData('#printBill');
-        }, 1000);
-          
+          this.globaldata.printData(printDiv);
+        }, 500);
         
            
         }
@@ -192,6 +227,7 @@ export class ShopBillComponent implements OnInit{
   }
 
 
+  
 
   //////////////////////////////////////////////////////////
 
@@ -201,11 +237,15 @@ export class ShopBillComponent implements OnInit{
     }else if(this.billDate == '' || this.billDate == undefined){
       this.msg.WarnNotify('Select Date')
     }else{
+
+      this.customerBillData = [];
+      this.billTotal = 0;
+
       this.http.get(environment.mallApiUrl+'GetPartyBill?billdate='+this.billDate.toISOString()+'&partyid='+this.customerID).subscribe(
         (Response:any)=>{
           this.lblCustomerName = Response[0].partyName;
           this.lblDate = this.billDate;
-          console.log(this.lblDate);
+          // console.log(this.lblDate);
          
          if(Response != ''){
           this.customerBillData = Response;
@@ -216,6 +256,7 @@ export class ShopBillComponent implements OnInit{
           this.billDate = '';
           Response.forEach((e:any) => {
             this.billTotal += e.charges;
+            
           });
         
 

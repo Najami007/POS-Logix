@@ -17,6 +17,10 @@ import { UnmapShopComponent } from './unmap-shop/unmap-shop.component';
 })
 export class MapShopComponent implements OnInit {
 
+
+  showServicesForm = false;
+
+
   constructor(private globaldata:GlobalDataModule,
     private http:HttpClient,
     private msg:NotificationService,
@@ -68,7 +72,7 @@ export class MapShopComponent implements OnInit {
   mappedShopData:any;
   ServicesData:any=[];
 
-  EndDate:any;
+
 
 
 
@@ -100,7 +104,7 @@ export class MapShopComponent implements OnInit {
     this.http.get(environment.mallApiUrl+'GetShop').subscribe(
       {
         next:value=>{
-          console.log(value);
+          // console.log(value);
           this.ShopList = value;
         },
         error:error=>{
@@ -158,7 +162,7 @@ export class MapShopComponent implements OnInit {
     this.http.get(environment.mallApiUrl+'GetMappedShop').subscribe(
       {
         next:value=>{
-          console.log(value);
+          // console.log(value);
           this.mappedShopData = value;
         },
 
@@ -172,28 +176,51 @@ export class MapShopComponent implements OnInit {
 
    /////////////////////////////////////////////////////
    addService(){
-    // this.serviceMonth = this.formatDate(this.serviceMonth,'dd-mm-yyyy');
-    // this.serviceMonth = this.serviceMonth.toISOString().substring(0, 10);
+   
     //console.log(this.serviceID,this.serviceCharges,this.serviceType,this.serviceMonth); 
-    this.ServicesData.push({ServiceID:this.serviceID,ServiceCharges:this.serviceCharges,ServiceType:this.serviceType,TmpServiceMonth:this.serviceMonth.toLocaleString()});
-    this.serviceID = '';
-    this.serviceCharges = '';
-    this.serviceType = '';
-    this.serviceMonth = '';
-    this.serviceTitle = '';
+
+    if(this.serviceID == '' || this.serviceID == undefined){
+      this.msg.WarnNotify('Select The Service Name')
+    }else if(this.serviceCharges == '' || this.serviceCharges == undefined){
+      this.msg.WarnNotify('Enter The Service Charges')
+    }else if(this.serviceType == '' || this.serviceType == undefined){
+      this.msg.WarnNotify('Select The Type Of Service')
+    }else if(this.serviceMonth == '' || this.serviceMonth == undefined){
+      this.msg.WarnNotify('Select The Service End Date')
+    }else{
+      this.ServicesData.push({ServiceID:this.serviceID,ServiceTitle:this.serviceTitle,ServiceCharges:this.serviceCharges,ServiceType:this.serviceType,TmpServiceMonth:this.serviceMonth.toLocaleString()});
+      this.serviceID = '';
+      this.serviceCharges = '';
+      this.serviceType = '';
+      this.serviceMonth = '';
+      this.serviceTitle = '';
+    }
+   
    }
 
    ////////////////////////////////////////////////////
 
    saveMapShop(){
 
-    // this.startDate = this.formatDate(this.startDate,'dd-mm-yyyy');
-
-    // this.startDate = this.startDate.toISOString().substring(0, 10);
+   // console.log(typeof(this.ShopID),typeof(this.partyID),typeof(this.startDate),typeof(this.paymentDate),typeof(this.camID),typeof(this.camCharges),typeof(this.rentID),typeof(this.rentCharges),typeof(this.ServicesData),typeof(this.globaldata.currentUserValue.userID));
    
-    
-    console.log(this.ShopID,this.partyID,this.startDate,this.paymentDate,this.camID,this.camCharges,this.rentID,this.rentCharges,this.ServicesData,this.globaldata.currentUserValue.userID)
-    console.log(typeof(this.ShopID),typeof(this.partyID),typeof(this.startDate),typeof(this.paymentDate),typeof(this.camID),typeof(this.camCharges),typeof(this.rentID),typeof(this.rentCharges),typeof(this.ServicesData),typeof(this.globaldata.currentUserValue.userID));
+   console.log(this.camCharges);
+
+   if(this.ShopID == '' || this.ShopID == undefined){
+    this.msg.WarnNotify('Shop Name Required');
+   }else if(this.partyID == '' || this.partyID == undefined){
+    this.msg.WarnNotify('Customer Name Required')
+   }else if(this.startDate == '' || this.startDate == undefined){
+    this.msg.WarnNotify('Start Date Required')
+   }else if(this.paymentDate == '' || this.paymentDate == undefined){
+    this.msg.WarnNotify('Payment Date Required')
+   }
+   else if(this.camCharges === '' || this.camCharges === undefined){
+    this.msg.WarnNotify('Enter CAM Charges')
+   }else if(this.rentCharges === '' || this.rentCharges === undefined){
+    this.msg.WarnNotify('Enter Rent Charges')
+   }
+   else {
     this.http.post(environment.mallApiUrl+'InsertMapShop',{
       ShopID: this.ShopID,
       PartyID: this.partyID,
@@ -208,7 +235,7 @@ export class MapShopComponent implements OnInit {
       UserID: this.globaldata.currentUserValue.userID,
     }).subscribe(
       (Response:any)=>{
-        console.log(Response.msg);
+        // console.log(Response.msg);
         if(Response.msg == 'Data Saved Successfully'){
           this.msg.SuccessNotify(Response.msg);
           this.reset();
@@ -218,6 +245,9 @@ export class MapShopComponent implements OnInit {
         }
       }
     )
+   }
+   
+  
    }
 
 

@@ -4,6 +4,9 @@ import { NotificationService } from 'src/app/Shared/service/notification.service
 import * as $ from 'jquery';
 import { find, isEmpty } from 'rxjs';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment.development';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -14,51 +17,34 @@ import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module'
 })
 export class VoucherformComponent implements OnInit{
 
-  constructor(private msg: NotificationService,private globalData:GlobalDataModule) { }
+  constructor(private msg: NotificationService,
+    private globalData:GlobalDataModule,
+    private http:HttpClient
+    ) { }
 
   ngOnInit(): void {
-    this.disableRow1();
     this.globalData.setHeaderTitle('Voucher');
+    
+    this.getSavedVoucher();
+    this.getParty();
   }
 
-  tableData: any = [
-  {date: '04-11-2023',Invno: '2530',party: 'Test',amount: 20000},
-  {date: '04-11-2023',Invno: '2530',party: 'hunter',amount: 20000},
-  {date: '04-11-2023',Invno: '2530',party: 'Umer',amount: 20000},
-  {date: '04-11-2023',Invno: '2530',party: 'mer',amount: 20000},
-  {date: '04-11-2023',Invno: '2530',party: 'Najam',amount: 20000},
-  {date: '04-11-2023',Invno: '2530',party: 'Dani',amount: 20000},
-  {date: '04-11-2023',Invno: '2530',party: 'Bhatti', amount: 20000},
-  {date: '04-11-2023',Invno: '3540',party: 'none',amount: 20000},
-  ]
 
 
-  vTypes: any = [
-    { type: 'Payment', value : 1 },
-    { type: 'Receipt' ,value : 2},
-    { type: 'Journal Voucher' ,value : 3}
+
+  voucherTypes: any = [
+    { type: 'CASH PAYMENT (CP)', value : 'CPV' },
+    { type: 'CASH RECEIPT (CR)' ,value : 'CRV'},
+    { type: 'BANK PAYMENT (BP)', value : 'BPV' },
+    { type: 'BANK RECEIPT (BR)' ,value : 'BRV'},
+    { type: 'Journal Voucher (JV)' ,value : 'JV'}
   ]
 
   Types: any = [
-    { t: 'Cash' },
-    { t: 'Bank' }
+    { name: 'Cash' , value:'Cash'},
+    { name: 'Bank' , value:'Bank' }
   ]
 
-  parties: any = [
-    'Najam',
-    'Adnan',
-    'Bhatti',
-    'Umer'
-  ]
-
-  CoaHeads = [{ name: 'Salaries' },
-  { name: 'Wages' },
-  { name: 'Stationary' },
-  { name: 'Fixed Asset' },
-  { name: 'Current Asset' },
-  { name: 'Current Liability' },
-  { name: 'Capital' },
-  { name: 'Income' },]
 
   Bank: any = [
     'Habib Bank',
@@ -72,66 +58,53 @@ export class VoucherformComponent implements OnInit{
   coaSearch = '';
   txtSearch: string = '';
 
-  vTypeselectedValue: any;
-  transactionTypeSeletedValue: any = 'Cash';
-  vDate: any = new Date();
+  vType: any;
+  transactionType: any = 'Cash';
+  invoiceDate: any = new Date();
   refrenceCOA: any ;
-  party: any = 'Select Party';
-  COATitle: any ;
-  DAmount: number = 0 ;
-  CAmount: number = 0 ;
+  partyID: any ;
+  COATitleID: any ;
+  DebitAmount: any = 0 ;
+  CreditAmount: any = 0 ;
   VoucherData: any = [];
- 
-  disableR1=false;
-  disableBank = false;
-  disableDebit = false;
-  disableCredit = false;
+  bankReceiptNo:any;
+  invoiceDetails:any = [];
+
+  
   debittotal :number = 0;
   creditTotal :number = 0;
   COA: any = [];
-  narration='';
+  narration='-';
 
-  getval(val:any){
-    alert(this.vDate);
-  }
+ //////////////// print Variables/////////////////////
 
+ lblInvoiceNo:any;
+ lblInvoiceDate:any;
+ lblRemarks:any;
+ lblVoucherType:any;
+ lblVoucherTable:any;
+ lblDebitTotal:any;
+ lblCreditTotal:any;
+ lblVoucherPrintDate = new Date();
+
+
+  //////////////////////////////////////////////
+
+  SavedVoucherData:any=[];
+  partyList:any;
+  CoaList:any;
+  refCoaList:any;
 
   
   
 
-  ///////////////////save button valiations ///////////////////
 
-  vTypeValue(type: any) {
 
-    if(this.vTypeselectedValue != "" ){
-      this.COA = this.CoaHeads;
-    }
-
-    if ( this.vTypeselectedValue == 1) {
-      
-      this.disableDebit = false;
-      this.disableCredit = true;
-      this.disableBank = false;
-
-    } else if (this.vTypeselectedValue == 2) {
-      this.disableCredit = false;
-      this.disableDebit = true;
-      this.disableBank = false;
-
-    } else if (this.vTypeselectedValue == 3) {
-      this.disableDebit = false;
-      this.disableCredit = false;
-      this.disableBank = true;
-    } else { }
+ 
+  getVal(){
+    console.log(this.vType);
   }
-
-  // gettransactionTyeValue(e: any) {
-  //   if (this.transactionTypeSeletedValue == 'Cash') {
-  //     // this.refBank = "Cash In Hand";
-  //   } else if (this.transactionTypeSeletedValue == 'Bank') {
-  //     this.disableBank = false;
-  //   }
-  // }
+ 
 
   //////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////will change the debit and credit field value if ///////////////////////////
@@ -143,6 +116,8 @@ export class VoucherformComponent implements OnInit{
     if (val.target.value < '0') {
       val.target.value = '0';
     }else if(val.target.value == ''){
+      val.target.value = '0';
+    }if(val.target.value == ''){
       val.target.value = '0';
     }
   }
@@ -156,57 +131,46 @@ export class VoucherformComponent implements OnInit{
     // this.VoucherData.forEach((a:any) => this.debittotal +=parseFloat(a.vDebit) );
     // this.VoucherData.forEach((a:any) => this.creditTotal +=parseFloat( a.vCredit)  );
     for (var i = 0; i < this.VoucherData.length; i++) {
-      this.debittotal += parseFloat(this.VoucherData[i].vDebit);
-      this.creditTotal += parseFloat(this.VoucherData[i].vCredit);
+      this.debittotal += parseFloat(this.VoucherData[i].Debit);
+      this.creditTotal += parseFloat(this.VoucherData[i].Credit);
     }
   }
 
   // //////////save fuction to hold data in Voucher Data array/////////////
 
-  save(dA: any, cA: any) {
+  save() {
+
+    var titleRow = this.CoaList.find((obj:any)=> obj.coaID === this.COATitleID);
+    // console.log(titleRow);
+
     // finding the value of coatitle in voucherdata array here
-    const findValue = this.VoucherData.find((obj : any) => obj.title === this.COATitle);
+    const findValue = this.VoucherData.find((obj : any) => obj.COAID === this.COATitleID);
     
-    
-    if (this.COATitle == "" || this.COATitle == "Select COA Title" || this.COATitle == undefined) {
-      this.msg.WarnNotify('Please Select COA Title');
-    } else if (dA.value == '' || dA.value == 0 && this.vTypeselectedValue == 1 ) {
-      this.msg.WarnNotify('Please Enter Debit Amount');
-    } else if (cA.value == '' || cA.value == 0 && this.vTypeselectedValue == 2 ) {
-      this.msg.WarnNotify('Please Enter Credit Amount');
-    }else if(dA.value != 0  && cA.value != 0  ){
-      this.msg.WarnNotify('One Side Must be Zero');
-    }else if(findValue != undefined){
-      if(findValue.title == this.COATitle){
+    if(findValue != undefined){
+      if(findValue.COAID == this.COATitleID){
         this.msg.WarnNotify('Title Already Exists!');
       } 
-    }else {
-      this.VoucherData.push({ title: this.COATitle, vDebit:dA.value, vCredit: cA.value }); 
+    }else if(this.DebitAmount > 0 && this.CreditAmount > 0 )
+    {
+
+      this.msg.WarnNotify('One Side must be Zero')
+
+    }else if(this.DebitAmount == 0 && this.CreditAmount == 0){
+      this.msg.WarnNotify('One Side Must Be Entered')
+    }
+    else {
+      this.VoucherData.push({ COAID: this.COATitleID ,title:titleRow.coaTitle, Debit:this.DebitAmount, Credit: this.CreditAmount }); 
       this.getTotal();
-      this.disableRow1();
       $('#cTitle').trigger('focus');
-      this.COATitle = '';
-        dA.value = 0;
-        cA.value = 0   
+      this.COATitleID = '';
+      titleRow = '';
+      this.DebitAmount = 0;
+      this.CreditAmount = 0   
     }
    
   }
 
 
-
-  ////////////////////to disable row 1 on getting data in voucher Data/////////////////
-  /////////////////// and again anable on deletion of voucher data ////////////////////////
-
-  disableRow1(){
-    if(this.VoucherData != ''){
-      this.disableR1 = true;
-    }else{
-      this.disableR1 = false;
-    }
-  }
-
-
-  
 
   /////////////////////// to Delete the row from voucher Data /////////////////////
 
@@ -214,27 +178,278 @@ export class VoucherformComponent implements OnInit{
     var index = this.VoucherData.indexOf(item);
     this.VoucherData.splice(index,1);
     this.getTotal();
-    this.disableRow1();
     // this.getTotal();
   }
 
 
+  /////////////////////////////////////////////////////////////////////
 
-  //////////////////////////submit funcition to send data to api/////////////////////////
-
-
-  submit() {
-    if(this.vTypeselectedValue == 3){
-      if(this.debittotal != this.creditTotal){
-        this.msg.WarnNotify('Debit and Credit Side Must Be Equal')
+  getSavedVoucher(){
+    this.http.get(environment.mallApiUrl+'GetSavedVoucherDetail').subscribe(
+      (Response:any)=>{
+        //console.log(Response);
+        this.SavedVoucherData = Response;
+      },
+      (error:any)=>{
+        console.log(error)
+        this.msg.WarnNotify('Error Occured While Retreiving Data');
       }
-      else{
-        this.VoucherData = [];
-        this.debittotal = 0;
-        this.creditTotal = 0;
-        this.msg.SuccessNotify('Data Saved Succesfully');
+    )
+  }
+
+
+
+  ///////////////////////////////////////////////////////////
+
+  getParty(){
+    this.http.get(environment.mallApiUrl+'GetVoucherParty').subscribe(
+      (Response)=>{
+        // console.log(Response);
+        this.partyList = Response;
+      },
+      (Error)=>{
+        console.log(Error);
       }
+    )
+  }
+
+
+  ////////////////////////////////////////////////////////////
+
+
+  getCoa(){
+    this.http.get(environment.mallApiUrl+'GetVoucherCOA').subscribe(
+      (Response)=>{
+        // console.log(Response);
+        this.CoaList = Response;
+      }
+    )
+  }
+
+  ////////////////////////////////////////////
+
+  getRefCoa(){
+    this.http.get(environment.mallApiUrl+'GetVoucherCBCOA?type='+this.vType).subscribe(
+      (Response)=>{
+        this.refCoaList = Response;
+      },
+      (Error)=>{
+        console.log(Error);
+      }
+    )
+  }
+
+  ///////////////////////////////////////////////////////////
+
+  insertVoucher(){
+    if(this.vType == '' || this.vType == undefined){
+      this.msg.WarnNotify('Select Voucher Type')
+    }else if(this.invoiceDate == '' || this.invoiceDate == undefined){
+      this.msg.WarnNotify('Select Voucher Date')
+    }else if(this.vType == 'JV' && this.creditTotal != this.debittotal){
+      this.msg.WarnNotify('Debit And Credit Total Side Must Be Equal')
+    }else if(this.partyID == '' || this.partyID == undefined){
+      this.msg.WarnNotify('Select The Party')
     }
+    else{
+      this.http.post(environment.mallApiUrl+'InsertVoucher',{
+        InvoiceDate: this.invoiceDate,
+        PartyID: this.partyID,
+        RefCOAID: this.refrenceCOA,
+        Type: this.vType,
+        InvoiceRemarks: this.narration,
+        BankReceiptNo: this.bankReceiptNo,
+        InvoiceDetail: JSON.stringify(this.VoucherData),
+        UserID: this.globalData.currentUserValue.userID,
+      }).subscribe(
+        (Response:any)=>{
+          // console.log(Response);
+          if(Response.msg == 'Data Saved Successfully'){
+            this.msg.SuccessNotify(Response.msg);
+            this.getSavedVoucher();
+            this.reset();
+
+            /////////////////////////will print The invoice after SAve///////////////
+            setTimeout(() => {
+              this.printAfterSave(Response.invNo);  
+            }, 1000);
+            
+          }else{
+            this.msg.WarnNotify(Response.msg);
+          }
+          
+        }
+      )
+    }
+    
+  }
+
+
+  //////////////////////////////////////////////
+
+  DeleteVoucher(row:any){
+
+    Swal.fire({
+      title:'Alert!',
+      text:'Confirm to Delete the Data',
+      position:'center',
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm',
+    }).then((result)=>{
+      if(result.isConfirmed){
+
+        //////on confirm button pressed the api will run
+        this.http.post(environment.mallApiUrl+'DeleteVoucher',{
+          InvoiceNo: row.invoiceNo,
+          UserID: this.globalData.currentUserValue.userID,
+        }).subscribe(
+          (Response:any)=>{
+            if(Response.msg == 'Data Deleted Successfully'){
+              this.msg.SuccessNotify(Response.msg);
+              this.getSavedVoucher();
+            }else{
+              this.msg.WarnNotify(Response.msg);
+            }
+          }
+        ) 
+      }
+    });
+
+   
+  }
+
+
+  ////////////////////////////////////////////////
+
+  approveBill(row:any){
+
+    Swal.fire({
+      title:'Alert!',
+      text:'Confirm To Approve Invoice',
+      position:'center',
+      icon:'success',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm',
+    }).then((result)=>{
+      if(result.isConfirmed){
+
+        //////on confirm button pressed the api will run
+        this.http.post(environment.mallApiUrl+'ApproveVoucher',{
+          InvoiceNo: row.invoiceNo,
+        UserID: this.globalData.currentUserValue.userID,
+        }).subscribe(
+          (Response:any)=>{
+            // console.log(Response.msg);
+            if(Response.msg == 'Voucher Approved Successfully'){
+              this.msg.SuccessNotify(Response.msg);
+              this.getSavedVoucher();
+            }else{
+              this.msg.WarnNotify(Response.msg);
+            }
+            
+          }
+        )
+      }
+    });
+
+
+   
+  }
+
+
+
+  ///////////////////////////////////////////////////
+
+  printBill(row:any){
+
+    this.lblInvoiceNo = row.invoiceNo;
+    this.lblInvoiceDate = row.invoiceDate;
+    this.lblRemarks = row.invoiceRemarks;
+
+    this.getInvoiceDetail(row.invoiceNo);
+    
+
+    
+      setTimeout(() => {
+        this.globalData.printData('#InvociePrint');
+      }, 1000);
+
+    
+  
+
+    
+  }
+
+  /////////////////////////////////////////////////////////////
+
+
+  printAfterSave(invoiceNo:any){
+
+     this.getSavedVoucher();
+    //console.log(this.SavedVoucherData);
+    
+    var curRow = this.SavedVoucherData.find((obj:any)=> obj.invoiceNo ===  invoiceNo );
+    // console.log(curRow);
+
+    this.lblInvoiceNo = curRow.invoiceNo;
+    this.lblInvoiceDate = curRow.invoiceDate;
+    this.lblRemarks = curRow.invoiceRemarks;
+
+    this.getInvoiceDetail(invoiceNo);
+
+      setTimeout(() => {
+        this.globalData.printData('#afterSavePrint');
+      }, 1000);
+    
+   
+   }
+
+
+  /////////////////////////////////////////////
+
+  getInvoiceDetail(invoiceNo:any){
+
+    this.lblDebitTotal = 0;
+    this.lblCreditTotal = 0;
+    this.invoiceDetails = [];
+
+    
+    this.http.get(environment.mallApiUrl+'GetSpecificVocherDetail?InvoiceNo='+invoiceNo).subscribe(
+      (Response:any)=>{
+        console.log(Response);
+        this.invoiceDetails = Response;
+        if(Response != ''){
+         
+          Response.forEach((e:any) => {
+            this.lblDebitTotal += e.debit;
+            this.lblCreditTotal += e.credit;
+          });
+        }
+      },
+      (error:any)=>{
+        console.log(error);
+        this.msg.WarnNotify('Error Occured While Printing');
+      }
+    )
+  }
+
+
+  ////////////////////////////////////////////////////////
+  reset(){
+    this.vType = '';
+    this.invoiceDate = new Date();
+    this.refrenceCOA = '';
+    this.partyID = '';
+    this.bankReceiptNo = '';
+    this.VoucherData = [];
+    this.debittotal = 0;
+    this.creditTotal = 0;
+    this.narration = '';
   }
 
 }

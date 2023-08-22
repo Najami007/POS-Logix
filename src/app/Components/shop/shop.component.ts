@@ -90,6 +90,7 @@ export class ShopComponent {
           (Response:any)=>{
             if(Response.msg == 'Data Deleted Successfully'){
               this.msg.SuccessNotify(Response.msg);
+              this.getShop();
             }else{
               this.msg.WarnNotify(Response.msg);
             }

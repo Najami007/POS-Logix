@@ -43,34 +43,42 @@ export class AddFloorComponent implements OnInit{
 
 
 
+/////////////////////////////////////////////////////////////////////
 
   addFloor(){
-    if(this.actionbtn == 'Save'){
-      this.http.post(environment.mallApiUrl +'InsertFloor',{
-        ShopFloorName:this.floorName,
-        UserID:this.global.currentUserValue.userID,
-      }).subscribe(
-        (Response:any)=>{
-          if(Response.msg == 'Data Saved Successfully'){
-            this.msg.SuccessNotify(Response.msg);
-            this.reset();
-            this.dialogRef.close();
-          }else{
-            this.msg.WarnNotify(Response.msg);
-            console.log(Response.msg)
+    if(this.floorName == '' || this.floorName == undefined){
+      this.msg.WarnNotify('Enter Floor Name')
+    }else{
+      if(this.actionbtn == 'Save'){
+        this.http.post(environment.mallApiUrl +'InsertFloor',{
+          ShopFloorName:this.floorName,
+          UserID:this.global.currentUserValue.userID,
+        }).subscribe(
+          (Response:any)=>{
+            if(Response.msg == 'Data Saved Successfully'){
+              this.msg.SuccessNotify(Response.msg);
+              this.reset();
+              this.dialogRef.close();
+            }else{
+              this.msg.WarnNotify(Response.msg);
+              console.log(Response.msg)
+            }
+          },
+          (error:any)=>{
+            this.msg.WarnNotify('Error Occured While Saving Data')
+            console.log(error);
           }
-        },
-        (error:any)=>{
-          this.msg.WarnNotify('Error Occured While Saving Data')
-          console.log(error);
-        }
-        
-      )
-    }else if(this.actionbtn == 'Update'){
-      this.updateFloor();
+          
+        )
+      }else if(this.actionbtn == 'Update'){
+        this.updateFloor();
+      }
     }
+    
   }
 
+
+  ////////////////////////////////////////////////////////////////////
   updateFloor(){
     this.http.post(environment.mallApiUrl+'UpdateFloor',{
       ShopFloorID : this.floorID,
@@ -92,12 +100,15 @@ export class AddFloorComponent implements OnInit{
   }
 
 
+///////////////////////////////////////////////////////////////////////
 
   closeDialogue(){
     this.dialogRef.close('Update');
   }
 
 
+  ///////////////////////////////////////////////////////////////////
+  
   reset(){
     this.floorName = '';
     this.actionbtn = 'Save';

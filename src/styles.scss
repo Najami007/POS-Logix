@@ -220,12 +220,7 @@ mat-toolbar {
     margin: 0px auto;
   }
   
-  button{
-    background-color: transparent;
-    border: none;
-    
-   
-  }
+  
   // .tRowBckgrnd{
   //   background-color: rgb(231, 252, 245);
   // }
@@ -492,4 +487,11 @@ input[type="number"]::-webkit-inner-spin-button{
 
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
+}
+
+
+.btn-transpatent{
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid grey;
 }

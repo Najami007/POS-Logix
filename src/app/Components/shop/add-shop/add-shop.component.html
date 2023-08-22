@@ -34,7 +34,7 @@
         <mat-form-field class="col-lg-5 " appearance="outline">
             <mat-label>Owner Name</mat-label>
             <mat-select [(ngModel)]="partyID">
-                <mat-option *ngFor="let item of ownerData" [value]="item.partyID">{{item.partyName}}</mat-option>
+                <mat-option *ngFor="let item of ownerData" [value]="item.partyID">{{item.partyName}}  - ({{item.partyCNIC}})</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="col-lg-5 me-5" appearance="outline"> 

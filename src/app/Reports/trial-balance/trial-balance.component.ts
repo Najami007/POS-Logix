@@ -1,6 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import * as $ from 'jquery';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
+import { NotificationService } from 'src/app/Shared/service/notification.service';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-trial-balance',
@@ -10,50 +13,71 @@ import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module'
 export class TrialBalanceComponent {
 
 
-  constructor(private globalData: GlobalDataModule) { }
+  constructor(private globalData: GlobalDataModule,
+    private http:HttpClient,
+    private msg:NotificationService,
+
+    ) { }
 
   ngOnInit(): void {
     this.globalData.setHeaderTitle('Trial Balance');
   }
 
 
+  fromDate:any = new Date();
+  toDate:any =  new Date();
+  TrialBalanceData :any=[];
+
+  oDebitTotal:any = 0;
+  oCreditTotal:any = 0;
+  debitTotal:any = 0;
+  creditTotal:any = 0;
+  cDebitTotal:any = 0;
+  cCreditTotal:any = 0;
+
+
+  
+
+
+  getTrialBalance(){
+
+    console.log(this.globalData.dateFormater(this.fromDate,'-'),this.globalData.dateFormater(this.toDate,'-'))
+
+    this.http.get(environment.mallApiUrl+'GetTrailBalanceRpt?fromdate='
+    +this.globalData.dateFormater(this.fromDate,'-')+'&todate='+this.globalData.dateFormater(this.toDate,'-')).subscribe(
+      (Response)=>{
+        this.TrialBalanceData = Response;
+        this.getTotal();
+      }
+    )
+  }
+
+  getTotal(){
+
+   this.oDebitTotal = 0;
+   this.oCreditTotal = 0;
+   this.debitTotal = 0;
+   this.creditTotal = 0;
+   this.cDebitTotal = 0;
+   this.cCreditTotal = 0;
+    console.log(this.TrialBalanceData);
+    for(var i=0;i<this.TrialBalanceData.length;i++){
+      this.oDebitTotal += this.TrialBalanceData[i].oDebit;
+      this.oCreditTotal += this.TrialBalanceData[i].oCredit;
+      this.debitTotal += this.TrialBalanceData[i].debit;
+      this.creditTotal += this.TrialBalanceData[i].credit;
+      this.cDebitTotal += this.TrialBalanceData[i].cDebit;
+      this.cCreditTotal += this.TrialBalanceData[i].cCredit;
+
+      console.log(this.oDebitTotal,this.oCreditTotal);
+    }
+  }
+
+
   PrintTable() {
-    let printContents = $('#printDiv').html();
-    var frame1 : any = $('<iframe />');
-        frame1[0].name = "frame1";
-        frame1.css({ "position": "absolute", "top": "-1000000px" });
-        $("body").append(frame1);
-        var frameDoc = frame1[0].contentWindow 
-        ? frame1[0].contentWindow 
-        : frame1[0].contentDocument.document 
-          ? frame1[0].contentDocument.document 
-          : frame1[0].contentDocument;
-        frameDoc.document.open();
-       
-        //Create a new HTML document.
-        frameDoc.document.write('<html><head><title>DIV Contents</title>');
-        frameDoc.document.write('</head><body>');
-
-        //Append the external CSS file.
-        // frameDoc.document.write('<style><link rel="stylesheet" href="src/styles.css" /></style>');
-         frameDoc.document.write(
-          //'<style>.rptTable { width: 100%; margin-left: 15px; background-color: rgb(252, 242, 242); } .rptTable th { border: 1px solid black; font-size: 15px; font-weight: bold;  } .rptTable td { border: 1px solid black; font-size: 12px; }</style>'
-          '<link rel="stylesheet" type="text/css" href="../../../assets/style/ownStyle.css" />'
-          +
-          '<link rel="stylesheet" type="text/css" href="../../../assets/style/bootstrap.min.css" />'
-          );
-
-        //Append the DIV contents.
-        frameDoc.document.write(printContents);
-        frameDoc.document.write('</body></html>');
-        frameDoc.document.close();
-        setTimeout(function () {
-            window.frames[0].focus();
-            window.frames[0].print();
-            frame1.remove();
-        }, 500);
-
-    
+  
+    this.globalData.printData('#printReport');
+  
   }
 
 }

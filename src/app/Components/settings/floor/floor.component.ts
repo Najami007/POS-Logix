@@ -33,6 +33,9 @@ export class FloorComponent implements OnInit {
 
   FloorsData:any;
 
+
+  ////////////////////////////////////////////////////////////
+
   getFloor(){
     this.http.get(environment.mallApiUrl+'GetFloor').subscribe({
       next:value=>{
@@ -46,6 +49,9 @@ export class FloorComponent implements OnInit {
     })
   }
 
+
+  /////////////////////////////////////////////////////////////////////////////////
+
   editFloor(row:any){
     this.dialogue.open(AddFloorComponent,{
       width:"40%",
@@ -58,6 +64,9 @@ export class FloorComponent implements OnInit {
       }
     })
   }
+
+
+  ///////////////////////////////////////////////////////////////////////////
 
   deleteFloor(row:any){
 
@@ -98,6 +107,7 @@ export class FloorComponent implements OnInit {
 
 
 
+/////////////////////////////////////////////////////////////////////////////
 
   OpenDialogue(){
     this.dialogue.open(AddFloorComponent,{

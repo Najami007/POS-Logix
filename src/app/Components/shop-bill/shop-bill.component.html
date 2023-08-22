@@ -42,6 +42,233 @@
         </div>
 
 
+        <!-- <button (click)="printAfterSave(6)">print</button> -->
+
+        <!-----------------------    Bill Print Design for Signle Bill      ----------------------------->
+        <div class="d-none" id="afterSavePrint">
+
+
+            <!----------------------------   Office Copy ------------------------->
+        <div >
+            <!------------------   Logo Section --------------------->
+            <div class="text-center border-bottom d-flex justify-content-between">
+                <span>
+                    <img src="..\..\assets\Images\MMA-logo.jpg" style="color: black;" alt="" srcset="" height="100"
+                        width="120">
+                </span>
+                <span class="mt-3">
+                    <h3>Mehria Town Pvt.(Ltd)</h3>
+                    <p style="margin-top: -10;">Kamra Road Attock</p>
+                    <p style="margin-top: -15;">Phone No: 057-2364801-2</p>
+                </span>
+                <span>
+                    <img src="..\..\assets\Images\MT-logo.jpg" style="color: black;" alt="" srcset="" height="100"
+                        width="100">
+                </span>
+
+
+            </div>
+
+            <div class="mt-1" style=" border-bottom: 2px solid black;">
+
+                <div class="row">
+
+
+                    <!------------------------    Headers ----------------------------->
+                 <div class="d-flex justify-content-start">
+                    <div class="row col-lg-3">
+                        <span><b>Bill No:</b></span>
+                        <span><b>Account Title:</b></span>
+                        <span><b>Shop Name:</b></span>
+                        <span><b>Remarks</b></span>
+                    </div>
+
+                    <div class="row col-lg-3">
+                        <span>{{pBillNo}}</span>
+                        <span>{{pAccountTitle}}</span>
+                        <span>{{pShopName}}</span>
+                        <span>{{billRemarks}}</span>
+                    </div>
+
+                    <div class="row col-lg-3">
+                        <span><b>Date:</b></span>
+                        <span><b>Account Number:</b></span>
+                        <span><b>Customer Name:</b></span>
+                        <span><b></b></span>
+                    </div>
+
+                    <div class="row col-lg-3">
+                        <span>{{pBillDate|date}}</span>
+                        <span>{{pAccountNo}}</span>
+                        <span>{{pCustomername}}</span>
+                        <span></span>
+                    </div>
+                 </div>
+
+
+
+
+
+                    <hr>
+
+                       <!--------------------Table --------------------------->
+                    <div >
+
+                        <table class="w-100">
+                            <thead >
+                                <tr class="border-bottom">
+
+                                    <th>S#</th>
+                                    <th>Description</th>
+                                    <th>Charges</th>
+
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of tableData;index as index" class="border-bottom" >
+
+                                    <td>{{index+1}}</td>
+                                    <td>{{item.title}}</td>
+                                    <td>{{item.charges|number}}</td>
+
+                                    
+                                </tr>
+
+                                
+                              
+                                <tr>
+                                    <td ></td>
+                                    <td ><b>Total</b></td>
+                                    <td><b>{{TotalCharges|number}}</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+
+                
+                <div class="text-end"><mat-hint >Office Copy</mat-hint></div>
+            </div>
+        </div>
+
+
+        <div class="mt-1 mb-4" style="border-bottom: 2px dashed;"></div>
+            <!----------------------------   Customer Copy ------------------------->
+
+            <div >
+
+
+                <!------------------   Logo Section --------------------->
+                <div class="text-center border-bottom d-flex justify-content-between">
+                    <span>
+                        <img src="..\..\assets\Images\MMA-logo.jpg" style="color: black;" alt="" srcset="" height="100"
+                            width="120">
+                    </span>
+                    <span class="mt-3">
+                        <h3>Mehria Town Pvt.(Ltd)</h3>
+                        <p style="margin-top: -10;">Kamra Road Attock</p>
+                        <p style="margin-top: -15;">Phone No: 057-2364801-2</p>
+                    </span>
+                    <span>
+                        <img src="..\..\assets\Images\MT-logo.jpg" style="color: black;" alt="" srcset="" height="100"
+                            width="100">
+                    </span>
+    
+    
+                </div>
+    
+                <div class="mt-1" style=" border-bottom: 2px solid black;">
+    
+                    <div class="row">
+    
+    
+                        <!------------------------    Headers ----------------------------->
+                     <div class="d-flex justify-content-start">
+                        <div class="row col-lg-3">
+                            <span><b>Bill No:</b></span>
+                            <span><b>Account Title:</b></span>
+                            <span><b>Shop Name:</b></span>
+                            <span><b>Remarks</b></span>
+                        </div>
+    
+                        <div class="row col-lg-3">
+                            <span>{{pBillNo}}</span>
+                            <span>{{pAccountTitle}}</span>
+                            <span>{{pShopName}}</span>
+                            <span>{{billRemarks}}</span>
+                        </div>
+    
+                        <div class="row col-lg-3">
+                            <span><b>Date:</b></span>
+                            <span><b>Account Number:</b></span>
+                            <span><b>Customer Name:</b></span>
+                            <span><b></b></span>
+                        </div>
+    
+                        <div class="row col-lg-3">
+                            <span>{{pBillDate|date}}</span>
+                            <span>{{pAccountNo}}</span>
+                            <span>{{pCustomername}}</span>
+                            <span></span>
+                        </div>
+                     </div>
+    
+    
+    
+    
+    
+                        <hr>
+    
+                           <!--------------------Table --------------------------->
+                        <div >
+    
+                            <table class="w-100">
+                                <thead >
+                                    <tr class="border-bottom">
+    
+                                        <th>S#</th>
+                                        <th>Description</th>
+                                        <th>Charges</th>
+    
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of tableData;index as index" class="border-bottom" >
+    
+                                        <td>{{index+1}}</td>
+                                        <td>{{item.title}}</td>
+                                        <td>{{item.charges|number}}</td>
+    
+                                        
+                                    </tr>
+    
+                                    
+                                  
+                                    <tr>
+                                        <td ></td>
+                                        <td ><b>Total</b></td>
+                                        <td><b>{{TotalCharges|number}}</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+    
+    
+                        </div>
+                    </div>
+    
+                    
+                    <div class="text-end"><mat-hint >Customer Copy</mat-hint></div>
+                </div>
+            </div>
+    
+           
+
+            
+        </div>
 
 
     </mat-tab>
@@ -80,6 +307,7 @@
                         <th>Shop Title</th>
                         <th>Customer Name</th>
                         <th>Bill Date</th>
+                        <th>Amount</th>
                         <th>Remarks</th>
                         <th>Approve</th>
                         <th>Print</th>
@@ -94,6 +322,7 @@
                         <td>{{item.shopTitle}}</td>
                         <td>{{item.partyName}}</td>
                         <td>{{item.billDate | date}}</td>
+                        <td>{{item.charges | number}}</td>
                         <td>{{item.remarks}}</td>
                         <td><mat-icon class="text-success" (click)="approveBill(item)">check</mat-icon></td>
                         <td><mat-icon class="text-primary" (click)="PrintBill(item)">print</mat-icon></td>
@@ -110,7 +339,7 @@
 
 
   <!-- Modal window for get bill  by customer credentials -->
-  <div class="modal fade mt-5" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false">
     <div class="modal-dialog modal-l modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">

@@ -282,7 +282,7 @@ onlevel3Change(){
     }
     else{
       // alert();
-      alert(this.TransactionAllowed);
+      // alert(this.TransactionAllowed);
       this.http.post(environment.mallApiUrl+'InsertChartOfAccount',{
     CoaTitle: this.CoaTitle,
     CoaTypeID: this.CoaType,
