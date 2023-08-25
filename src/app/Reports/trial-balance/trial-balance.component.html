@@ -1,6 +1,5 @@
 <div class="bckgrnd bg-grey">
-    <div class="container-fluid">
-        <h1 class="rptTitle">Trial balance</h1>
+    <div class="container-fluid p-2">
             <div class="selRow  ">
                 <div class="row ">
                     
@@ -42,6 +41,7 @@
 
 
             <!-------------------------    Top Logo Section -------------------->
+        <div class="hide">
             <div class="text-center border-bottom d-flex justify-content-between">
                 <span>
                     <img src="..\..\assets\Images\MMA-logo.jpg" style="color: black;" alt="" srcset="" height="100"
@@ -64,6 +64,7 @@
         
         
             </div>
+        </div>
     
 
             <table class="table">
@@ -71,8 +72,8 @@
                 
                    <thead>
                     <tr class="text-start">
-                    
-                        <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3" rowspan="2">Account Code</th>
+                        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1" rowspan="2">S#</th>
+                        <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2" rowspan="2">Account Code</th>
                         <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3" rowspan="2">Account Title</th>
                         <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center" colspan="2">Opening</th>
                         <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center" colspan="2">Yearly</th>
@@ -93,25 +94,26 @@
               
                 <tbody>
                     <tr class="" *ngFor="let item of TrialBalanceData;index as index">
-                        <td class="col-lg-3 col-md-3 col-sm-3 col-xs-3 ps-2 ">{{item.accountCode}}</td>
-                        <td class="col-lg-3 col-md-3 col-sm-3 col-xs-3 fw-bold ps-2 ">{{item.coaTitle}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end" >{{item.oDebit}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end">{{item.oCredit}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end">{{item.debit}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end" >{{item.credit}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end">{{item.cDebit}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end">{{item.cCredit}}</td>
+                        <td class=" ps-2 ">{{index+1}}</td>
+                        <td class=" ps-2 ">{{item.accountCode}}</td>
+                        <td class=" fw-bold ps-2 ">{{item.coaTitle}}</td>
+                        <td class=" text-end" >{{item.oDebit |number}}</td>
+                        <td class=" text-end">{{item.oCredit |number}}</td>
+                        <td class=" text-end">{{item.debit |number}}</td>
+                        <td class=" text-end" >{{item.credit |number}}</td>
+                        <td class=" text-end">{{item.cDebit |number}}</td>
+                        <td class=" text-end">{{item.cCredit |number}}</td>
 
                     </tr>
                     <br>
                     <tr class="fw-bold">
-                        <td class="col-lg-4 col-md-4 col-sm-4 col-xs-4" colspan="2">Total</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end">{{oDebitTotal}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end">{{oCreditTotal}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end">{{debitTotal}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1  text-end">{{creditTotal}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end">{{cDebitTotal}}</td>
-                        <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-end">{{cCreditTotal}}</td>
+                        <td  colspan="3">Total</td>
+                        <td class=" text-end">{{oDebitTotal|number}}</td>
+                        <td class=" text-end">{{oCreditTotal |number}}</td>
+                        <td class=" text-end">{{debitTotal |number}}</td>
+                        <td class="  text-end">{{creditTotal |number}}</td>
+                        <td class=" text-end">{{cDebitTotal |number}}</td>
+                        <td class=" text-end">{{cCreditTotal |number}}</td>
 
                     </tr>
 

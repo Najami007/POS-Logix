@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import * as $ from 'jquery';
 
 
+declare function numonly():any;
 
 // declare function numOnly(): void;
 @Component({
@@ -31,7 +32,13 @@ export class CoaformComponent implements OnInit {
     this.globalData.setHeaderTitle('Charts Of Accounts');
     this.getCoaType();
     this.GetChartOfAccount();
+    this.globalData.numberOnly();
+  
    
+  }
+
+  numberOnly(){
+    this.globalData.numberOnly();
   }
 
   error: any;
@@ -66,7 +73,7 @@ export class CoaformComponent implements OnInit {
   ]
 
   valueChange(){
-    console.log(this.TransactionAllowed);
+    // console.log(this.TransactionAllowed);
   }
   
   //////////////setting the value of account head level above Head Name field/////////////////
@@ -157,7 +164,7 @@ onlevel3Change(){
     this.http.get(environment.mallApiUrl+'GetChartOfAccount').subscribe(
       {
         next:value=>{
-          console.log(value);
+          //console.log(value);
           this.ChartsofAccountsData = value;
         },
         error:error=>{
@@ -297,7 +304,7 @@ onlevel3Change(){
     
       }).subscribe(
         (Response:any)=>{
-          console.log(this.TransactionAllowed);
+          // console.log(this.TransactionAllowed);
           if(Response.msg == "Data Saved Successfully"){
             this.msg.SuccessNotify(Response.msg);
             this.GetChartOfAccount();
@@ -377,6 +384,9 @@ onlevel3Change(){
 
   }
 
+
+
+ 
 
 
 

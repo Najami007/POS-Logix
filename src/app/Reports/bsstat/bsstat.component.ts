@@ -14,4 +14,15 @@ export class BsstatComponent implements OnInit {
     this.globalData.setHeaderTitle('Balance Sheet');
   }
 
+  toDate:any
+
+
+  getLedgerReport(){
+
+  }
+
+  PrintTable(){
+    this.globalData.printData('#printRpt');
+  }
+
 }

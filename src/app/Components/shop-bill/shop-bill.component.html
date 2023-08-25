@@ -149,7 +149,7 @@
                     </div>
                 </div>
 
-                
+                <div class="text-start"><h6 >Bank Stamp & Sign</h6></div>
                 <div class="text-end"><mat-hint >Office Copy</mat-hint></div>
             </div>
         </div>
@@ -278,14 +278,6 @@
 
 
 
-
-
-
-
-    <!-----------------------    Bill Print Design      ----------------------------->
-
-
-
     <mat-tab label="Saved Record">
 
 
@@ -309,6 +301,7 @@
                         <th>Bill Date</th>
                         <th>Amount</th>
                         <th>Remarks</th>
+                        <th>Details</th>
                         <th>Approve</th>
                         <th>Print</th>
                         <th>Delete</th>
@@ -324,6 +317,8 @@
                         <td>{{item.billDate | date}}</td>
                         <td>{{item.charges | number}}</td>
                         <td>{{item.remarks}}</td>
+                        <td><mat-icon class="text-success" 
+                             (click)="getBillDetails(item.billNo)">receipt</mat-icon></td>
                         <td><mat-icon class="text-success" (click)="approveBill(item)">check</mat-icon></td>
                         <td><mat-icon class="text-primary" (click)="PrintBill(item)">print</mat-icon></td>
                         <td><mat-icon class="text-danger" (click)="DeleteBill(item)">delete</mat-icon></td>
@@ -464,7 +459,7 @@
 
 
 
-<!-----------------------    Bill Print Design for Signle Bill      ----------------------------->
+<!-----------------------    Bill Print Design for Single Bill      ----------------------------->
         <div class="d-none" id="printBill">
 
 
@@ -569,7 +564,7 @@
                     </div>
                 </div>
 
-                
+                <div class="text-start m-4"><h6 ><u>Bank Stamp & Sign</u></h6></div>
                 <div class="text-end"><mat-hint >Office Copy</mat-hint></div>
             </div>
         </div>
@@ -680,7 +675,7 @@
                         </div>
                     </div>
     
-                    
+                    <div class="text-start m-4"><h6 ><u>Bank Stamp & Sign</u></h6></div>
                     <div class="text-end"><mat-hint >Customer Copy</mat-hint></div>
                 </div>
             </div>
@@ -691,6 +686,10 @@
         </div>
 
     </mat-tab>
+
+
+
+
 
 
 

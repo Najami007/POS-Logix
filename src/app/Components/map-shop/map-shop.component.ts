@@ -204,7 +204,7 @@ export class MapShopComponent implements OnInit {
 
    // console.log(typeof(this.ShopID),typeof(this.partyID),typeof(this.startDate),typeof(this.paymentDate),typeof(this.camID),typeof(this.camCharges),typeof(this.rentID),typeof(this.rentCharges),typeof(this.ServicesData),typeof(this.globaldata.currentUserValue.userID));
    
-   console.log(this.camCharges);
+ 
 
    if(this.ShopID == '' || this.ShopID == undefined){
     this.msg.WarnNotify('Shop Name Required');
@@ -256,6 +256,7 @@ export class MapShopComponent implements OnInit {
    reset(){
     this.ShopID = '';
     this.camID = '';
+    this.partyID = '';
     this.camCharges = '';
     this.rentID = '';
     this.rentCharges = '';

@@ -16,7 +16,29 @@ export class AppComponent {
 constructor(){}
   
 
-  ngOnInit(){}
+  ngOnInit(){
+    // this.stopLoaderDark();
+    // this.stopLoaderLight();
+  }
+
+
+  startLoaderDark() {
+    $(".loaderDark").show();
+  }
+
+  stopLoaderDark() {
+    $(".loaderDark").fadeOut(500);
+  }
+
+  startLoaderLight() {
+    $(".loaderLight").show();
+    //$(".btnLoader").show();
+  }
+
+  stopLoaderLight() {
+    $(".loaderLight").hide();
+    //$(".btnLoader").hide(1000);
+  }
 
   
 

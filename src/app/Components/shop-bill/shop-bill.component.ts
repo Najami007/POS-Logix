@@ -8,6 +8,8 @@ import { environment } from 'src/environments/environment.development';
 import { BillformComponent } from './billform/billform.component';
 import * as $ from 'jquery';
 import Swal from 'sweetalert2';
+import { AppComponent } from 'src/app/app.component';
+import { BillDetailsComponent } from './bill-details/bill-details.component';
 
 
 
@@ -54,6 +56,7 @@ export class ShopBillComponent implements OnInit{
   TotalCharges:any;
   tableData:any =[];
   billRemarks:any;
+  billDetails:any;
 
 
 
@@ -61,7 +64,10 @@ export class ShopBillComponent implements OnInit{
   constructor(private http:HttpClient,
     private msg:NotificationService,
     private dialogue: MatDialog,
-    private globaldata:GlobalDataModule){}
+    private globaldata:GlobalDataModule,
+    private app:AppComponent,
+    
+    ){}
 
   ngOnInit(): void {
     this.globaldata.setHeaderTitle('Shop Billing')
@@ -113,15 +119,20 @@ export class ShopBillComponent implements OnInit{
    ////////////////////////////////////////////////////
 
    getSavedBill(){
+
+    this.app.startLoaderDark();
+    
     this.http.get(environment.mallApiUrl+'getbill').subscribe(
       {
         next:value=>{
           // console.log(value);
           this.SavedBillList = value;
+          this.app.stopLoaderDark();
         },
         error:error=>{
           this.msg.WarnNotify('Error Occured While Loading Data');
           console.log(error);
+          this.app.stopLoaderDark();
         }
       }
     )
@@ -227,7 +238,43 @@ export class ShopBillComponent implements OnInit{
   }
 
 
-  
+  //////////////////////////////////////////////////////////////
+
+  getBillDetails(billNo:any){
+    this.tableData = [];
+
+    this.http.get(environment.mallApiUrl+'getsinglebill?billno='+billNo).subscribe(
+      (Response:any)=>{
+        // console.log(Response);
+        this.billData = Response;
+        if(Response.length > 0){
+          this.tableData.push(
+            {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},
+            {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
+            {title:'Wapda',charges:Response[0].wapdaCharges},
+           );
+          
+         
+         for(var i = 0; Response.length > i;i++ ){
+          this.tableData.push(
+            {title:Response[i].serviceTitle,charges:Response[i].serviceCharges});
+            
+         }
+         
+       
+          this.dialogue.open(BillDetailsComponent,{
+            width:"50%",
+            data:this.tableData,
+          }).afterClosed().subscribe(val=>{
+            
+          })
+         
+     
+           
+        }
+      }
+    )
+  }
 
   //////////////////////////////////////////////////////////
 
@@ -277,21 +324,39 @@ export class ShopBillComponent implements OnInit{
   ////////////////////////////////////////////////////////
 
   approveBill(row:any){
-    this.http.post(environment.mallApiUrl+'ApproveBill',{
-      BillNo:row.billNo,
-    PartyID: row.partyID,
-    UserID: this.globaldata.currentUserValue.userID,
-    }).subscribe(
-      (Response:any)=>{
-        if(Response.msg == 'Data Saved Successfully'){
-          this.msg.SuccessNotify('Bill Approved');
-          this.getSavedBill();
-          this.getMappedData();       
-         }else{
-          this.msg.WarnNotify(Response.msg);
-         }
+    Swal.fire({
+      title:'success',
+      text:'Confirm to Approve Bill',
+      position:'center',
+      icon:'success',
+      iconColor:'green',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm',
+    }).then((result)=>{
+      if(result.isConfirmed){
+
+        //////on confirm button pressed the api will run
+        this.http.post(environment.mallApiUrl+'ApproveBill',{
+          BillNo:row.billNo,
+        PartyID: row.partyID,
+        ShopID:row.shopID,
+        UserID: this.globaldata.currentUserValue.userID,
+        }).subscribe(
+          (Response:any)=>{
+            if(Response.msg == 'Data Saved Successfully'){
+              this.msg.SuccessNotify('Bill Approved');
+              this.getSavedBill();
+              this.getMappedData();       
+             }else{
+              this.msg.WarnNotify(Response.msg);
+             }
+          }
+        )
       }
-    )
+    });
+    
   }
 
 

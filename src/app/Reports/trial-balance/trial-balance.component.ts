@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import * as $ from 'jquery';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
+import { AppComponent } from 'src/app/app.component';
 import { environment } from 'src/environments/environment.development';
 
 @Component({
@@ -16,6 +17,7 @@ export class TrialBalanceComponent {
   constructor(private globalData: GlobalDataModule,
     private http:HttpClient,
     private msg:NotificationService,
+    private app:AppComponent
 
     ) { }
 
@@ -40,7 +42,8 @@ export class TrialBalanceComponent {
 
 
   getTrialBalance(){
-
+this.TrialBalanceData = '';
+    this.app.startLoaderDark();
     console.log(this.globalData.dateFormater(this.fromDate,'-'),this.globalData.dateFormater(this.toDate,'-'))
 
     this.http.get(environment.mallApiUrl+'GetTrailBalanceRpt?fromdate='
@@ -48,8 +51,19 @@ export class TrialBalanceComponent {
       (Response)=>{
         this.TrialBalanceData = Response;
         this.getTotal();
+        this.app.stopLoaderDark();
       }
     )
+  
+   
+    setTimeout(() => {
+      if(this.TrialBalanceData == ''){
+        this.app.stopLoaderDark();
+        this.msg.WarnNotify('Error Occured')
+      }
+    
+    }, 5000);
+
   }
 
   getTotal(){

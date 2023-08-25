@@ -41,6 +41,9 @@ export class GlobalDataModule  {
     private _headerTitleSource = new Subject<string>();
     header_title$ = this._headerTitleSource.asObservable();
  
+    private _userNameSource = new Subject<string>();
+    user_Name$ = this._userNameSource.asObservable();
+ 
 
 
   public get currentUserValue(): userInterface {
@@ -133,6 +136,13 @@ export class GlobalDataModule  {
     this._headerTitleSource.next(title.toUpperCase());
   }
 
+  public setUserName()
+  {
+ 
+      return this.currentUserValue.userName;
+   
+
+  }
 
 
 
@@ -220,6 +230,17 @@ export class GlobalDataModule  {
 
 
 
+
+  numberOnly(){
+    $('.numOnly').on('keypress keyup blur',(event:any)=>{
+      // console.log(event.which);
+      event.target.value.replace(/[^\d].+/, "");
+      if(event.which < 48 || event.which >57 ){
+        event.preventDefault();
+        
+      }
+    })
+  }
 
 
 

@@ -91,7 +91,7 @@ export class PartyComponent implements OnInit{
     {
       next:value =>{
         this.partyData = value;
-        console.log(value);
+        //console.log(value);
       
       },
       error: error=>{
@@ -149,7 +149,7 @@ export class PartyComponent implements OnInit{
             this.getParty();
             this.reset();
           }else{
-            console.log(Response.msg);
+            // console.log(Response.msg);
             this.msg.WarnNotify(Response.msg);
           }
          }

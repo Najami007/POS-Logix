@@ -7,6 +7,7 @@ import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module'
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import Swal from 'sweetalert2';
+import { AppComponent } from 'src/app/app.component';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class VoucherformComponent implements OnInit{
 
   constructor(private msg: NotificationService,
     private globalData:GlobalDataModule,
-    private http:HttpClient
+    private http:HttpClient,
+    private app:AppComponent,
     ) { }
 
   ngOnInit(): void {
@@ -40,17 +42,8 @@ export class VoucherformComponent implements OnInit{
     { type: 'Journal Voucher (JV)' ,value : 'JV'}
   ]
 
-  Types: any = [
-    { name: 'Cash' , value:'Cash'},
-    { name: 'Bank' , value:'Bank' }
-  ]
+  
 
-
-  Bank: any = [
-    'Habib Bank',
-    'United Bank',
-    'Muslim Commercial Bank'
-  ]
 
 
   /////////////////declared Variables//////////////////////
@@ -101,9 +94,9 @@ export class VoucherformComponent implements OnInit{
 
 
  
-  getVal(){
-    console.log(this.vType);
-  }
+  // getVal(){
+  //   console.log(this.vType);
+  // }
  
 
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,14 +178,17 @@ export class VoucherformComponent implements OnInit{
   /////////////////////////////////////////////////////////////////////
 
   getSavedVoucher(){
+    this.app.startLoaderDark();
     this.http.get(environment.mallApiUrl+'GetSavedVoucherDetail').subscribe(
       (Response:any)=>{
-        //console.log(Response);
+        // console.log(Response);
         this.SavedVoucherData = Response;
+        this.app.stopLoaderDark();
       },
       (error:any)=>{
         console.log(error)
         this.msg.WarnNotify('Error Occured While Retreiving Data');
+        this.app.stopLoaderDark();
       }
     )
   }
@@ -248,9 +244,7 @@ export class VoucherformComponent implements OnInit{
       this.msg.WarnNotify('Select Voucher Date')
     }else if(this.vType == 'JV' && this.creditTotal != this.debittotal){
       this.msg.WarnNotify('Debit And Credit Total Side Must Be Equal')
-    }else if(this.partyID == '' || this.partyID == undefined){
-      this.msg.WarnNotify('Select The Party')
-    }
+    } 
     else{
       this.http.post(environment.mallApiUrl+'InsertVoucher',{
         InvoiceDate: this.invoiceDate,
@@ -367,6 +361,7 @@ export class VoucherformComponent implements OnInit{
 
   printBill(row:any){
 
+    
     this.lblInvoiceNo = row.invoiceNo;
     this.lblInvoiceDate = row.invoiceDate;
     this.lblRemarks = row.invoiceRemarks;
@@ -376,8 +371,12 @@ export class VoucherformComponent implements OnInit{
 
     
       setTimeout(() => {
-        this.globalData.printData('#InvociePrint');
-      }, 1000);
+        if(this.invoiceDetails != ''){
+          this.globalData.printData('#InvociePrint');
+        }else{
+          this.msg.WarnNotify('Error Occured While Printing');
+        }
+      }, 500);
 
     
   
@@ -421,7 +420,7 @@ export class VoucherformComponent implements OnInit{
     
     this.http.get(environment.mallApiUrl+'GetSpecificVocherDetail?InvoiceNo='+invoiceNo).subscribe(
       (Response:any)=>{
-        console.log(Response);
+        // console.log(Response);
         this.invoiceDetails = Response;
         if(Response != ''){
          
@@ -444,12 +443,12 @@ export class VoucherformComponent implements OnInit{
     this.vType = '';
     this.invoiceDate = new Date();
     this.refrenceCOA = '';
-    this.partyID = '';
+    // this.partyID = '';
     this.bankReceiptNo = '';
     this.VoucherData = [];
     this.debittotal = 0;
     this.creditTotal = 0;
-    this.narration = '';
+    this.narration = '-';
   }
 
 }

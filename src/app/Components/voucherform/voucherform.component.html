@@ -62,16 +62,7 @@
                     
 
 
-                    <!-- --------------------Party Name Select Area-------------- -->
-
-                    <mat-form-field class="col-lg-5 col-md-5 col-sm-5 col-xs-5" appearance="outline">
-                        <mat-label>Select Party Name </mat-label>
-                        <mat-select [(ngModel)]="partyID" Data-live-Search="true">
-                            <mat-option *ngFor="let item of partyList " [value]="item.partyID">{{item.partyName}} -
-                                ({{item.partyType}})</mat-option>
-
-                        </mat-select>
-                    </mat-form-field>
+                     <!---------------       Bank Receipt No    ---------------------->
 
                     <mat-form-field class=" col-lg-2 col-md-2 col-sm-2 col-xs-2" appearance="outline">
                         <mat-label>Bank Receipt No</mat-label>
@@ -113,15 +104,15 @@
 
                         <mat-form-field class=" col-lg-3 col-md-3 col-sm-3 col-xs-3" appearance="outline">
 
-                            <input matInput [(ngModel)]="DebitAmount" (keydown)="changeValue($event)" [defaultValue]="0"
+                            <input class="text-end" matInput [(ngModel)]="DebitAmount" (keydown)="changeValue($event)" [defaultValue]="0"
                                 type="number" min="0" [disabled]="vType == 'CRV' || vType == 'BRV'">
                         </mat-form-field>
                         <!-- -------------------Credit amount Enter Area-------------- -->
 
 
-                        <mat-form-field class=" col-lg-3 col-md-3 col-sm-3 col-xs-3" appearance="outline">
+                        <mat-form-field class=" col-lg-3 col-md-3 col-sm-3 col-xs-3 " appearance="outline">
 
-                            <input matInput [(ngModel)]="CreditAmount" [defaultValue]="0"
+                            <input class="text-end" matInput [(ngModel)]="CreditAmount" [defaultValue]="0"
                                 (keydown)="changeValue($event)" type="number" min="0" [disabled]="vType == 'CPV' || vType == 'BPV'">
                         </mat-form-field>
 
@@ -328,7 +319,8 @@
                         <td>{{item.partyName}}</td>
                         <td>{{item.amount}}</td>
                         <td>{{item.invoiceRemarks}}</td>
-                        <td ><mat-icon class="text-success" data-bs-toggle="modal" data-bs-target="#invoiceDetailModel" (click)="getInvoiceDetail(item.invoiceNo)" >receipt</mat-icon></td>
+                        <td ><mat-icon class="text-success" data-bs-toggle="modal" data-bs-target="#invoiceDetailModel" 
+                            (click)="getInvoiceDetail(item.invoiceNo)" >receipt</mat-icon></td>
                         <td *ngIf="item.approvedStatus == false"><mat-icon class="text-success" (click)="approveBill(item)">check</mat-icon></td>
                         <td *ngIf="item.approvedStatus == true"><mat-icon class="text-danger" >check_box</mat-icon></td>
                         <td><mat-icon class="text-danger" (click)="DeleteVoucher(item)">delete</mat-icon></td>

@@ -26,7 +26,7 @@ export class AddServiceComponent implements OnInit{
   ngOnInit(): void {
    this.getSavedService();
    this.getService();
-   console.log(this.editData);
+  //  console.log(this.editData);
   }
 
 
@@ -68,7 +68,7 @@ export class AddServiceComponent implements OnInit{
       {
         next:value=>{
           this.shopServicesData  = value;
-          console.log(value);
+          // console.log(value);
           
         },
         error:error=>{

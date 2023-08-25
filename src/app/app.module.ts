@@ -61,6 +61,9 @@ import { AddServiceComponent } from './Components/map-shop/add-shopservice/add-s
 import { UnmapShopComponent } from './Components/map-shop/unmap-shop/unmap-shop.component';
 import { ShopBillComponent } from './Components/shop-bill/shop-bill.component';
 import { BillformComponent } from './Components/shop-bill/billform/billform.component';
+import { BillDetailsComponent } from './Components/shop-bill/bill-details/bill-details.component';
+import { OwnersReportComponent } from './Reports/owners-report/owners-report.component';
+import { ShopsReportComponent } from './Reports/shops-report/shops-report.component';
 
 
 
@@ -118,6 +121,9 @@ import { BillformComponent } from './Components/shop-bill/billform/billform.comp
     UnmapShopComponent,
     ShopBillComponent,
     BillformComponent,
+    BillDetailsComponent,
+    OwnersReportComponent,
+    ShopsReportComponent,
 
     
    

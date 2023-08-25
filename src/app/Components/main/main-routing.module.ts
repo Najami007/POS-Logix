@@ -21,6 +21,8 @@ import { ShopComponent } from '../shop/shop.component';
 import { MapShopComponent } from '../map-shop/map-shop.component';
 import { MallSaleComponent } from '../mall-sale/mall-sale.component';
 import { ShopBillComponent } from '../shop-bill/shop-bill.component';
+import { ShopsReportComponent } from 'src/app/Reports/shops-report/shops-report.component';
+import { OwnersReportComponent } from 'src/app/Reports/owners-report/owners-report.component';
 
 
 
@@ -44,6 +46,8 @@ const routes: Routes = [
   {path:'shop',component:ShopComponent},
   {path:'mapshop',component:MapShopComponent},
   {path:'shopBill',component:ShopBillComponent},
+  {path:'shopsRpt',component:ShopsReportComponent},
+  {path:'ownersRpt',component:OwnersReportComponent},
 
   {path:'', redirectTo:'/main/dashBoard',pathMatch:'full'}
   ]},
