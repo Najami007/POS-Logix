@@ -12,11 +12,11 @@
         </mat-form-field>
         <mat-form-field class="col-lg-5 " appearance="outline">
             <mat-label>Shop Code</mat-label>
-            <input matInput type="number" [(ngModel)]="shopCode">
+            <input matInput type="number" min="0" [(ngModel)]="shopCode">
         </mat-form-field>
         <mat-form-field class="col-lg-5 me-5" appearance="outline">
             <mat-label>Area</mat-label>
-            <input matInput type="number" [(ngModel)]="shopArea">
+            <input matInput type="number" min="0" [(ngModel)]="shopArea">
         </mat-form-field>
         <mat-form-field class=" col-lg-5 " appearance="outline">
             <mat-label>Cam Title</mat-label>
@@ -34,12 +34,16 @@
         <mat-form-field class="col-lg-5 " appearance="outline">
             <mat-label>Owner Name</mat-label>
             <mat-select [(ngModel)]="partyID">
-                <mat-option *ngFor="let item of ownerData" [value]="item.partyID">{{item.partyName}}  - ({{item.partyCNIC}})</mat-option>
+                <mat-option><ngx-mat-select-search [(ngModel)]="partySearch"
+                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                    name="search"></ngx-mat-select-search></mat-option>
+                <mat-option *ngFor="let item of ownerData | filter:partySearch" [value]="item.partyID">{{item.partyName}}  - ({{item.partyCNIC}})</mat-option>
+                
             </mat-select>
         </mat-form-field>
         <mat-form-field class="col-lg-5 me-5" appearance="outline"> 
             <mat-label>Purchase Date</mat-label>
-            <input readonly="true" matInput type="text" name="voucherDate" 
+            <input readonly="true" matInput (dateChange)="changeValue()" type="text" name="voucherDate" 
                 [(ngModel)]="purchaseDate"  [matDatepicker]="PurDate" >
             <mat-datepicker-toggle matSuffix [for]="PurDate"></mat-datepicker-toggle>
             <mat-datepicker #PurDate></mat-datepicker>

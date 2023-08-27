@@ -64,6 +64,7 @@ import { BillformComponent } from './Components/shop-bill/billform/billform.comp
 import { BillDetailsComponent } from './Components/shop-bill/bill-details/bill-details.component';
 import { OwnersReportComponent } from './Reports/owners-report/owners-report.component';
 import { ShopsReportComponent } from './Reports/shops-report/shops-report.component';
+import { BillRptShopwiseComponent } from './Reports/bill-rpt-shopwise/bill-rpt-shopwise.component';
 
 
 
@@ -124,6 +125,7 @@ import { ShopsReportComponent } from './Reports/shops-report/shops-report.compon
     BillDetailsComponent,
     OwnersReportComponent,
     ShopsReportComponent,
+    BillRptShopwiseComponent,
 
     
    

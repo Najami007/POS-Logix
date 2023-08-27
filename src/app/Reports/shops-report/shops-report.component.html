@@ -38,6 +38,8 @@
                         <th>Shop Name</th>
                         <th>Area</th>
                         <th>Owner Name</th>
+                        <th>CAM</th>
+                        <th>Rent</th>
                         <th>Purchase Date</th>
                     </thead>
                     <tbody>
@@ -46,11 +48,13 @@
                             <td>{{item.shopTitle}}</td>
                             <td>{{item.shopAreaSQ}} Sqf.</td>
                             <td>{{item.partyName}}</td>
+                            <td>{{item.camCharges}} /sqf.</td>
+                            <td>{{item.rentCharges}} /sqf.</td>
                             <td>{{item.purchaseDate | date:'yyyy-MM-dd'}}</td>
         
                         </tr>
                         <tr *ngIf="shopData == ''"  class="text-center">
-                            <td>No Data Available</td>
+                            <td colspan="5">No Data Available</td>
                         </tr>
                     </tbody>
                 </table>

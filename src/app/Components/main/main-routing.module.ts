@@ -23,6 +23,7 @@ import { MallSaleComponent } from '../mall-sale/mall-sale.component';
 import { ShopBillComponent } from '../shop-bill/shop-bill.component';
 import { ShopsReportComponent } from 'src/app/Reports/shops-report/shops-report.component';
 import { OwnersReportComponent } from 'src/app/Reports/owners-report/owners-report.component';
+import { BillRptShopwiseComponent } from 'src/app/Reports/bill-rpt-shopwise/bill-rpt-shopwise.component';
 
 
 
@@ -31,10 +32,10 @@ const routes: Routes = [
     {path:'dashBoard', component:DashBoardComponent },
   { path: 'coa', component: CoaformComponent },
   {path:'voucher', component: VoucherformComponent},
-  {path:'ledger', component: LedgerComponent},
-  {path:'trialBalance', component: TrialBalanceComponent},
-  {path:'plStat', component: PlstatComponent},
-  {path:'bsStat', component: BsstatComponent},
+  {path:'ldgrpt', component: LedgerComponent},
+  {path:'tbrpt', component: TrialBalanceComponent},
+  {path:'plrpt', component: PlstatComponent},
+  {path:'bsrpt', component: BsstatComponent},
   {path:'party', component: PartyComponent},
   {path:'AddUser', component: AddUserComponent},
   {path:'Settings',component:SettingsComponent},
@@ -46,8 +47,9 @@ const routes: Routes = [
   {path:'shop',component:ShopComponent},
   {path:'mapshop',component:MapShopComponent},
   {path:'shopBill',component:ShopBillComponent},
-  {path:'shopsRpt',component:ShopsReportComponent},
-  {path:'ownersRpt',component:OwnersReportComponent},
+  {path:'srptl',component:ShopsReportComponent},
+  {path:'orptl',component:OwnersReportComponent},
+  {path:'BRptSW',component:BillRptShopwiseComponent},
 
   {path:'', redirectTo:'/main/dashBoard',pathMatch:'full'}
   ]},

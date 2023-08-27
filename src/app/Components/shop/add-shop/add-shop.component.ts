@@ -41,7 +41,7 @@ export class AddShopComponent implements OnInit{
     }
   }
 
-
+  partySearch:any;
   actionbtn='Save';
   camID:any;
   rentID:any;
@@ -50,7 +50,7 @@ export class AddShopComponent implements OnInit{
   shopArea:any;
   description:any;
   partyID:any;
-  purchaseDate:any;
+  purchaseDate = new Date();
 
 
 
@@ -62,6 +62,11 @@ export class AddShopComponent implements OnInit{
 
 
   /////////////////////////////
+
+
+  changeValue(){
+    // alert(this.purchaseDate);
+  }
 
   
 
@@ -121,6 +126,7 @@ export class AddShopComponent implements OnInit{
   /////////////////////////////////////////////
 
   addShop(){
+    console.log(this.purchaseDate);
 
     if(this.shopTitle == '' || this.shopTitle == undefined){
       this.msg.WarnNotify('Shop Title required')
@@ -134,8 +140,6 @@ export class AddShopComponent implements OnInit{
       this.msg.WarnNotify('Rent Title Required')
     }else if(this.partyID == '' || this.partyID == undefined){
       this.msg.WarnNotify('Owner Name Required')
-    }else if(this.purchaseDate == '' || this.purchaseDate == undefined){
-      this.msg.WarnNotify('Purchase Date Required')
     }else if(this.description == '' || this.description == undefined){
       this.description = '-';
     }else{
@@ -154,6 +158,7 @@ export class AddShopComponent implements OnInit{
 
 
   InsertShop(){
+    
     this.http.post(environment.mallApiUrl+'InsertShop',{
       CamID:this.camID,
       RentID:this.rentID,
@@ -162,11 +167,11 @@ export class AddShopComponent implements OnInit{
       ShopDescription:this.description,
       ShopAreaSQ:this.shopArea,
       PartyID:this.partyID,
-      PurchaseDate:this.purchaseDate,
+      PurchaseDate:this.purchaseDate.toISOString().substring(0,10),
       UserID:this.global.currentUserValue.userID,
     }).subscribe(
       (Response:any)=>{
-        console.log(Response.msg);
+        // console.log(Response.msg);
         if(Response.msg == 'Data Saved Successfully'){
           this.msg.SuccessNotify(Response.msg);
           this.dialogRef.close();
@@ -183,6 +188,7 @@ export class AddShopComponent implements OnInit{
 
 
   updateShop(){
+
     this.http.post(environment.mallApiUrl+'UpdateShop',{
       ShopID:this.editData.shopID,
       ShopOwnerID:this.editData.shopOwnerID,
@@ -193,7 +199,7 @@ export class AddShopComponent implements OnInit{
       ShopDescription:this.description,
       ShopAreaSQ:this.shopArea,
       PartyID:this.partyID,
-      PurchaseDate:this.purchaseDate,
+      PurchaseDate:this.purchaseDate.toISOString().substring(0,10),
       UserID:this.global.currentUserValue.userID,
     }).subscribe(
       (Response:any)=>{
@@ -219,7 +225,7 @@ export class AddShopComponent implements OnInit{
     this.shopArea='';
     this.description='';
     this.partyID='';
-    this.purchaseDate='';
+    this.purchaseDate=new Date();
   
   }
   

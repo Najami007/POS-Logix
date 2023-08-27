@@ -39,6 +39,7 @@
                         <th>CNIC</th>
                         <th>Mobile No.</th>
                         <th>City</th>
+                        <th>Shops</th>
                         
                     </thead>
                     <tbody>
@@ -48,11 +49,11 @@
                             <td>{{item.partyCNIC}}</td>
                             <td>{{item.partyMobileNo}}</td>
                             <td>{{item.cityName}}</td>
-                            <td>{{item.purchaseDate | date:'yyyy-MM-dd'}}</td>
+                            <td>{{item.totalShops}}</td>
         
                         </tr>
                         <tr *ngIf="ownerData == ''" class="text-center">
-                            <td>No Data Available</td>
+                            <td colspan="6">No Data Available</td>
                         </tr>
                     </tbody>
                 </table>

@@ -33,7 +33,7 @@ export class ShopsReportComponent implements OnInit {
       this.http.get(environment.mallApiUrl+'GetShop').subscribe(
         {
           next:value=>{
-            console.log(value);
+            //console.log(value);
             this.shopData = value;
             this.app.stopLoaderDark();
           },
