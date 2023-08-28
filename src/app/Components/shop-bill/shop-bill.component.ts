@@ -33,6 +33,7 @@ export class ShopBillComponent implements OnInit{
   billData:any = [];
   partyList:any;
   billTotal = 0;
+  shopServicesData:any;
 
   customerBillData:any;
 
@@ -102,7 +103,7 @@ export class ShopBillComponent implements OnInit{
     this.http.get(environment.mallApiUrl+'GetMappedShop').subscribe(
       {
         next:value=>{
-          // console.log(value);
+          console.log(value);
           this.mappedShopData = value;
         },
 
@@ -211,25 +212,31 @@ export class ShopBillComponent implements OnInit{
     
     this.http.get(environment.mallApiUrl+'getsinglebill?billno='+billNo).subscribe(
       (Response:any)=>{
-        //console.log(Response);
+        console.log(Response);
         this.billData = Response;
         if(Response.length > 0){
           this.tableData.push(
             {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},
             {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
-            {title:'Wapda',charges:Response[0].wapdaCharges},
+           
            );
           
          
+           
          for(var i = 0; Response.length > i;i++ ){
-          this.tableData.push(
-            {title:Response[i].serviceTitle,charges:Response[i].serviceCharges});
+          if(Response[i].serviceTitle != '-'){
+            this.tableData.push(
+              {title:Response[i].serviceTitle,charges:Response[i].serviceCharges});
+          }
+          
             
          }
          
-         setTimeout(() => {
-          this.globaldata.printData(printDiv);
-        }, 500);
+         if(printDiv != ''){
+          setTimeout(() => {
+            this.globaldata.printData(printDiv);
+          }, 500);
+         }
         
            
         }
@@ -251,7 +258,7 @@ export class ShopBillComponent implements OnInit{
           this.tableData.push(
             {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},
             {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
-            {title:'Wapda',charges:Response[0].wapdaCharges},
+          
            );
           
          
@@ -398,6 +405,9 @@ export class ShopBillComponent implements OnInit{
     
   }
 
+
+
+  /////////////////////////////////////////////////
   resetPrint(){
     this.pBillNo ="";
     this.pBillDate = "";
@@ -405,5 +415,26 @@ export class ShopBillComponent implements OnInit{
     this.pCustomername = "";
     this.tableData = [];
   }
+
+
+
+    ///////////////////////////////////////////////////////////////
+
+    getSavedService(shopID:any,rentHistoryID:any){
+      this.http.get(environment.mallApiUrl+'GetShopServices?shopid='+shopID+'&shoprhid='+rentHistoryID).subscribe(
+        {
+          next:value=>{
+            this.shopServicesData  = value;
+            console.log(value);
+            
+          },
+          error:error=>{
+            this.msg.WarnNotify('Unable to Load Data');
+            console.log(error);
+          }
+        }
+      )
+     }
+  
 
 }

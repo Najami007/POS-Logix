@@ -65,6 +65,8 @@ import { BillDetailsComponent } from './Components/shop-bill/bill-details/bill-d
 import { OwnersReportComponent } from './Reports/owners-report/owners-report.component';
 import { ShopsReportComponent } from './Reports/shops-report/shops-report.component';
 import { BillRptShopwiseComponent } from './Reports/bill-rpt-shopwise/bill-rpt-shopwise.component';
+import { BillrptdatewiseComponent } from './Reports/billrptdatewise/billrptdatewise.component';
+import { BillrptshopandpartywiseComponent } from './Reports/billrptshopandpartywise/billrptshopandpartywise.component';
 
 
 
@@ -126,6 +128,8 @@ import { BillRptShopwiseComponent } from './Reports/bill-rpt-shopwise/bill-rpt-s
     OwnersReportComponent,
     ShopsReportComponent,
     BillRptShopwiseComponent,
+    BillrptdatewiseComponent,
+    BillrptshopandpartywiseComponent,
 
     
    

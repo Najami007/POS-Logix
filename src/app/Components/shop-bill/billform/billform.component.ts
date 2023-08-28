@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/Shared/service/notification.service
 import { ShopBillComponent } from '../shop-bill.component';
 import { environment } from 'src/environments/environment.development';
 import { error } from 'jquery';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-billform',
@@ -22,15 +23,20 @@ export class BillformComponent implements OnInit {
   shopBillDate:any;
   BillRemarks:any;
   wapdaCharges:any;
+  hvacCharges:any;
+  GasCharges:any;
+  GeneratorCharges:any;
 
 
 
   constructor(
+    
     private http:HttpClient,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef: MatDialogRef<ShopBillComponent>,
     private global:GlobalDataModule,
-    private msg:NotificationService
+    private msg:NotificationService,
+    
   ){}
 
   ngOnInit(): void {
@@ -39,6 +45,16 @@ export class BillformComponent implements OnInit {
 
 
 
+
+  changeValue(val: any) {
+    // alert(val.target.value);
+    if (val.target.value < '0') {
+      val.target.value = '0';
+    }else if(val.target.value == ''){
+      val.target.value = '0';
+    }
+  }
+  
 
   //////////////////////////////////////////////////////////////
 
@@ -50,14 +66,18 @@ export class BillformComponent implements OnInit {
     }else if(this.BillRemarks == '' || this.BillRemarks == undefined){
       this.BillRemarks = '-';
     }else{
+      // this.app.startLoaderDark();
       this.http.post(environment.mallApiUrl+'InsertGenBill',{
         ShopID: this.editData.shopID,
         PartyID: this.editData.partyID,
-        BillDate: this.shopBillDate,
+        BillDate: this.shopBillDate.toISOString().substring(0,10),
         ShopRentHistoryID: this.editData.shopRentHistoryID,
         ShopAreaSQ: this.editData.shopAreaSQ,
         Remarks: this.BillRemarks,
         WapdaCharges: this.wapdaCharges,
+        HvacCharges:this.hvacCharges,
+        GasCharges:this.GasCharges,
+        GeneratorCharges:this.GeneratorCharges,
         UserID: this.global.currentUserValue.userID,
         }).subscribe(
           (Response:any)=>{
@@ -66,13 +86,17 @@ export class BillformComponent implements OnInit {
               this.msg.SuccessNotify(Response.msg);
               //this.mainPage.eventEmitterprint.emit(Response.billNo);
               this.dialogRef.close(Response.billNo);
+              // this.app.stopLoaderDark();
               
             }else{
               this.msg.WarnNotify(Response.msg);
+              // this.app.stopLoaderDark();
             }
           },
           (error:any)=>{
+            this.msg.WarnNotify('Error Occured while Saving')
             console.log(error);
+            // this.app.stopLoaderDark();
           }
         )
     }

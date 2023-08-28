@@ -23,6 +23,7 @@ export class ShopsReportComponent implements OnInit {
 
   ngOnInit(): void {
    this.getShop();
+   this.global.setHeaderTitle("list of shop's")
    
   }
 

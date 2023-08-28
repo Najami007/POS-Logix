@@ -1,0 +1,88 @@
+<div>
+    <div class="container p-3 border-bottom">
+
+         <!----------------           Date Section ------------------------------->
+         <div class="row ">
+                    
+            <mat-form-field class="w-25">
+                <mat-label>Select Shop </mat-label>
+                <mat-select [(ngModel)]="shopID">
+                    <mat-option><ngx-mat-select-search [(ngModel)]="shopSearch"
+                        [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                        name="search"></ngx-mat-select-search></mat-option>
+                    <mat-option *ngFor="let item of shopList | filter:shopSearch; " [value]="item.shopID">{{item.shopTitle}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-25">
+                <mat-label>Select Party </mat-label>
+                <mat-select [(ngModel)]="partyID">
+                    <mat-option><ngx-mat-select-search [(ngModel)]="customerSearch"
+                        [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                        name="search"></ngx-mat-select-search></mat-option>
+                    <mat-option *ngFor="let item of partyList | filter:customerSearch; " [value]="item.partyID">{{item.partyName}}- ({{item.partyCNIC}})</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-25 ">
+                <mat-label>From Date</mat-label>
+                <input matInput type="text"  readonly="true" [(ngModel)]="fromDate" [matDatepicker]="sDate">
+                <mat-datepicker-toggle matSuffix [for]="sDate"></mat-datepicker-toggle>
+                <mat-datepicker #sDate></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="w-25">
+                <mat-label>To Date</mat-label>
+                <input matInput type="text" readonly="true" [(ngModel)]="toDate"  [matDatepicker]="eDate">
+                <mat-datepicker-toggle matSuffix [for]="eDate"></mat-datepicker-toggle>
+                <mat-datepicker #eDate></mat-datepicker>
+            </mat-form-field>
+        
+
+       
+    </div>
+    <div class=" mt-4 text-center ">
+        <button class="btn btn-primary fw-bold me-4" (click)="getReportShopandPartyWise()">
+            <mat-icon >insert_drive_file</mat-icon>Get Rpt
+        </button>   
+    
+        <button class=" btn btn-primary fw-bold" (click)="PrintTable()">
+            <mat-icon>print</mat-icon>Print
+        </button>
+    </div>
+
+    </div>
+
+
+    <!---------------------     table Area ---------------->
+
+    <div class="container" id="printRpt">
+
+        <table class="table">
+            <thead class="border-bottom">
+                <th>S#</th>
+                <th>Bill No</th>
+                <th>Shop Title</th>
+                <th>Party Name</th>
+                <th>Area</th>
+                <th>CAM</th>
+                <th>Rent</th>
+                <th>Amount</th>
+                
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let item of ReportData;index as index">
+                    <td>{{index+1}}</td>
+                    <td>{{item.billNo}}</td>
+                    <td>{{item.shopTitle}}</td>
+                    <td>{{item.partyName}}</td>
+                    <td>{{item.shopAreaSQ}}</td>
+                    <td>{{item.camCharges}} x {{item.shopAreaSQ}} = <b>{{item.camCharges * item.shopAreaSQ}}</b></td>
+                    <td>{{item.rentCharges}} x {{item.shopAreaSQ}} = <b>{{item.rentCharges * item.shopAreaSQ}}</b></td>
+                    <td>{{item.charges}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

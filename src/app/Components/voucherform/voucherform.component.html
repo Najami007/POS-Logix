@@ -152,7 +152,7 @@
                                         (click)="deleteRow(item)">delete</mat-icon></td>
 
                                 </tr>
-                                <tr class="fw-bold bg-light">
+                                <tr *ngIf="VoucherData != ''" class="fw-bold bg-light">
                                     <td></td>
                                     <td> Total</td>
                                     <td>{{debittotal}}</td>

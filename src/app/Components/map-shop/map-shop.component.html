@@ -6,7 +6,10 @@
                     <mat-form-field appearance="outline" class="p-3 w-50">
                         <mat-label>Select Shop</mat-label>
                         <mat-select id="shop" (selectionChange)="onShopIDChage()" [(ngModel)]="ShopID">
-                            <mat-option *ngFor="let item of ShopList" [value]="item.shopID">{{item.shopTitle}}</mat-option>
+                            <mat-option><ngx-mat-select-search [(ngModel)]="shopSearch"
+                                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                name="search"></ngx-mat-select-search></mat-option>
+                            <mat-option *ngFor="let item of ShopList | filter: shopSearch" [value]="item.shopID">{{item.shopTitle}}</mat-option>
                         </mat-select>
         
                     </mat-form-field>
@@ -15,7 +18,10 @@
                     <mat-form-field appearance="outline" class="p-3 w-50">
                         <mat-label>Select Cutomer</mat-label>
                         <mat-select id="party" [(ngModel)]="partyID">
-                            <mat-option *ngFor="let item of customerList" [value]="item.partyID">{{item.partyName}} - ({{item.partyCNIC}})</mat-option>
+                            <mat-option><ngx-mat-select-search [(ngModel)]="customerSearch"
+                                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                name="search"></ngx-mat-select-search></mat-option>
+                            <mat-option *ngFor="let item of customerList |filter:customerSearch" [value]="item.partyID">{{item.partyName}} - ({{item.partyCNIC}})</mat-option>
                         </mat-select>
         
                     </mat-form-field>
@@ -40,12 +46,21 @@
                    
                     <mat-form-field appearance="outline" class="p-3 w-50">
                         <mat-label>CAM Charges</mat-label>
-                        <input matInput id="camCharges" [(ngModel)]="camCharges" min="0"  type="number">
+                        <input matInput id="camCharges" (change)="onCamChange()" [(ngModel)]="camCharges" min="0"  type="number">
                     </mat-form-field>
         
                     <mat-form-field appearance="outline" class="p-3 w-50">
                         <mat-label>Rent Charges</mat-label>
-                        <input matInput id="rentCharges" [(ngModel)]="rentCharges" min="0" type="number">
+                        <input matInput id="rentCharges" (change)="onRentChange()" [(ngModel)]="rentCharges" min="0" type="number">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="p-3 w-50" >
+                        <mat-label>CAM Total</mat-label>
+                        <input matInput id="camCharges" [disabled]="true"  [(ngModel)]="camTotal" min="0"  type="number">
+                    </mat-form-field>
+        
+                    <mat-form-field appearance="outline" class="p-3 w-50">
+                        <mat-label>Rent Total</mat-label> 
+                        <input matInput id="rentCharges"  [disabled]="true" [(ngModel)]="rentTotal" min="0" type="number">
                     </mat-form-field>
 
                     <div class="text-center">
@@ -166,8 +181,8 @@
                         <td>{{item.shopAreaSQ}}</td>
                         <td>{{item.partyName}}</td>
                         <td>{{item.rentPaymentDate}}</td>
-                        <td>{{item.camCharges}}</td>
-                        <td>{{item.rentCharges}}</td>
+                        <td>{{item.camCharges}} x {{item.shopAreaSQ}} = <b>{{item.camCharges * item.shopAreaSQ }}</b> </td>
+                        <td>{{item.rentCharges}} x {{item.shopAreaSQ}} =<b>{{item.rentCharges * item.shopAreaSQ }}</b> </td>
                         <td><mat-icon class="text-success cursorPointer" (click)="addNewShopService(item)">edit</mat-icon></td>
                         <td ><mat-icon class="text-danger cursorPointer " (click)="UnMapShop(item)" >delete</mat-icon></td>
                     </tr>

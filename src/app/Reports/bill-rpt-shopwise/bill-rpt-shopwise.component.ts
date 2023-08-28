@@ -25,6 +25,7 @@ export class BillRptShopwiseComponent implements OnInit{
 
   ngOnInit(): void {
     this.getShop();
+    this.globalData.setHeaderTitle('Bill Rpt ShopWise')
   }
 
   txtSearch:any;
@@ -35,32 +36,48 @@ startDate = new Date();
 EndDate = new Date();
 
 reportData:any;
-curShop:any;
+curShopTitle:any;
 
 
 getShop(){
+  this.app.startLoaderDark();
   this.http.get(environment.mallApiUrl+'GetShop').subscribe(
     {
       next:value=>{
         // console.log(value);
         this.shopList = value;
+        this.app.stopLoaderDark();
       },
       error:error=>{
         console.log(error);
         this.msg.WarnNotify('error Occured while Loading Data');
+        this.app.stopLoaderDark();
       }
     }
   )
 }
 
+shopChange(){
+ ////////////////////////////// will change the value of current shop Title///////////////
+ var curRow = this.shopList.find((e:any)=> e.shopID == this.shopID );
+ this.curShopTitle = curRow.shopTitle;
+}
+
+
+
+
 
 getRpt(){
+
   if(this.shopID == "" || this.shopID == undefined){
     this.msg.WarnNotify('Select The Shop');
   }else{
+
     this.app.startLoaderDark();
-    this.http.get(environment.mallApiUrl+'GetBillRptShopwise?startdate='+this.startDate+'&enddate='+this.EndDate+'&shopid='+this.shopID).subscribe(
+    this.http.get(environment.mallApiUrl+'GetBillRptShopwise?startdate='+this.startDate.toISOString().substring(0,10)+'&enddate='+
+    this.EndDate.toISOString().substring(0,10)+'&shopid='+this.shopID).subscribe(
       (Response)=>{
+        console.log(Response);
         this.reportData = Response;
         this.app.stopLoaderDark();
       },

@@ -23,6 +23,7 @@ export class OwnersReportComponent implements OnInit{
 
   ngOnInit(): void {
   
+    this.global.setHeaderTitle("list of Owner's")
     this.getOwner();
 
   }

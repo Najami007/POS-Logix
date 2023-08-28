@@ -5,8 +5,10 @@
                     
             <mat-form-field class=" col-lg-4" appearance="outline">
                 <mat-label>Select Shop</mat-label>
-                <mat-select [(ngModel)]="shopID" >
-                    <input placeholder="Search...."  type="text" class="p-2 border border-bottom rounded w-100" style="height: 40px;" [(ngModel)]="txtSearch" >
+                <mat-select [(ngModel)]="shopID"  (selectionChange)="shopChange()">
+                    <mat-option><ngx-mat-select-search [(ngModel)]="txtSearch"
+                        [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                        name="search"></ngx-mat-select-search></mat-option>
                     <mat-option *ngFor="let item of shopList | filter:txtSearch; " value="{{item.shopID}}">{{item.shopTitle}} </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -53,7 +55,7 @@
                 <h5 style="margin-top: -15px;" class="text-end">Mehria Town Pvt.(Ltd)</h5>
 
                 <h1>Bill Report</h1>
-                <h3 style="margin-top:-10px">{{curShop}}</h3>
+                <h3 style="margin-top:-10px">{{curShopTitle}}</h3>
                 <h4 style="margin-top:-5px"><b>From:</b> {{startDate | date:'yyyy-MM-dd'}} <b>To:</b> {{EndDate | date:'yyyy-MM-dd'}}</h4>
               
             </span>

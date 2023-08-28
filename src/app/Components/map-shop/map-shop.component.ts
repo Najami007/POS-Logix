@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment.development';
 import { AddShopCategoryComponent } from '../settings/shop-category/add-shop-category/add-shop-category.component';
 import { AddServiceComponent } from './add-shopservice/add-service.component';
 import { UnmapShopComponent } from './unmap-shop/unmap-shop.component';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-map-shop',
@@ -25,6 +26,7 @@ export class MapShopComponent implements OnInit {
     private http:HttpClient,
     private msg:NotificationService,
     private dialogue:MatDialog,
+    private app:AppComponent
     
     ){
     
@@ -42,7 +44,11 @@ export class MapShopComponent implements OnInit {
 
 
   }
+  camTotal:any;
+  rentTotal:any;
 
+  shopSearch:any
+  customerSearch:any;
   txtSearch:any;
   ShopID:any;
   partyID:any;
@@ -96,7 +102,23 @@ export class MapShopComponent implements OnInit {
     this.rentID = row.rentID;
     this.camCharges = row.camCharges;
     this.rentCharges = row.rentCharges;
+    this.onCamChange();
+    this.onRentChange();
     
+  }
+
+  onCamChange(){
+    var row = this.ShopList.find((x:any)=>x.shopID == this.ShopID);
+    console.log(row);
+
+    this.camTotal = this.camCharges * row.shopAreaSQ;
+  }
+
+  onRentChange(){
+    var row = this.ShopList.find((x:any)=>x.shopID == this.ShopID);
+    console.log(row);
+
+    this.rentTotal = this.rentCharges * row.shopAreaSQ;
   }
 ////////////////////////////////////////////////////
 
@@ -159,16 +181,19 @@ export class MapShopComponent implements OnInit {
    //////////////////////////////////////////
 
    getMappedData(){
+    this.app.startLoaderDark();
     this.http.get(environment.mallApiUrl+'GetMappedShop').subscribe(
       {
         next:value=>{
           // console.log(value);
           this.mappedShopData = value;
+          this.app.stopLoaderDark();
         },
 
       error:error=>{
         console.log(error);
         this.msg.WarnNotify('Error Occured While loading data');
+        this.app.stopLoaderDark()
       }
       }
     )
@@ -221,6 +246,7 @@ export class MapShopComponent implements OnInit {
     this.msg.WarnNotify('Enter Rent Charges')
    }
    else {
+    this.app.startLoaderDark();
     this.http.post(environment.mallApiUrl+'InsertMapShop',{
       ShopID: this.ShopID,
       PartyID: this.partyID,
@@ -240,8 +266,10 @@ export class MapShopComponent implements OnInit {
           this.msg.SuccessNotify(Response.msg);
           this.reset();
           this.getMappedData();
+          this.app.stopLoaderDark();
         }else{
           this.msg.WarnNotify(Response.msg);
+          this.app.stopLoaderDark();
         }
       }
     )

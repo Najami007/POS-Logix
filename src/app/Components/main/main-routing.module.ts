@@ -24,6 +24,8 @@ import { ShopBillComponent } from '../shop-bill/shop-bill.component';
 import { ShopsReportComponent } from 'src/app/Reports/shops-report/shops-report.component';
 import { OwnersReportComponent } from 'src/app/Reports/owners-report/owners-report.component';
 import { BillRptShopwiseComponent } from 'src/app/Reports/bill-rpt-shopwise/bill-rpt-shopwise.component';
+import { BillrptdatewiseComponent } from 'src/app/Reports/billrptdatewise/billrptdatewise.component';
+import { BillrptshopandpartywiseComponent } from 'src/app/Reports/billrptshopandpartywise/billrptshopandpartywise.component';
 
 
 
@@ -50,6 +52,8 @@ const routes: Routes = [
   {path:'srptl',component:ShopsReportComponent},
   {path:'orptl',component:OwnersReportComponent},
   {path:'BRptSW',component:BillRptShopwiseComponent},
+  {path:'BRptDW',component:BillrptdatewiseComponent},
+  {path:'BRptS&PW',component:BillrptshopandpartywiseComponent},
 
   {path:'', redirectTo:'/main/dashBoard',pathMatch:'full'}
   ]},

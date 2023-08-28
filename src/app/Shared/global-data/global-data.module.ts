@@ -243,6 +243,16 @@ export class GlobalDataModule  {
   }
 
 
+  changeValue(val: any) {
+    // alert(val.target.value);
+    if (val.target.value < '0') {
+      val.target.value = '0';
+    }else if(val.target.value == ''){
+      val.target.value = '0';
+    }if(val.target.value == ''){
+      val.target.value = '0';
+    }
+  }
 
 
  }
