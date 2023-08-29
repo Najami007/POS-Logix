@@ -5,6 +5,7 @@ import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module'
 import { NotificationService } from 'src/app/Shared/service/notification.service';
 import { ShopComponent } from '../shop.component';
 import { environment } from 'src/environments/environment.development';
+import { timestamp } from 'rxjs/internal/operators/timestamp';
 
 @Component({
   selector: 'app-add-shop',
@@ -50,7 +51,7 @@ export class AddShopComponent implements OnInit{
   shopArea:any;
   description:any;
   partyID:any;
-  purchaseDate = new Date();
+  purchaseDate:any = new Date();
 
 
 
@@ -64,9 +65,9 @@ export class AddShopComponent implements OnInit{
   /////////////////////////////
 
 
-  changeValue(){
-    // alert(this.purchaseDate);
-  }
+  // changeValue(){
+  //   alert(this.purchaseDate);
+  // }
 
   
 
@@ -158,7 +159,11 @@ export class AddShopComponent implements OnInit{
 
 
   InsertShop(){
-    
+
+    /////////// will send the current date to DB///////////
+    this.global.newDateFormate(this.purchaseDate); 
+    this.purchaseDate.toISOString().substring(0,10);
+ 
     this.http.post(environment.mallApiUrl+'InsertShop',{
       CamID:this.camID,
       RentID:this.rentID,
@@ -167,7 +172,7 @@ export class AddShopComponent implements OnInit{
       ShopDescription:this.description,
       ShopAreaSQ:this.shopArea,
       PartyID:this.partyID,
-      PurchaseDate:this.purchaseDate.toISOString().substring(0,10),
+      PurchaseDate:this.purchaseDate,
       UserID:this.global.currentUserValue.userID,
     }).subscribe(
       (Response:any)=>{
@@ -188,6 +193,11 @@ export class AddShopComponent implements OnInit{
 
 
   updateShop(){
+    /////////// will send the current date to DB///////////
+    this.global.newDateFormate(this.purchaseDate);
+    
+     this.purchaseDate.toISOString().substring(0,10);
+    
 
     this.http.post(environment.mallApiUrl+'UpdateShop',{
       ShopID:this.editData.shopID,
@@ -199,7 +209,7 @@ export class AddShopComponent implements OnInit{
       ShopDescription:this.description,
       ShopAreaSQ:this.shopArea,
       PartyID:this.partyID,
-      PurchaseDate:this.purchaseDate.toISOString().substring(0,10),
+      PurchaseDate:this.purchaseDate,
       UserID:this.global.currentUserValue.userID,
     }).subscribe(
       (Response:any)=>{

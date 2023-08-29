@@ -9,7 +9,9 @@
                         <mat-form-field class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <mat-label>Select Account Head</mat-label>
                             <mat-select [(ngModel)]="coaID">
-                                <input placeholder="Search...."  type="text" class="p-2 border border-bottom rounded w-100" style="height: 40px;" [(ngModel)]="txtSearch" >
+                                <mat-option><ngx-mat-select-search [(ngModel)]="txtSearch"
+                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                    name="search"></ngx-mat-select-search></mat-option>
                                 <mat-option *ngFor="let item of CoaList | filter:txtSearch; " value="{{item.coaID}}">{{item.coaTitle}}- ({{item.accountCode}})</mat-option>
                             </mat-select>
                         </mat-form-field>

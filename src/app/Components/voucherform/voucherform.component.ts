@@ -53,7 +53,7 @@ export class VoucherformComponent implements OnInit{
 
   vType: any;
   transactionType: any = 'Cash';
-  invoiceDate: any = new Date();
+  invoiceDate:Date = new Date();
   refrenceCOA: any ;
   partyID: any ;
   COATitleID: any ;
@@ -94,9 +94,9 @@ export class VoucherformComponent implements OnInit{
 
 
  
-  // getVal(){
-  //   console.log(this.vType);
-  // }
+  getVal(){
+    alert(this.invoiceDate);
+  }
  
 
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,7 +178,7 @@ export class VoucherformComponent implements OnInit{
   /////////////////////////////////////////////////////////////////////
 
   getSavedVoucher(){
-    this.app.startLoaderDark();
+   
     this.http.get(environment.mallApiUrl+'GetSavedVoucherDetail').subscribe(
       (Response:any)=>{
         // console.log(Response);
@@ -238,14 +238,21 @@ export class VoucherformComponent implements OnInit{
   ///////////////////////////////////////////////////////////
 
   insertVoucher(){
+    
+    
     if(this.vType == '' || this.vType == undefined){
       this.msg.WarnNotify('Select Voucher Type')
-    }else if(this.invoiceDate == '' || this.invoiceDate == undefined){
-      this.msg.WarnNotify('Select Voucher Date')
-    }else if(this.vType == 'JV' && this.creditTotal != this.debittotal){
+    } else if(this.vType == 'JV' && this.creditTotal != this.debittotal){
       this.msg.WarnNotify('Debit And Credit Total Side Must Be Equal')
     } 
     else{
+
+      
+      this.globalData.newDateFormate(this.invoiceDate);//////////// will send the current date to DB////////////////////
+      this.invoiceDate.toISOString().substring(0,10);  //////////// will send only the date Section////////////////
+
+
+      this.app.startLoaderDark();  ///////////// will start the loader
       this.http.post(environment.mallApiUrl+'InsertVoucher',{
         InvoiceDate: this.invoiceDate,
         PartyID: this.partyID,
@@ -260,8 +267,9 @@ export class VoucherformComponent implements OnInit{
           // console.log(Response);
           if(Response.msg == 'Data Saved Successfully'){
             this.msg.SuccessNotify(Response.msg);
-            this.getSavedVoucher();
             this.reset();
+            this.getSavedVoucher();
+            this.app.stopLoaderDark();
 
             /////////////////////////will print The invoice after SAve///////////////
             setTimeout(() => {
@@ -270,8 +278,13 @@ export class VoucherformComponent implements OnInit{
             
           }else{
             this.msg.WarnNotify(Response.msg);
+            this.app.stopLoaderDark();
           }
           
+        },
+        (Error)=>{
+          this.app.stopLoaderDark();
+          this.msg.WarnNotify('Error Occured');
         }
       )
     }
@@ -401,9 +414,13 @@ export class VoucherformComponent implements OnInit{
 
     this.getInvoiceDetail(invoiceNo);
 
-      setTimeout(() => {
+     setTimeout(() => {
+      if(this.invoiceDetails != ''){
+      
         this.globalData.printData('#afterSavePrint');
-      }, 1000);
+   
+     }
+     }, 1000);
     
    
    }
@@ -443,6 +460,7 @@ export class VoucherformComponent implements OnInit{
     this.vType = '';
     this.invoiceDate = new Date();
     this.refrenceCOA = '';
+    this.refCoaList = [];
     // this.partyID = '';
     this.bankReceiptNo = '';
     this.VoucherData = [];

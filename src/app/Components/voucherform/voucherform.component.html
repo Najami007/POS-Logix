@@ -33,10 +33,10 @@
 
                     <mat-form-field class="col-lg-6 col-md-6 col-sm-6 col-xs-6" appearance="outline">
                         <mat-label>Select Voucher Date</mat-label>
-                        <input readonly="true" matInput type="text" name="voucherDate" [(ngModel)]="invoiceDate"
-                            [matDatepicker]="voucherDate" [disabled]="VoucherData != ''">
-                        <mat-datepicker-toggle matSuffix [for]="voucherDate"></mat-datepicker-toggle>
-                        <mat-datepicker #voucherDate></mat-datepicker>
+                        <input readonly="true" (dateChange)="getVal()" matInput  [(ngModel)]="invoiceDate"
+                            [matDatepicker]="picker" [disabled]="VoucherData != ''">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
 
 
@@ -89,8 +89,6 @@
                             <mat-label>Select COA Title </mat-label>
                             <mat-select id="cTitle" class="cTitle" [(ngModel)]="COATitleID" name="coaTitle"
                                 accesskey="c">
-                                <!-- <input placeholder="Search...." matInput type="text"  class="p-2 border border-bottom rounded w-100"
-                                        style="height: 40px;" [(ngModel)]="coaSearch" > -->
                                 <mat-option><ngx-mat-select-search [(ngModel)]="coaSearch"
                                         [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
                                         name="search"></ngx-mat-select-search></mat-option>
@@ -146,8 +144,8 @@
                                 <tr *ngFor="let item of VoucherData, ;index as index ">
                                     <td class="">{{index+1}}</td>
                                     <td class="">{{item.title}}</td>
-                                    <td class="">{{item.Debit}}</td>
-                                    <td class="">{{item.Credit}}</td>
+                                    <td class="">{{item.Debit |number}}</td>
+                                    <td class="">{{item.Credit |number}}</td>
                                     <td class=" "><mat-icon class=" text-danger "
                                         (click)="deleteRow(item)">delete</mat-icon></td>
 
@@ -155,8 +153,8 @@
                                 <tr *ngIf="VoucherData != ''" class="fw-bold bg-light">
                                     <td></td>
                                     <td> Total</td>
-                                    <td>{{debittotal}}</td>
-                                    <td>{{creditTotal}}</td>
+                                    <td>{{debittotal |number}}</td>
+                                    <td>{{creditTotal |number}}</td>
                                     <td></td>
 
                                 </tr>
@@ -222,7 +220,7 @@
                 <div class="row mt-5" >
 
                     <p>{{lblInvoiceNo}}</p>
-                    <p>{{lblInvoiceDate | date:'short'}}</p>
+                    <p>{{lblInvoiceDate | date:'yyyy-MM-dd'}}</p>
                     <p>{{lblRemarks}}</p>
                     
 
@@ -245,14 +243,14 @@
                         <tr *ngFor="let item of invoiceDetails; index as index">
                             <td>{{index+1}}</td>
                             <td>{{item.coaTitle}} ({{item.accountCode}})</td>
-                            <td>{{item.debit}}</td>
-                            <td>{{item.credit}}</td>
+                            <td>{{item.debit |number}}</td>
+                            <td>{{item.credit |number}}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td><b>Total</b></td>
-                            <td><b>{{lblDebitTotal}}</b></td>
-                            <td><b>{{lblCreditTotal}}</b></td>
+                            <td><b>{{lblDebitTotal |number}}</b></td>
+                            <td><b>{{lblCreditTotal |number}}</b></td>
                         </tr>
                     </tbody>
                 </table>
@@ -315,9 +313,9 @@
 
                         <td>{{index+1}}</td>
                         <td> {{item.invoiceNo}}</td>
-                        <td>{{item.invoiceDate | date:'short'}}</td>
+                        <td>{{item.invoiceDate | date:'yyyy-MM-dd'}}</td>
                         <td>{{item.partyName}}</td>
-                        <td>{{item.amount}}</td>
+                        <td>{{item.amount |number}}</td>
                         <td>{{item.invoiceRemarks}}</td>
                         <td ><mat-icon class="text-success" data-bs-toggle="modal" data-bs-target="#invoiceDetailModel" 
                             (click)="getInvoiceDetail(item.invoiceNo)" >receipt</mat-icon></td>
@@ -362,14 +360,14 @@
                         <tr *ngFor="let item of invoiceDetails; index as index">
                             <td>{{index+1}}</td>
                             <td>{{item.coaTitle}} ({{item.accountCode}})</td>
-                            <td>{{item.debit}}</td>
-                            <td>{{item.credit}}</td>
+                            <td>{{item.debit |number}}</td>
+                            <td>{{item.credit |number}}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td><b>Total</b></td>
-                            <td><b>{{lblDebitTotal}}</b></td>
-                            <td><b>{{lblCreditTotal}}</b></td>
+                            <td><b>{{lblDebitTotal |number}}</b></td>
+                            <td><b>{{lblCreditTotal |number}}</b></td>
                         </tr>
                     </tbody>
                 </table>
@@ -424,7 +422,7 @@
                 <div class="row mt-5" >
 
                     <p>{{lblInvoiceNo}}</p>
-                    <p>{{lblInvoiceDate | date:'short'}}</p>
+                    <p>{{lblInvoiceDate | date:'yyyy-MM-dd'}}</p>
                     <p>{{lblRemarks}}</p>
                     
 

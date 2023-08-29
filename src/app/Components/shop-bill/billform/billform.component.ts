@@ -20,7 +20,7 @@ export class BillformComponent implements OnInit {
 
   @Output() eventEmitterprint = new EventEmitter();
 
-  shopBillDate:any;
+  shopBillDate:Date = new Date(Date.now());
   BillRemarks:any;
   wapdaCharges:any;
   hvacCharges:any;
@@ -59,18 +59,23 @@ export class BillformComponent implements OnInit {
   //////////////////////////////////////////////////////////////
 
   saveBill(){
-    if(this.shopBillDate == '' || this.shopBillDate == undefined){
-      this.msg.WarnNotify('Select Shop Bill Date')
-    }else if(this.wapdaCharges === '' || this.wapdaCharges === undefined){
+    $('.loaderDark').show();
+   
+     if(this.wapdaCharges === '' || this.wapdaCharges === undefined){
       this.msg.WarnNotify('Enter Wapda Charges')
     }else if(this.BillRemarks == '' || this.BillRemarks == undefined){
       this.BillRemarks = '-';
     }else{
-      // this.app.startLoaderDark();
+      
+      $('.loaderDark').show();
+
+      this.global.newDateFormate(this.shopBillDate);    //////////// will send the current date to DB////////////////////
+      this.shopBillDate.toISOString().substring(0,10);  /////////// will send only the date Section////////////////
+
       this.http.post(environment.mallApiUrl+'InsertGenBill',{
         ShopID: this.editData.shopID,
         PartyID: this.editData.partyID,
-        BillDate: this.shopBillDate.toISOString().substring(0,10),
+        BillDate: this.shopBillDate,
         ShopRentHistoryID: this.editData.shopRentHistoryID,
         ShopAreaSQ: this.editData.shopAreaSQ,
         Remarks: this.BillRemarks,
@@ -82,21 +87,27 @@ export class BillformComponent implements OnInit {
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Saved Successfully'){
-              // console.log(Response);
+              
               this.msg.SuccessNotify(Response.msg);
-              //this.mainPage.eventEmitterprint.emit(Response.billNo);
+             
               this.dialogRef.close(Response.billNo);
-              // this.app.stopLoaderDark();
+             
+              
+              $('.loaderDark').fadeOut(500);
               
             }else{
               this.msg.WarnNotify(Response.msg);
-              // this.app.stopLoaderDark();
+             
+              
+              $('.loaderDark').fadeOut(500);      
             }
           },
           (error:any)=>{
             this.msg.WarnNotify('Error Occured while Saving')
             console.log(error);
-            // this.app.stopLoaderDark();
+            
+             $('.loaderDark').fadeOut(500);
+           
           }
         )
     }
@@ -112,7 +123,7 @@ export class BillformComponent implements OnInit {
   }
 
   reset(){
-    this.shopBillDate='';
+    this.shopBillDate= new Date(Date.now());
     this.wapdaCharges = '';
     this.BillRemarks = '';
   }

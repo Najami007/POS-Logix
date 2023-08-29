@@ -56,7 +56,7 @@
         <div class="modal-body">
        
            <table class="table">
-            <thead>
+            <thead class="border-bottom">
                 <th>S#</th>
                 <th>Service Title</th>
                 <th>Amount</th>
@@ -67,6 +67,9 @@
                     <td>{{index+1}}</td>
                     <td>{{item.serviceTitle}}</td>
                     <td>{{item.serviceCharges}}</td>
+                </tr>
+                <tr *ngIf="shopServicesData == ''" class="text-center">
+                    <th colspan="3">No Data Available!</th>
                 </tr>
             </tbody>
            </table>

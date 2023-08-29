@@ -43,10 +43,10 @@
         </mat-form-field>
         <mat-form-field class="col-lg-5 me-5" appearance="outline"> 
             <mat-label>Purchase Date</mat-label>
-            <input readonly="true" matInput (dateChange)="changeValue()" type="text" name="voucherDate" 
-                [(ngModel)]="purchaseDate"  [matDatepicker]="PurDate" >
-            <mat-datepicker-toggle matSuffix [for]="PurDate"></mat-datepicker-toggle>
-            <mat-datepicker #PurDate></mat-datepicker>
+            <input readonly="true" matInput  
+                [(ngModel)]="purchaseDate" [matDatepicker]="picker" >
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="col-lg-5 " appearance="outline">
             <mat-label>Description</mat-label>

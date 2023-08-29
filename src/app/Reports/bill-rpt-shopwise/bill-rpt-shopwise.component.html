@@ -40,7 +40,7 @@
         </div>
     </div>
     </div>
-    <div id="printRpt">
+    <div id="printRpt" class="container">
        <!-------------------------    Top Logo Section -------------------->
        <div class="hide">
         <div class="text-center border-bottom d-flex justify-content-between">
@@ -69,7 +69,7 @@
        </div>
 
        <table class="table">
-        <thead>
+        <thead class="border-bottom">
             <th>S#</th>
             <th>Bill No</th>
             <th>Shop Name</th>
@@ -79,13 +79,17 @@
            
         </thead>
         <tbody>
-            <tr *ngFor="let item of reportData;index as index">
+            <tr *ngFor="let item of reportData;index as index" >
                 <td>{{index+1}}</td>
-                <td>{{item.billNo}}</td>
+                <td (click)="getBillDetails(item.billNo)" class="cursorPointer">{{item.billNo}}</td>
                 <td>{{item.shopTitle}}</td>
                 <td>{{item.shopAreaSQ}}</td>
                 <td>{{item.partyName}}</td>
                 <td>{{item.charges}}</td>
+            </tr>
+
+            <tr *ngIf="reportData == ''" class="text-center">
+                <th colspan="6">No Data Found!</th>
             </tr>
             
         </tbody>

@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { BillDetailsComponent } from 'src/app/Components/shop-bill/bill-details/bill-details.component';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
 import { AppComponent } from 'src/app/app.component';
@@ -19,6 +21,7 @@ export class BillrptshopandpartywiseComponent implements OnInit{
     private msg:NotificationService,
     private app:AppComponent,
     private global:GlobalDataModule,
+    private dialogue:MatDialog
 
 
   ){}
@@ -97,6 +100,11 @@ export class BillrptshopandpartywiseComponent implements OnInit{
     }else if(this.partyID == '' || this.partyID == undefined){
       this.msg.WarnNotify('Select The Customer Name')
     }else{
+
+      this.global.newDateFormate(this.fromDate);
+      this.global.newDateFormate(this.toDate);
+    
+
       this.http.get(environment.mallApiUrl+'GetBillRptShopAndPartywise??startdate=+'+this.fromDate.toISOString().substring(0,10)+
       '&enddate='+this.toDate.toISOString().substring(0,10)+'&shopid='+this.shopID+'&partyid='+this.partyID).subscribe(
         (Response)=>{
@@ -126,6 +134,44 @@ export class BillrptshopandpartywiseComponent implements OnInit{
     
   }
 
+
+  
+  //////////////////////////////////////////////////////////////
+  tableData:any;
+  getBillDetails(billNo:any){
+    this.tableData = [];
+
+    this.http.get(environment.mallApiUrl+'getsinglebill?billno='+billNo).subscribe(
+      (Response:any)=>{
+       
+        if(Response.length > 0){
+          this.tableData.push(
+            {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},
+            {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
+          
+           );
+          
+         
+         for(var i = 0; Response.length > i;i++ ){
+          this.tableData.push(
+            {title:Response[i].serviceTitle,charges:Response[i].serviceCharges});
+            
+         }
+         
+       
+          this.dialogue.open(BillDetailsComponent,{
+            width:"50%",
+            data:this.tableData,
+          }).afterClosed().subscribe(val=>{
+            
+          })
+         
+     
+           
+        }
+      }
+    )
+  }
 
 
 

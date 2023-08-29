@@ -42,9 +42,8 @@ export class TrialBalanceComponent {
 
 
   getTrialBalance(){
-this.TrialBalanceData = '';
+this.TrialBalanceData = [];
     this.app.startLoaderDark();
-    console.log(this.globalData.dateFormater(this.fromDate,'-'),this.globalData.dateFormater(this.toDate,'-'))
 
     this.http.get(environment.mallApiUrl+'GetTrailBalanceRpt?fromdate='
     +this.globalData.dateFormater(this.fromDate,'-')+'&todate='+this.globalData.dateFormater(this.toDate,'-')).subscribe(
@@ -52,17 +51,15 @@ this.TrialBalanceData = '';
         this.TrialBalanceData = Response;
         this.getTotal();
         this.app.stopLoaderDark();
+      },
+      (Error)=>{
+        this.app.stopLoaderDark();
+        this.msg.WarnNotify('Error Occured')
       }
     )
   
    
-    setTimeout(() => {
-      if(this.TrialBalanceData == ''){
-        this.app.stopLoaderDark();
-        this.msg.WarnNotify('Error Occured')
-      }
     
-    }, 5000);
 
   }
 
@@ -74,7 +71,6 @@ this.TrialBalanceData = '';
    this.creditTotal = 0;
    this.cDebitTotal = 0;
    this.cCreditTotal = 0;
-    console.log(this.TrialBalanceData);
     for(var i=0;i<this.TrialBalanceData.length;i++){
       this.oDebitTotal += this.TrialBalanceData[i].oDebit;
       this.oCreditTotal += this.TrialBalanceData[i].oCredit;
@@ -83,7 +79,6 @@ this.TrialBalanceData = '';
       this.cDebitTotal += this.TrialBalanceData[i].cDebit;
       this.cCreditTotal += this.TrialBalanceData[i].cCredit;
 
-      console.log(this.oDebitTotal,this.oCreditTotal);
     }
   }
 

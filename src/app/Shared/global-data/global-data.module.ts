@@ -230,6 +230,16 @@ export class GlobalDataModule  {
 
 
 
+  ///////////////////// to formate date to send to DB/////////////////////
+  ////////// will solve the issue where  one day previous date sended/////////////////
+
+  newDateFormate( date:Date){
+    const offset = date.getTimezoneOffset();
+    if (offset < 0) {
+    date.setHours(12,0,0);
+    }
+  }
+
 
   numberOnly(){
     $('.numOnly').on('keypress keyup blur',(event:any)=>{
