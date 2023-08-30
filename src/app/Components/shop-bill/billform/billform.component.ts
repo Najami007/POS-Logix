@@ -44,6 +44,10 @@ export class BillformComponent implements OnInit {
   }
 
 
+  formateDate(){
+    // this.global.newDateFormate(this.shopBillDate);    //////////// will send the current date to DB////////////////////
+    // this.shopBillDate.toISOString().substring(0,10);  /////////// will send only the date Section////////////////
+  }
 
 
   changeValue(val: any) {
@@ -69,13 +73,12 @@ export class BillformComponent implements OnInit {
       
       $('.loaderDark').show();
 
-      this.global.newDateFormate(this.shopBillDate);    //////////// will send the current date to DB////////////////////
-      this.shopBillDate.toISOString().substring(0,10);  /////////// will send only the date Section////////////////
+     
 
       this.http.post(environment.mallApiUrl+'InsertGenBill',{
         ShopID: this.editData.shopID,
         PartyID: this.editData.partyID,
-        BillDate: this.shopBillDate,
+        BillDate: this.global.dateFormater(this.shopBillDate,'-'),
         ShopRentHistoryID: this.editData.shopRentHistoryID,
         ShopAreaSQ: this.editData.shopAreaSQ,
         Remarks: this.BillRemarks,

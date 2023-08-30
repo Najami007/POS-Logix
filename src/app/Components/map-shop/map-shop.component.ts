@@ -36,10 +36,10 @@ export class MapShopComponent implements OnInit {
 
   ngOnInit(): void {
   this.globaldata.setHeaderTitle('Map Shop');
-  this.getMappedData();
   this.getShop();
   this.getParty();
   this.getService();
+  this.getMappedData();
 
 
 
@@ -59,6 +59,7 @@ export class MapShopComponent implements OnInit {
   rentID:any;
   rentCharges:any;
   SevicesDetails:any;
+  shopArea:any;
 
 
   serviceID:any;
@@ -79,86 +80,43 @@ export class MapShopComponent implements OnInit {
   ServicesData:any=[];
 
 
-
-
-
-  
-
-  /////////////////////////////////////////////
-
-  onServiceIDChange(){
-    var row = this.servicesList.find((x:any)=>x.serviceID == this.serviceID);
-
-    this.serviceCharges = row.serviceCharges;
-    this.serviceTitle = row.serviceTitle;
-  }
-
-  ///////////////////////////////////
-
-  onShopIDChage(){
-    var row = this.ShopList.find((x:any)=>x.shopID == this.ShopID);
-
-    this.camID = row.camID;
-    this.rentID = row.rentID;
-    this.camCharges = row.camCharges;
-    this.rentCharges = row.rentCharges;
-    this.onCamChange();
-    this.onRentChange();
-    
-  }
-
-  onCamChange(){
-    var row = this.ShopList.find((x:any)=>x.shopID == this.ShopID);
-    console.log(row);
-
-    this.camTotal = this.camCharges * row.shopAreaSQ;
-  }
-
-  onRentChange(){
-    var row = this.ShopList.find((x:any)=>x.shopID == this.ShopID);
-    console.log(row);
-
-    this.rentTotal = this.rentCharges * row.shopAreaSQ;
-  }
 ////////////////////////////////////////////////////
 
-  getShop(){
-    this.http.get(environment.mallApiUrl+'GetShop').subscribe(
-      {
-        next:value=>{
-          // console.log(value);
-          this.ShopList = value;
-        },
-        error:error=>{
-          console.log(error);
-          this.msg.WarnNotify('error Occured while Loading Data');
-        }
-      }
-    )
-  }
-
-  //////////////////////////////////////////////
-
-  getParty(){
-    this.http.get(environment.mallApiUrl+'getparty').subscribe(
+getShop(){
+  this.http.get(environment.mallApiUrl+'GetShop').subscribe(
     {
-      next:value =>{
-        this.customerList = value;
+      next:value=>{
         // console.log(value);
-      
+        this.ShopList = value;
       },
-      error: error=>{
-        this.msg.WarnNotify('Error Occured While Loading Data')
+      error:error=>{
         console.log(error);
-      }        
-      
-      
+        this.msg.WarnNotify('error Occured while Loading Data');
+      }
     }
-    )
+  )
+}
+
+
+//////////////////////////////////////////////
+
+getParty(){
+  this.http.get(environment.mallApiUrl+'getparty').subscribe(
+  {
+    next:value =>{
+      this.customerList = value;
+      // console.log(value);
+    
+    },
+    error: error=>{
+      this.msg.WarnNotify('Error Occured While Loading Data')
+      console.log(error);
+    }        
+    
+    
   }
-
-
-
+  )
+}
   //////////////////////////////////////////
 
   getService(){
@@ -175,29 +133,81 @@ export class MapShopComponent implements OnInit {
      }
     ) 
    }
+
+
+     //////////////////////////////////////////
+
+     getMappedData(){
+      this.app.startLoaderDark();
+      this.http.get(environment.mallApiUrl+'GetMappedShop').subscribe(
+        {
+          next:value=>{
+        
+            this.mappedShopData = value;
+            this.app.stopLoaderDark();
+          },
+  
+        error:error=>{
+          console.log(error);
+          this.msg.WarnNotify('Error Occured While loading data');
+          this.app.stopLoaderDark()
+        }
+        }
+      )
+     }
+
+  /////////////////////////////////////////////
+
+  onServiceIDChange(){
+    var row = this.servicesList.find((x:any)=>x.serviceID == this.serviceID);
+
+    this.serviceCharges = row.serviceCharges;
+    this.serviceTitle = row.serviceTitle;
+  }
+
+
+
+ 
+
+  
+  ///////////////////////////////////
+
+  onShopIDChage(){
+    var row = this.ShopList.find((x:any)=>x.shopID == this.ShopID);
+
+    this.camID = row.camID;
+    this.rentID = row.rentID;
+    this.camCharges = row.camCharges;
+    this.rentCharges = row.rentCharges;
+    this.shopArea = row.shopAreaSQ;
+    this.onCamChange();
+    this.onRentChange();
+    
+  }
+
+  onCamChange(){
+    var row = this.ShopList.find((x:any)=>x.shopID == this.ShopID);
+   
+
+    this.camTotal = this.camCharges * row.shopAreaSQ;
+  }
+
+  onRentChange(){
+    var row = this.ShopList.find((x:any)=>x.shopID == this.ShopID);
+  
+
+    this.rentTotal = this.rentCharges * row.shopAreaSQ;
+  }
+
+  
+
+
+
+  
  
 
 
-   //////////////////////////////////////////
-
-   getMappedData(){
-    this.app.startLoaderDark();
-    this.http.get(environment.mallApiUrl+'GetMappedShop').subscribe(
-      {
-        next:value=>{
-          // console.log(value);
-          this.mappedShopData = value;
-          this.app.stopLoaderDark();
-        },
-
-      error:error=>{
-        console.log(error);
-        this.msg.WarnNotify('Error Occured While loading data');
-        this.app.stopLoaderDark()
-      }
-      }
-    )
-   }
+ 
 
    /////////////////////////////////////////////////////
    addService(){
@@ -213,7 +223,10 @@ export class MapShopComponent implements OnInit {
     }else if(this.serviceMonth == '' || this.serviceMonth == undefined){
       this.msg.WarnNotify('Select The Service End Date')
     }else{
-      this.ServicesData.push({ServiceID:this.serviceID,ServiceTitle:this.serviceTitle,ServiceCharges:this.serviceCharges,ServiceType:this.serviceType,TmpServiceMonth:this.serviceMonth.toLocaleString()});
+
+    
+
+      this.ServicesData.push({ServiceID:this.serviceID,ServiceTitle:this.serviceTitle,ServiceCharges:this.serviceCharges,ServiceType:this.serviceType,TmpServiceMonth:this.globaldata.dateFormater(this.serviceMonth,'-')});
       this.serviceID = '';
       this.serviceCharges = '';
       this.serviceType = '';
@@ -226,10 +239,6 @@ export class MapShopComponent implements OnInit {
    ////////////////////////////////////////////////////
 
    saveMapShop(){
-
-   // console.log(typeof(this.ShopID),typeof(this.partyID),typeof(this.startDate),typeof(this.paymentDate),typeof(this.camID),typeof(this.camCharges),typeof(this.rentID),typeof(this.rentCharges),typeof(this.ServicesData),typeof(this.globaldata.currentUserValue.userID));
-   
- 
 
    if(this.ShopID == '' || this.ShopID == undefined){
     this.msg.WarnNotify('Shop Name Required');
@@ -246,12 +255,13 @@ export class MapShopComponent implements OnInit {
     this.msg.WarnNotify('Enter Rent Charges')
    }
    else {
+
     this.app.startLoaderDark();
     this.http.post(environment.mallApiUrl+'InsertMapShop',{
       ShopID: this.ShopID,
       PartyID: this.partyID,
-      StartDate: this.startDate,
-      RentPaymentDate: this.paymentDate.toLocaleString(),
+      StartDate: this.globaldata.dateFormater(this.startDate,'-'),
+      RentPaymentDate: this.paymentDate.toString(),
       CamID: this.camID,
       CamCharges: this.camCharges,
       RentID: this.rentID,
@@ -261,7 +271,6 @@ export class MapShopComponent implements OnInit {
       UserID: this.globaldata.currentUserValue.userID,
     }).subscribe(
       (Response:any)=>{
-        // console.log(Response.msg);
         if(Response.msg == 'Data Saved Successfully'){
           this.msg.SuccessNotify(Response.msg);
           this.reset();
@@ -291,6 +300,9 @@ export class MapShopComponent implements OnInit {
     this.startDate = '';
     this.paymentDate = '';
     this.ServicesData = [];
+    this.camTotal = '';
+    this.rentTotal = '';
+    this.shopArea = '';
    }
   
    ///////////////////////////////////////////////

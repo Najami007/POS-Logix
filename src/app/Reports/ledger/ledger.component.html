@@ -92,7 +92,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of tableData;let i=index" >
+                    <tr *ngFor="let item of tableData ;let i=index" >
                         <th class="fw-normal text-center">{{i+1}}</th>
                         <th class="fw-normal text-center">{{item.invoiceDate | date:'yyyy-MM-dd'}}</th>
                         <th class="fw-normal text-center cursorPointer" data-bs-toggle="modal" data-bs-target="#invoiceDetailModel" 

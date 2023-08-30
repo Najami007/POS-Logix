@@ -19,8 +19,8 @@
                 <th>Owner Name</th>
                 <th>Purchase Date</th>
                 <th>Area</th>
-                <th>CAM Title</th>
-                <th>Rent Title</th>
+                <th>CAM </th>
+                <th>Rent </th>
                 <th>Edit</th>
                 <th>Delete</th>
             </thead>
@@ -32,8 +32,8 @@
                     <td>{{item.partyName}}</td>
                     <td>{{item.purchaseDate | date}}</td>
                     <td>{{item.shopAreaSQ}} (Sqf.)</td>
-                    <td>{{item.camTitle}}</td>
-                    <td>{{item.rentTitle}}</td>
+                    <td>{{item.camCharges}} x {{item.shopAreaSQ}} =<b>{{item.camCharges*item.shopAreaSQ |number}}</b> </td>
+                    <td>{{item.rentCharges}}  x {{item.shopAreaSQ}} = <b>{{item.rentCharges*item.shopAreaSQ |number}}</b> </td>
                     <td><mat-icon class="text-success cursorPointer" (click)="editShop(item)" >edit</mat-icon></td>
                     <td><mat-icon class="text-danger cursorPointer"  (click)="deleteShop(item)">delete</mat-icon></td>
                 </tr>

@@ -26,6 +26,7 @@ import { OwnersReportComponent } from 'src/app/Reports/owners-report/owners-repo
 import { BillRptShopwiseComponent } from 'src/app/Reports/bill-rpt-shopwise/bill-rpt-shopwise.component';
 import { BillrptdatewiseComponent } from 'src/app/Reports/billrptdatewise/billrptdatewise.component';
 import { BillrptshopandpartywiseComponent } from 'src/app/Reports/billrptshopandpartywise/billrptshopandpartywise.component';
+import { CashbookComponent } from 'src/app/Reports/cashbook/cashbook.component';
 
 
 
@@ -54,6 +55,7 @@ const routes: Routes = [
   {path:'BRptSW',component:BillRptShopwiseComponent},
   {path:'BRptDW',component:BillrptdatewiseComponent},
   {path:'BRptS&PW',component:BillrptshopandpartywiseComponent},
+  {path:'CBRpt',component:CashbookComponent},
 
   {path:'', redirectTo:'/main/dashBoard',pathMatch:'full'}
   ]},

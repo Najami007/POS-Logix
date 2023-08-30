@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 
@@ -13,12 +14,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Mall Management';
-constructor(){}
+constructor( private route:Router){}
   
 
   ngOnInit(){
-    // this.stopLoaderDark();
-    // this.stopLoaderLight();
+    if(localStorage.getItem('currentUser') == null || localStorage.getItem('currentUser') == '' ){
+      this.route.navigate(['']);
+    }
   }
 
 

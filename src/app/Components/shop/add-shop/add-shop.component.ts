@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/Shared/service/notification.service
 import { ShopComponent } from '../shop.component';
 import { environment } from 'src/environments/environment.development';
 import { timestamp } from 'rxjs/internal/operators/timestamp';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-add-shop',
@@ -19,7 +20,7 @@ export class AddShopComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef: MatDialogRef<ShopComponent>,
     private global:GlobalDataModule,
-    private msg:NotificationService
+    private msg:NotificationService,
   ){
 
   }
@@ -62,13 +63,7 @@ export class AddShopComponent implements OnInit{
 
 
 
-  /////////////////////////////
-
-
-  // changeValue(){
-  //   alert(this.purchaseDate);
-  // }
-
+  ////////////////////////////
   
 
   getOwner(){
@@ -127,7 +122,8 @@ export class AddShopComponent implements OnInit{
   /////////////////////////////////////////////
 
   addShop(){
-    console.log(this.purchaseDate);
+    // console.log(this.purchaseDate);
+
 
     if(this.shopTitle == '' || this.shopTitle == undefined){
       this.msg.WarnNotify('Shop Title required')
@@ -144,6 +140,8 @@ export class AddShopComponent implements OnInit{
     }else if(this.description == '' || this.description == undefined){
       this.description = '-';
     }else{
+  
+   
       if(this.actionbtn == 'Save'){
         this.InsertShop();
       }else if(this.actionbtn == 'Update'){
@@ -156,14 +154,14 @@ export class AddShopComponent implements OnInit{
     
   }
 
+  
 
 
   InsertShop(){
 
-    /////////// will send the current date to DB///////////
-    this.global.newDateFormate(this.purchaseDate); 
-    this.purchaseDate.toISOString().substring(0,10);
- 
+
+    $('.loaderDark').show();
+
     this.http.post(environment.mallApiUrl+'InsertShop',{
       CamID:this.camID,
       RentID:this.rentID,
@@ -172,7 +170,7 @@ export class AddShopComponent implements OnInit{
       ShopDescription:this.description,
       ShopAreaSQ:this.shopArea,
       PartyID:this.partyID,
-      PurchaseDate:this.purchaseDate,
+      PurchaseDate:this.global.dateFormater(this.purchaseDate,'-'),
       UserID:this.global.currentUserValue.userID,
     }).subscribe(
       (Response:any)=>{
@@ -181,9 +179,14 @@ export class AddShopComponent implements OnInit{
           this.msg.SuccessNotify(Response.msg);
           this.dialogRef.close();
           this.reset();
+          $('.loaderDark').fadeOut(500);
         }else{
           this.msg.WarnNotify(Response.msg);
+          $('.loaderDark').fadeOut(500);
         }
+      },
+      (Error)=>{
+        $('.loaderDark').fadeOut(500);
       }
     )
   }
@@ -193,11 +196,9 @@ export class AddShopComponent implements OnInit{
 
 
   updateShop(){
-    /////////// will send the current date to DB///////////
-    this.global.newDateFormate(this.purchaseDate);
     
-     this.purchaseDate.toISOString().substring(0,10);
-    
+   
+    $('.loaderDark').show();
 
     this.http.post(environment.mallApiUrl+'UpdateShop',{
       ShopID:this.editData.shopID,
@@ -209,7 +210,7 @@ export class AddShopComponent implements OnInit{
       ShopDescription:this.description,
       ShopAreaSQ:this.shopArea,
       PartyID:this.partyID,
-      PurchaseDate:this.purchaseDate,
+      PurchaseDate:this.global.dateFormater(this.purchaseDate,'-'),
       UserID:this.global.currentUserValue.userID,
     }).subscribe(
       (Response:any)=>{
@@ -217,9 +218,14 @@ export class AddShopComponent implements OnInit{
           this.msg.SuccessNotify(Response.msg);
           this.dialogRef.close('Update');
           this.reset();
+          $('.loaderDark').fadeOut(500);
         }else{
           this.msg.WarnNotify(Response.msg);
+          $('.loaderDark').fadeOut(500);
         }
+      },
+      (Error)=>{
+        $('.loaderDark').fadeOut(500);
       }
     )
   }

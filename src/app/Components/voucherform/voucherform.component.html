@@ -33,7 +33,7 @@
 
                     <mat-form-field class="col-lg-6 col-md-6 col-sm-6 col-xs-6" appearance="outline">
                         <mat-label>Select Voucher Date</mat-label>
-                        <input readonly="true" (dateChange)="getVal()" matInput  [(ngModel)]="invoiceDate"
+                        <input readonly="true" (dateChange)="formateDate()" matInput  [(ngModel)]="invoiceDate"
                             [matDatepicker]="picker" [disabled]="VoucherData != ''">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>

@@ -94,9 +94,7 @@ export class VoucherformComponent implements OnInit{
 
 
  
-  getVal(){
-    alert(this.invoiceDate);
-  }
+ 
  
 
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,6 +192,11 @@ export class VoucherformComponent implements OnInit{
   }
 
 
+  formateDate(){
+    
+    this.globalData.newDateFormate(this.invoiceDate);//////////// will send the current date to DB////////////////////
+    this.invoiceDate.toISOString().substring(0,10);  //////////// will send only the date Section////////////////
+  }
 
   ///////////////////////////////////////////////////////////
 
@@ -248,8 +251,6 @@ export class VoucherformComponent implements OnInit{
     else{
 
       
-      this.globalData.newDateFormate(this.invoiceDate);//////////// will send the current date to DB////////////////////
-      this.invoiceDate.toISOString().substring(0,10);  //////////// will send only the date Section////////////////
 
 
       this.app.startLoaderDark();  ///////////// will start the loader

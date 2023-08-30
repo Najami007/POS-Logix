@@ -29,7 +29,7 @@
                     <!-- start Date -->
                     <mat-form-field class="p-3 w-50" appearance="outline">
                         <mat-label>Select Start Date</mat-label>
-                        <input readonly="true"  matInput type="text" name="voucherDate" [(ngModel)]="startDate"
+                        <input readonly="true"  matInput  type="text" name="voucherDate" [(ngModel)]="startDate"
                         [matDatepicker]="date">
                         <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
                         <mat-datepicker #date></mat-datepicker>
@@ -55,12 +55,16 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline" class="p-3 w-50" >
                         <mat-label>CAM Total</mat-label>
-                        <input matInput id="camCharges" [disabled]="true"  [(ngModel)]="camTotal" min="0"  type="number">
+                        <input matInput id="camCharges" [readonly]="true"  [(ngModel)]="camTotal" min="0"  type="number">
                     </mat-form-field>
         
                     <mat-form-field appearance="outline" class="p-3 w-50">
                         <mat-label>Rent Total</mat-label> 
-                        <input matInput id="rentCharges"  [disabled]="true" [(ngModel)]="rentTotal" min="0" type="number">
+                        <input matInput id="rentCharges"  [readonly]="true" [(ngModel)]="rentTotal" min="0" type="number">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="p-3 w-50">
+                        <mat-label>Area</mat-label> 
+                        <input matInput id="rentCharges"  readonly="true" [(ngModel)]="shopArea" min="0" type="number">
                     </mat-form-field>
 
                     <div class="text-center">
@@ -97,7 +101,7 @@
         
                 <mat-form-field class="p-3 w-25" appearance="outline">
                     <mat-label>Select End Date</mat-label>
-                    <input readonly="true" matInput type="text" name="voucherDate" [(ngModel)]="serviceMonth"
+                    <input readonly="true" matInput type="text"  name="voucherDate" [(ngModel)]="serviceMonth"
                     [matDatepicker]="servicemonth">
                       
                     <mat-datepicker-toggle matSuffix [for]="servicemonth"></mat-datepicker-toggle>
@@ -144,7 +148,7 @@
 
             <div class="text-center mt-3">
                 <button class="btn btn-success me-2 w-25" (click)="saveMapShop()">Save</button>
-                <button class="btn btn-danger w-25">Reset</button>
+                <button class="btn btn-danger w-25"(click)="reset()">Reset</button>
             </div>
         </div>
     </mat-tab>
@@ -170,6 +174,7 @@
                     <th>Payment Date</th>
                     <th>CAM</th>
                     <th>Rent</th>
+                    <th>Start Date</th>
                     <th >Add Service</th>
                     <th >UnMap</th>
                    </tr>
@@ -178,12 +183,14 @@
                     <tr *ngFor="let item of mappedShopData | filter:txtSearch;index as index">
                         <td>{{index+1}}</td>
                         <td>{{item.shopTitle}}</td>
-                        <td>{{item.shopAreaSQ}}</td>
+                        <td>{{item.shopAreaSQ}}(Sqf.)</td>
                         <td>{{item.partyName}}</td>
                         <td>{{item.rentPaymentDate}}</td>
-                        <td>{{item.camCharges}} x {{item.shopAreaSQ}} = <b>{{item.camCharges * item.shopAreaSQ }}</b> </td>
-                        <td>{{item.rentCharges}} x {{item.shopAreaSQ}} =<b>{{item.rentCharges * item.shopAreaSQ }}</b> </td>
+                        <td>{{item.camCharges}} x {{item.shopAreaSQ}} = <b>{{item.camCharges * item.shopAreaSQ |number}}</b> </td>
+                        <td>{{item.rentCharges}} x {{item.shopAreaSQ}} =<b>{{item.rentCharges * item.shopAreaSQ |number}}</b> </td>
+                        <td>{{item.startDate |date:'yyyy-MM-dd'}}</td>
                         <td><mat-icon class="text-success cursorPointer" (click)="addNewShopService(item)">edit</mat-icon></td>
+                       
                         <td ><mat-icon class="text-danger cursorPointer " (click)="UnMapShop(item)" >delete</mat-icon></td>
                     </tr>
                 </tbody>

@@ -67,6 +67,7 @@ import { ShopsReportComponent } from './Reports/shops-report/shops-report.compon
 import { BillRptShopwiseComponent } from './Reports/bill-rpt-shopwise/bill-rpt-shopwise.component';
 import { BillrptdatewiseComponent } from './Reports/billrptdatewise/billrptdatewise.component';
 import { BillrptshopandpartywiseComponent } from './Reports/billrptshopandpartywise/billrptshopandpartywise.component';
+import { CashbookComponent } from './Reports/cashbook/cashbook.component';
 
 
 
@@ -130,6 +131,7 @@ import { BillrptshopandpartywiseComponent } from './Reports/billrptshopandpartyw
     BillRptShopwiseComponent,
     BillrptdatewiseComponent,
     BillrptshopandpartywiseComponent,
+    CashbookComponent,
 
     
    

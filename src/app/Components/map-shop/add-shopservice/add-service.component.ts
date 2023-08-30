@@ -104,6 +104,10 @@ export class AddServiceComponent implements OnInit{
     }else if(this.serviceMonth == '' || this.serviceMonth == undefined){
       this.msg.WarnNotify('Select Service Month')
     }else{
+
+    
+
+
       this.http.post(environment.mallApiUrl+'InsertShopService',{
       
         ShopRentHistoryID: this.editData.shopRentHistoryID,
@@ -111,7 +115,7 @@ export class AddServiceComponent implements OnInit{
         ServiceID: this.serviceID,
         ServiceCharges: this.serviceCharges,
         ServiceType: this.serviceType,
-        TmpServiceMonth: this.serviceMonth,
+        TmpServiceMonth: this.globalData.dateFormater(this.serviceMonth,'-'),
         UserID: this.globalData.currentUserValue.userID,
         }).subscribe(
           (Response:any)=>{

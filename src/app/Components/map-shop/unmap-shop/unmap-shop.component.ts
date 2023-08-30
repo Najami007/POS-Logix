@@ -28,16 +28,18 @@ export class UnmapShopComponent implements OnInit {
 
 
 
-  EndDate:any;
+  EndDate:Date = new Date();
+
+  
 
   unMapShop(){
-    if(this.EndDate == '' || this.EndDate == undefined){
-      this.msg.WarnNotify('Select End Date')
-    }else{
+   
+    this.EndDate.toISOString().substring(0,10);
+
       this.http.post(environment.mallApiUrl+'InsertUnmapShop',{
         ShopRentHistoryID:this.shopData.shopRentHistoryID,
        ShopID: this.shopData.shopID,
-        EndDate: this.EndDate,
+        EndDate: this.globalData.dateFormater(this.EndDate,'-'),
     
         UserID: this.globalData.currentUserValue.userID,
       }).subscribe(
@@ -45,13 +47,13 @@ export class UnmapShopComponent implements OnInit {
           if(Response.msg == 'Data Updated Successfully'){
             this.msg.SuccessNotify(Response.msg);
             this.dialogRef.close('Update');
-            this.EndDate = '';
+            this.EndDate = new Date();
           }else{
             this.msg.WarnNotify(Response.msg)
           }
         }
       )
-    }
+    
    
   }
 
