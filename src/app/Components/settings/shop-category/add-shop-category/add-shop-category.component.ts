@@ -61,7 +61,7 @@ export class AddShopCategoryComponent implements OnInit {
       if(this.actionbtn == 'Save'){
         this.http.post(environment.mallApiUrl+'InsertCatagory',{
           ShopCategoryName:this.shopCategoryName,
-          UserID:this.global.currentUserValue.userID,
+          UserID:this.global.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Saved Successfully'){
@@ -88,7 +88,7 @@ export class AddShopCategoryComponent implements OnInit {
     this.http.post(environment.mallApiUrl+'UpdateCatagory',{
       ShopCategoryID:this.shopCategoryID,
       ShopCategoryName:this.shopCategoryName,
-      UserID:this.global.currentUserValue.userID,
+      UserID:this.global.getUserID(),
     }).subscribe(
       
       (Response:any)=>{

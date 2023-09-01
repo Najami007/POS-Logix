@@ -140,7 +140,7 @@ export class PartyComponent implements OnInit{
         BankAccountNo:this.bankAccountNo,
         BankName:this.bankName,
         PartyDescription:this.description,
-        UserID:this.globalData.currentUserValue.userID,
+        UserID:this.globalData.getUserID(),
    
        }).subscribe(
          (Response:any)=>{
@@ -169,7 +169,7 @@ export class PartyComponent implements OnInit{
         BankAccountNo:this.bankAccountNo,
         BankName:this.bankName,
         PartyDescription:this.description,
-        UserID:this.globalData.currentUserValue.userID,
+        UserID:this.globalData.getUserID(),
       }).subscribe(
         (Response:any)=>{
       
@@ -252,7 +252,7 @@ export class PartyComponent implements OnInit{
         //////on confirm button pressed the api will run
         this.http.post(environment.mallApiUrl+'deleteparty',{
           PartyID:row.partyID,
-          deletedBy:this.globalData.currentUserValue.userID,
+          deletedBy:this.globalData.getUserID(),
         }).subscribe(
          (Response:any)=>{
           if(Response.msg == 'Data Deleted Successfully'){

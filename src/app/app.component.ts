@@ -18,7 +18,7 @@ constructor( private route:Router){}
   
 
   ngOnInit(){
-    if(localStorage.getItem('currentUser') == null || localStorage.getItem('currentUser') == '' ){
+    if(localStorage.getItem('curVal') == null || localStorage.getItem('curVal') == '' ){
       this.route.navigate(['']);
     }
   }

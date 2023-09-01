@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment.development';
   styleUrls: ['./addcityform.component.scss']
 })
 export class AddcityformComponent implements OnInit{
+ 
 
   constructor(
     private http:HttpClient,
@@ -25,6 +26,7 @@ export class AddcityformComponent implements OnInit{
 
   ngOnInit(): void {
    
+
 
     if(this.editData){
       this.actionbtn = "Update";
@@ -45,7 +47,7 @@ export class AddcityformComponent implements OnInit{
       if(this.actionbtn == 'Save'){
         this.http.post(environment.mallApiUrl+'insertcity',{
           CityName:this.cityName,
-          UserID:this.global.currentUserValue.userID,
+          UserID:this.global.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Saved Successfully'){
@@ -69,7 +71,7 @@ export class AddcityformComponent implements OnInit{
     this.http.post(environment.mallApiUrl+'updatecity',{
       CityID:this.editData.cityID,
       CityName : this.cityName,
-      UserID:this.global.currentUserValue.userID,
+      UserID:this.global.getUserID(),
     }).subscribe(
       (Response:any)=>{
         if(Response.msg == 'Data Updated Successfully'){

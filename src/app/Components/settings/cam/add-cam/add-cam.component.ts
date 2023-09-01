@@ -113,7 +113,7 @@ export class AddCAMComponent implements OnInit{
           CamTitle:this.CAMTitle,
           CamCharges:this.camCharges,
           CamDescription:this.Description,
-          UserID:this.global.currentUserValue.userID,
+          UserID:this.global.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Saved Successfully'){
@@ -144,7 +144,7 @@ export class AddCAMComponent implements OnInit{
       CamTitle:this.CAMTitle,
       CamCharges:this.camCharges,
       CamDescription:this.Description,
-      UserID:this.global.currentUserValue.userID,
+      UserID:this.global.getUserID(),
     }).subscribe(
       (Response:any)=>{
         if(Response.msg == 'Data Updated Successfully'){

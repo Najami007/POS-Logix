@@ -116,7 +116,7 @@ export class AddServiceComponent implements OnInit{
         ServiceCharges: this.serviceCharges,
         ServiceType: this.serviceType,
         TmpServiceMonth: this.globalData.dateFormater(this.serviceMonth,'-'),
-        UserID: this.globalData.currentUserValue.userID,
+        UserID: this.globalData.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Saved Successfully'){
@@ -165,7 +165,7 @@ export class AddServiceComponent implements OnInit{
         //////on confirm button pressed the api will run
         this.http.post(environment.mallApiUrl+'DeleteShopService',{
           ShopServiceID: row.shopServiceID,
-        UserID: this.globalData.currentUserValue.userID,
+        UserID: this.globalData.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Deleted Successfully'){

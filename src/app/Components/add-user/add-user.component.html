@@ -39,7 +39,7 @@
                 <mat-form-field class="col-md-5" appearance="outline">
                     <mat-label>User Role</mat-label>
                     <mat-select [(ngModel)]="uRoleID">
-                        <mat-option>Demo</mat-option>
+                        <mat-option *ngFor="let item of roleList" [value]="item.id">{{item.title}}</mat-option>
                     </mat-select>
                     <mat-icon matSuffix class="text-secondary">verified_user</mat-icon>
                 </mat-form-field>

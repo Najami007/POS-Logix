@@ -78,7 +78,7 @@ export class ServicesComponent {
         //////on confirm button pressed the api will run
         this.http.post(environment.mallApiUrl+'deleteservice',{
           ServiceID:row.serviceID,
-          UserID:this.globaldata.currentUserValue.userID,
+          UserID:this.globaldata.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Deleted Successfully'){

@@ -262,7 +262,7 @@ export class VoucherformComponent implements OnInit{
         InvoiceRemarks: this.narration,
         BankReceiptNo: this.bankReceiptNo,
         InvoiceDetail: JSON.stringify(this.VoucherData),
-        UserID: this.globalData.currentUserValue.userID,
+        UserID: this.globalData.getUserID(),
       }).subscribe(
         (Response:any)=>{
           // console.log(Response);
@@ -312,7 +312,7 @@ export class VoucherformComponent implements OnInit{
         //////on confirm button pressed the api will run
         this.http.post(environment.mallApiUrl+'DeleteVoucher',{
           InvoiceNo: row.invoiceNo,
-          UserID: this.globalData.currentUserValue.userID,
+          UserID: this.globalData.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Deleted Successfully'){
@@ -349,7 +349,7 @@ export class VoucherformComponent implements OnInit{
         //////on confirm button pressed the api will run
         this.http.post(environment.mallApiUrl+'ApproveVoucher',{
           InvoiceNo: row.invoiceNo,
-        UserID: this.globalData.currentUserValue.userID,
+        UserID: this.globalData.getUserID(),
         }).subscribe(
           (Response:any)=>{
             // console.log(Response.msg);

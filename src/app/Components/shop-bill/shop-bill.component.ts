@@ -58,7 +58,7 @@ export class ShopBillComponent implements OnInit{
   tableData:any =[];
   billRemarks:any;
   billDetails:any;
-
+  search:any;
 
 
 
@@ -103,7 +103,7 @@ export class ShopBillComponent implements OnInit{
     this.http.get(environment.mallApiUrl+'GetMappedShop').subscribe(
       {
         next:value=>{
-          console.log(value);
+          // console.log(value);
           this.mappedShopData = value;
         },
 
@@ -215,11 +215,20 @@ export class ShopBillComponent implements OnInit{
         console.log(Response);
         this.billData = Response;
         if(Response.length > 0){
-          this.tableData.push(
-            {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},
-            {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
-           
-           );
+
+          ///////////////// will push the rent if cam is not zero
+          if(Response[0].rentCharges != 0){
+            this.tableData.push(   
+              {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},    
+             );
+          }
+
+          ///////////////// will push the cam if cam is not zero
+          if(Response[0].camCharges != 0){
+            this.tableData.push(
+              {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
+             );
+          }
           
          
            
@@ -252,21 +261,31 @@ export class ShopBillComponent implements OnInit{
 
     this.http.get(environment.mallApiUrl+'getsinglebill?billno='+billNo).subscribe(
       (Response:any)=>{
-        // console.log(Response);
+        
         this.billData = Response;
         if(Response.length > 0){
-          this.tableData.push(
-            {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},
-            {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
-          
-           );
+          if(Response[0].rentCharges != 0){
+            this.tableData.push(   
+              {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},    
+             );
+          }
+          if(Response[0].camCharges != 0){
+            this.tableData.push(
+
+              {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
+            
+             );
+          }
+         
           
          
          for(var i = 0; Response.length > i;i++ ){
-          this.tableData.push(
-            {title:Response[i].serviceTitle,charges:Response[i].serviceCharges});
-            
+          if(Response[i].serviceTitle != '-'){
+            this.tableData.push(
+              {title:Response[i].serviceTitle,charges:Response[i].serviceCharges});
+          }
          }
+        
          
        
           this.dialogue.open(BillDetailsComponent,{
@@ -349,7 +368,7 @@ export class ShopBillComponent implements OnInit{
           BillNo:row.billNo,
         PartyID: row.partyID,
         ShopID:row.shopID,
-        UserID: this.globaldata.currentUserValue.userID,
+        UserID: this.globaldata.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Saved Successfully'){
@@ -387,7 +406,7 @@ export class ShopBillComponent implements OnInit{
         //////on confirm button pressed the api will run
         this.http.post(environment.mallApiUrl+'DeleteBill',{
           BillNo:row.billNo,
-        UserID: this.globaldata.currentUserValue.userID,
+        UserID: this.globaldata.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Deleted Successfully'){
@@ -425,7 +444,7 @@ export class ShopBillComponent implements OnInit{
         {
           next:value=>{
             this.shopServicesData  = value;
-            console.log(value);
+            // console.log(value);
             
           },
           error:error=>{

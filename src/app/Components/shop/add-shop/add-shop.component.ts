@@ -38,7 +38,7 @@ export class AddShopComponent implements OnInit{
       this.camID = this.editData.camID;
       this.rentID = this.editData.rentID;
       this.partyID = this.editData.partyID;
-      this.purchaseDate = this.editData.purchaseDate;
+      this.purchaseDate = this.editData.purchaseDate.toISOString();
       this.description = this.editData.shopDescription;
     }
   }
@@ -171,7 +171,7 @@ export class AddShopComponent implements OnInit{
       ShopAreaSQ:this.shopArea,
       PartyID:this.partyID,
       PurchaseDate:this.global.dateFormater(this.purchaseDate,'-'),
-      UserID:this.global.currentUserValue.userID,
+      UserID:this.global.getUserID(),
     }).subscribe(
       (Response:any)=>{
         // console.log(Response.msg);
@@ -211,7 +211,7 @@ export class AddShopComponent implements OnInit{
       ShopAreaSQ:this.shopArea,
       PartyID:this.partyID,
       PurchaseDate:this.global.dateFormater(this.purchaseDate,'-'),
-      UserID:this.global.currentUserValue.userID,
+      UserID:this.global.getUserID(),
     }).subscribe(
       (Response:any)=>{
         if(Response.msg == 'Data Updated Successfully'){

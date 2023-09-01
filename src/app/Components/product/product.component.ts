@@ -174,7 +174,7 @@ event.srcElement.setAttribute('disabled', true);
           sectionID:this.globalData.currentUserValue.sectionID,
           gst:this.myGst,
           uom:this.myUOM,
-          createdBy:this.globalData.currentUserValue.userID,
+          createdBy:this.globalData.getUserID(),
           
     
         },{responseType:'text'}).subscribe({
@@ -212,7 +212,7 @@ event.srcElement.setAttribute('disabled', true);
           sectionID:this.globalData.currentUserValue.sectionID,
           gst:this.myGst,
           uom:this.myUOM,
-          modifiedBy:this.globalData.currentUserValue.userID,
+          modifiedBy:this.globalData.getUserID(),
           
     
         },{responseType:'text'}).subscribe({

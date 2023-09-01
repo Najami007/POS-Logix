@@ -108,7 +108,7 @@ export class RentComponent implements OnInit{
         //////on confirm button pressed the api will run
         this.http.post(environment.mallApiUrl+'Deleterent',{
           RentID:row.rentID,
-          UserID:this.globaldata.currentUserValue.userID,
+          UserID:this.globaldata.getUserID(),
         }).subscribe(
           (Response:any)=>{
     

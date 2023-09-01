@@ -9,7 +9,7 @@ import { userInterface } from '../Interfaces/login-user-interface';
 import { BehaviorSubject, Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import * as $ from 'jquery';
-
+import * as b64 from 'base64-js/index.js';
 
 @NgModule({
   declarations: [],
@@ -22,8 +22,9 @@ export class GlobalDataModule  {
 
   
    
-   private currentUserSubject:BehaviorSubject<userInterface>;
+   public currentUserSubject:BehaviorSubject<userInterface>;
    public currentUser: Observable<userInterface>;
+   curUserID:any;
 
 
   constructor(
@@ -31,9 +32,11 @@ export class GlobalDataModule  {
     private rout : Router,
     private msg : NotificationService
     ){
+      
+      
 
       this.currentUserSubject = new BehaviorSubject<userInterface>(
-        JSON.parse(localStorage.getItem('currentUser') || '{}')
+        JSON.parse(localStorage.getItem('curVal') || '{}')
       );
       this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -47,39 +50,111 @@ export class GlobalDataModule  {
 
 
   public get currentUserValue(): userInterface {
+
+    
     return this.currentUserSubject.value;
   }
 
 
-  curUserValue : any=[];
+  //////////////////////// will provide logged in userID
+  getUserID(){
+     var credentials = JSON.parse(localStorage.getItem('curVal') || '{}');
 
-  UserValue:any = {
-    _encuid :'',
-    _encuname:'',
+   return  atob(atob(credentials.value._culId));
 
   }
+
+
+  ////////////////////// will provide the logged in user Name
+  getUserName(){
+    var credentials = JSON.parse(localStorage.getItem('curVal') || '{}');
+
+  return  atob(atob(credentials.value._culName)).toString();
+
+ }
+
+
+
+
+
+
+
+
+
 
 
 
 ///////////////////////////////////////////////////////////
   /////////////////////login funciton///////////////////////
   ////////////////////////////////////////////////////////
-  login(Email:String,password:string){
+  // login(Email:String,password:string){
 
-    // if(Email == 'a' && password == 'a'){
-    //   this.rout.navigate(["main"]);
-    // }else{
-    //   this.msg.WarnNotify('Enter Valid Email or password')
-    // }
+  //   // if(Email == 'a' && password == 'a'){
+  //   //   this.rout.navigate(["main"]);
+  //   // }else{
+  //   //   this.msg.WarnNotify('Enter Valid Email or password')
+  //   // }
 
-    this.http.post(environment.apiUrl+'api/user/auth',{
-      loginEmail: Email,
-      loginPassword: password,
-    }).subscribe({
-      next:(value)=>{
+  //   this.http.post(environment.apiUrl+'api/user/auth',{
+  //     loginEmail: Email,
+  //     loginPassword: password,
+  //   }).subscribe({
+  //     next:(value)=>{
+  //       console.log(Response);
         
        
-       if(value !=null ){
+  //      if(value !=null ){
+  //       Swal.fire({
+  //         title:'',
+  //         text:"Login Successful",
+  //         position:'center',
+  //         icon:'success',
+  //         showConfirmButton:true,
+  //         confirmButtonText:'OK',
+  //         confirmButtonColor:'Green',
+  //         timer:2000,
+  //         timerProgressBar:true,
+
+  //       }).then((value)=>{
+   
+  //         this.rout.navigate(["main"]);
+  //       })
+        
+        
+  //       // this.curUserValue = window.btoa(value.toString());
+  //       // this.UserValue._encuid=window.btoa(this.curUserValue.userID);;
+  //       // this.UserValue._encuname= window.btoa(this.curUserValue.userName);
+        
+
+  //       // localStorage.setItem('_usercur',JSON.stringify(this.curUserValue));
+  //       localStorage.setItem('currentUser',JSON.stringify(value));
+  //      }else{
+  //       this.msg.WarnNotify('Error Occurred While Login Process');
+  //      }
+  //     },
+  //     error:error=>{
+  //       console.log(error);
+  //       this.msg.WarnNotify('Error Occurred While Login Process')
+  //     }
+  //   })
+
+    
+  // }
+
+
+
+
+  login(Email:String,password:string){
+
+    this.http.post(environment.mallApiUrl+'_userLogin',{
+      LoginName: Email,
+      Password: password,
+    }).subscribe({
+      next:(value:any)=>{
+        console.log(value);
+        
+       
+       if(value.msg == 'Logged in Successfully' ){
         Swal.fire({
           title:'',
           text:"Login Successful",
@@ -103,7 +178,7 @@ export class GlobalDataModule  {
         
 
         // localStorage.setItem('_usercur',JSON.stringify(this.curUserValue));
-        localStorage.setItem('currentUser',JSON.stringify(value));
+        localStorage.setItem('curVal',JSON.stringify({value}));
        }else{
         this.msg.WarnNotify('Error Occurred While Login Process');
        }
@@ -117,12 +192,16 @@ export class GlobalDataModule  {
     
   }
 
+
   ////////////////////////////////////////////////////
 /////////////funtion to keep user log out/////////////////////
 ///////////////////////////////////////////////////////////
-  logout(){
+  
 
-    localStorage.removeItem('currentUser');
+
+logout(){
+
+    localStorage.removeItem('curVal');
     this.rout.navigate(['login']);
   }
 

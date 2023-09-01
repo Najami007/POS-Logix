@@ -305,7 +305,7 @@ onlevel3Change(){
     TransactionAllowed: this.TransactionAllowed,
     Editable: false,
     IsService: false,
-    UserID: this.globalData.currentUserValue.userID,
+    UserID: this.globalData.getUserID(),
     
       }).subscribe(
         (Response:any)=>{
@@ -344,7 +344,7 @@ onlevel3Change(){
         this.http.post(environment.mallApiUrl+'DeleteChartOfAccount',{
           CoaID: row.coaID,
           AccountCode:row.accountCode,
-          UserID: this.globalData.currentUserValue.userID,
+          UserID: this.globalData.getUserID(),
             }).subscribe(
               (Response:any)=>{
                 if(Response.msg == "Data Deleted Successfully"){

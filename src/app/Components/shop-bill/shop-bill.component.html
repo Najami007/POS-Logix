@@ -29,8 +29,8 @@
                         <td>{{index+1}}</td>
                         <td>{{item.shopTitle}}</td>
                         <td>{{item.partyName}}</td>
-                        <td>{{item.camCharges}} x {{item.shopAreaSQ}} = <b>{{item.camCharges * item.shopAreaSQ }}</b> </td>
-                        <td>{{item.rentCharges}} x {{item.shopAreaSQ}} = <b> {{ item.rentCharges * item.shopAreaSQ }}</b></td>
+                        <td>{{item.camCharges}} x {{item.shopAreaSQ}}(Sqf.) = <b>{{item.camCharges * item.shopAreaSQ |number}}</b> </td>
+                        <td>{{item.rentCharges}} x {{item.shopAreaSQ}}(Sqf.)= <b> {{ item.rentCharges * item.shopAreaSQ |number}}</b></td>
                         <td class="text-success cursorPointer" data-bs-toggle="modal" data-bs-target="#serviceDetailModel"><mat-icon (click)="getSavedService(item.shopID,item.shopRentHistoryID)">receipt</mat-icon>
                         <td class="text-success cursorPointer"><mat-icon (click)="generateBill(item)">ballot</mat-icon>
                         </td>
@@ -383,14 +383,14 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Enter Credintials</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
         </div>
         <div class="modal-body">
        
             <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Select Party</mat-label>
                 <mat-select [(ngModel)]="customerID">
-                    <mat-option *ngFor="let item of partyList" [value]="item.partyID">{{item.partyName}}</mat-option>
+                    <mat-option *ngFor="let item of partyList |filter:search" [value]="item.partyID">{{item.partyName}}</mat-option>
                 </mat-select>
             </mat-form-field>
 

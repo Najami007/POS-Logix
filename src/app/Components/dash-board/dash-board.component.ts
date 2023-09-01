@@ -15,8 +15,14 @@ export class DashBoardComponent implements OnInit{
   }
   
   
+  credentials :any;
   ngOnInit(): void {
     this.globalData.setHeaderTitle('DashBoard');
+   this.credentials = JSON.parse(localStorage.getItem('curVal') || '{}');
+
+   console.log(this.credentials);
+
+   console.log(atob(atob(this.credentials.value._culName)));
   }
 
 

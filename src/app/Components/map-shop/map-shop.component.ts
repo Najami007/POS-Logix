@@ -268,7 +268,7 @@ getParty(){
       RentCharges: this.rentCharges,
       ServiceDetail:JSON.stringify(this.ServicesData),
 
-      UserID: this.globaldata.currentUserValue.userID,
+      UserID: this.globaldata.getUserID(),
     }).subscribe(
       (Response:any)=>{
         if(Response.msg == 'Data Saved Successfully'){

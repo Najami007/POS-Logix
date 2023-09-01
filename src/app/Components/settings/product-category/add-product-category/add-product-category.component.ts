@@ -44,7 +44,7 @@ export class AddProductCategoryComponent implements OnInit {
       if(this.actionbtn =='Save'){
         this.http.post(environment.apiUrl+'api/productCategory/insertCategory',{
           categoryName:this.CategoryName,
-          createdBy:this.global.currentUserValue.userID,
+          createdBy:this.global.getUserID(),
         },{responseType:'text'}).subscribe({
           next:value=>{
             if(value == 'Category Already Exists'){
@@ -68,7 +68,7 @@ export class AddProductCategoryComponent implements OnInit {
 
     this.http.put(environment.apiUrl+'api/productCategory/updatecategory?id='+this.editData.categoryID,{
       categoryName:this.CategoryName,
-      modifiedBy:this.global.currentUserValue.userID,
+      modifiedBy:this.global.getUserID(),
     },{responseType:'text'}).subscribe({
       next:value=>{
         if(value == 'Category Already Exists'){

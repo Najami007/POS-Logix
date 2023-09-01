@@ -102,7 +102,7 @@ export class ShopCategoryComponent implements OnInit{
         //////on confirm button pressed the api will run
         this.http.post(environment.mallApiUrl+'DeleteCatagory',{
           ShopCategoryID:row.shopCategoryID,
-          UserID:this.globaldata.currentUserValue.userID,
+          UserID:this.globaldata.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Deleted Successfully'){

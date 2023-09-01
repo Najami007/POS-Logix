@@ -41,7 +41,7 @@ export class UnmapShopComponent implements OnInit {
        ShopID: this.shopData.shopID,
         EndDate: this.globalData.dateFormater(this.EndDate,'-'),
     
-        UserID: this.globalData.currentUserValue.userID,
+        UserID: this.globalData.getUserID(),
       }).subscribe(
         (Response:any)=>{
           if(Response.msg == 'Data Updated Successfully'){

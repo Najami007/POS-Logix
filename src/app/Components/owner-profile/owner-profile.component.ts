@@ -100,7 +100,7 @@ export class OwnerProfileComponent implements OnInit{
           BankAccountNo:this.accountNo,
           BankName:this.bankName,
           PartyDescription:this.description,
-          UserID:this.global.currentUserValue.userID,
+          UserID:this.global.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Saved Successfully'){
@@ -132,7 +132,7 @@ export class OwnerProfileComponent implements OnInit{
       BankAccountTitle:this.accountTitle,
       BankAccountNo:this.accountNo,
       PartyDescription:this.description,
-      UserID:this.global.currentUserValue.userID,
+      UserID:this.global.getUserID(),
     }).subscribe(
       (Response:any)=>{
         if(Response.msg == 'Data Updated Successfully'){
@@ -178,7 +178,7 @@ export class OwnerProfileComponent implements OnInit{
         //////on confirm button pressed the api will run
         this.http.post(environment.mallApiUrl+'deleteparty',{
           PartyID:row.partyID,
-          UserID:this.global.currentUserValue.userID,
+          UserID:this.global.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Deleted Successfully'){

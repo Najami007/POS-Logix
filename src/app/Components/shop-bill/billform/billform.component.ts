@@ -26,6 +26,7 @@ export class BillformComponent implements OnInit {
   hvacCharges:any;
   GasCharges:any;
   GeneratorCharges:any;
+  commissionCharges:any;
 
 
 
@@ -86,7 +87,8 @@ export class BillformComponent implements OnInit {
         HvacCharges:this.hvacCharges,
         GasCharges:this.GasCharges,
         GeneratorCharges:this.GeneratorCharges,
-        UserID: this.global.currentUserValue.userID,
+        CommissionCharges:this.commissionCharges,
+        UserID: this.global.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Saved Successfully'){

@@ -93,7 +93,7 @@ export class BankComponent implements OnInit{
         BankAddress: this.bankAddress,
         BankDescription: this.description,
         COACode: this.accountCode,
-        UserID: '1',
+        UserID: this.globalData.getUserID(),
         }).subscribe(
           
           
@@ -140,7 +140,7 @@ export class BankComponent implements OnInit{
         BankAddress: this.bankAddress,
         BankDescription: this.description,
         COACode: this.accountCode,
-        UserID: this.globalData.currentUserValue.userID,
+        UserID: this.globalData.getUserID(),
       
     }).subscribe(
       (Response:any)=>{
@@ -193,7 +193,7 @@ export class BankComponent implements OnInit{
         //////on confirm button pressed the api will run
         this.http.post(environment.mallApiUrl+'DeleteBank',{
           BankID : row.bankID,
-          UserID: this.globalData.currentUserValue.userID,
+          UserID: this.globalData.getUserID(),
         }).subscribe(
           (Response:any)=>{
             

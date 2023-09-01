@@ -68,7 +68,7 @@ export class AddProductSubcategoryComponent implements OnInit {
         this.http.post(environment.apiUrl+'api/productSubCategory/insertsubcategory',{
           categoryId: this.CategoryID,
           subCategoryName:this.SubCategoryName,
-          createdBy:this.global.currentUserValue.userID,
+          createdBy:this.global.getUserID(),
     
         },{responseType:'text'}).subscribe({
           next:value=>{
@@ -96,7 +96,7 @@ export class AddProductSubcategoryComponent implements OnInit {
     this.http.put(environment.apiUrl+'api/productSubCategory/updatesubcategory?id='+this.editData.subCategoryID,{
       categoryID:this.CategoryID,
       subCategoryName:this.SubCategoryName,
-      modifiedBy:this.global.currentUserValue.userID,
+      modifiedBy:this.global.getUserID(),
 
     },{responseType:'text'}).subscribe({
       next:(value:any)=>{

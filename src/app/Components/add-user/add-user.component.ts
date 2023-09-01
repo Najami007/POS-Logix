@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
-import { environment } from 'src/environments/environment';
+
+import { environment } from 'src/environments/environment.development';
+
 import { HttpClient,HttpClientModule,HttpErrorResponse } from '@angular/common/http';
 import { data, error } from 'jquery';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
@@ -40,6 +42,15 @@ export class AddUserComponent implements OnInit{
    userData:any = [];
    progressbar = true;
 
+
+
+
+   roleList:any=[
+    {title:'Administrator',id:1},
+    {title:'Admin',id:2},
+    {title:'User',id:3}
+   ]
+
  
 
   getUserData(){
@@ -74,7 +85,7 @@ export class AddUserComponent implements OnInit{
             userName:this.uName,
             userEmail:this.uEmail,
             userPassword:this.uPassword,
-            userID:this.globalData.currentUserValue.userID,
+            userID:this.globalData.getUserID(),
             // token: this.globalData.currentUserValue.token,
           },{responseType: 'text'})
           .subscribe(
@@ -121,7 +132,7 @@ export class AddUserComponent implements OnInit{
             userName:this.uName,
             userEmail:this.uEmail,
             userPassword:this.uPassword,
-            userID:this.globalData.currentUserValue.userID,
+            userID:this.globalData.getUserID(),
             // token: this.globalData.currentUserValue.token,
           },{responseType:'text'}).subscribe({
             next: value =>{
@@ -155,15 +166,120 @@ export class AddUserComponent implements OnInit{
 
 
 
+
+
+
+
+
+  
+
+  insertUser(){
+    this.http.post(environment.mallApiUrl+'insertuser',{
+      UserName: this.uName,
+      MobileNo: this.uContact,
+      LoginName: this.uEmail,
+      Password: this.uPassword,
+      PinCode: this.uPinCode,
+      RoleID: this.uRoleID,
+      UserID: this.globalData.getUserID(),
+    }).subscribe(
+      (Response:any)=>{
+        if(Response.msg == 'Data Saved Successfully'){
+          this.msg.SuccessNotify(Response.msg);
+          this.reset();
+          
+        }else{
+          this.msg.WarnNotify(Response.msg);
+        }
+      }
+    )
+  }
+
+  updateUser(){
+    this.http.post(environment.mallApiUrl+'updateuser',{
+      UserName: this.uName,
+      MobileNo: this.uContact,
+      LoginName: this.uEmail,
+      Password: this.uPassword,
+      PinCode: this.uPinCode,
+      RoleID: this.uRoleID,
+      UserID: this.globalData.getUserID(),
+      reqUserID: 1
+    }).subscribe(
+      (Response:any)=>{
+        if(Response.msg == 'Data Updated Successfully'){
+          this.msg.SuccessNotify(Response.msg);
+          this.reset();
+          
+        }else{
+          this.msg.WarnNotify(Response.msg);
+        }
+      }
+    )
+  }
+
+  
+  delUser(item:any){
+    this.http.post(environment.mallApiUrl+'deleteuser',{
+      UserID:item.userID,
+    }).subscribe(
+      (Response:any)=>{
+        if(Response.msg == 'Data Deleted Successfully'){
+          this.msg.SuccessNotify(Response.msg);
+          this.reset();
+          
+        }else{
+          this.msg.WarnNotify(Response.msg);
+        }
+      }
+    )
+  }
+
+
+  blockUser(item:any){
+    this.http.post(environment.mallApiUrl+'blockuser',{
+      TempBlock:true,
+      UserID: item.userID,
+    }).subscribe(
+      
+    )
+  }
+
+  resetPin(item:any){
+    this.http.post(environment.mallApiUrl+'resetpin',{
+      UserID: item.userID,
+      reqUserID: item.reqUserID,
+    }).subscribe(
+      
+    )
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   getUserById(item:any){
-    
-    // var currentUser = this.userData.find((e :any)=>{return e.userID == id});
-    // this.uName = currentUser.userName;
-    // this.uEmail = currentUser.userEmail;
-    // this.uPassword = currentUser.userPassword;
-    // this.confirmPassword = currentUser.userPassword;
-    // this.uId = currentUser.userID;
-    // this.btntype = 'Update';
 
     this.uName = item.userName;
     this.uEmail = item.userEmail;
@@ -171,10 +287,6 @@ export class AddUserComponent implements OnInit{
     this.confirmPassword = item.userPassword;
     this.uId = item.userID;
     this.btntype = 'Update';
-
-  
-
-  
 
   }
 
@@ -191,7 +303,7 @@ export class AddUserComponent implements OnInit{
     }).then((result)=>{
       if(result.isConfirmed){
         
-       if(id == this.globalData.currentUserValue.userID){
+       if(id == this.globalData.getUserID()){
         Swal.fire('Alert!',
         'Unable To Delete this User'
 )
@@ -199,7 +311,7 @@ export class AddUserComponent implements OnInit{
        }else{
         
         this.http.put(environment.apiUrl+'api/user/DeleteUser?id='+id,{ 
-          UserID: this.globalData.currentUserValue.userID,
+          UserID: this.globalData.getUserID(),
           
         }).subscribe((value:any)=>{
           console.log(value);
@@ -237,6 +349,8 @@ export class AddUserComponent implements OnInit{
     this.uPassword='';
     this.confirmPassword='';
     this.btntype= 'Save';
+    this.uPinCode = '';
+    this.uRoleID = '';
   }
 
 

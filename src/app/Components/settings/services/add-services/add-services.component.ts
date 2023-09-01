@@ -67,7 +67,7 @@ export class AddServicesComponent implements OnInit {
         ServiceCode:this.serviceCode,
         ServiceCharges:this.serviceCharges,
         ServiceDescription:this.Description,
-        UserID:this.global.currentUserValue.userID,
+        UserID:this.global.getUserID(),
       }).subscribe(
         (Response:any)=>{
           if(Response.msg == 'Data Saved Successfully'){
@@ -100,7 +100,7 @@ export class AddServicesComponent implements OnInit {
           ServiceCode:this.serviceCode,
           ServiceCharges:this.serviceCharges,
           ServiceDescription:this.Description,
-          UserID:this.global.currentUserValue.userID,
+          UserID:this.global.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Updated Successfully'){

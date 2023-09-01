@@ -82,9 +82,11 @@ export class AddRentComponent implements OnInit{
       this.msg.WarnNotify('Shop Category Required')
     }else if(this.rentTitle == '' || this.rentTitle == undefined){
       this.msg.WarnNotify('Rent Title Required')
-    }else if(this.rentCharges == '' || this.rentCharges == undefined){
+    }
+    else if(this.rentCharges == '' || this.rentCharges == undefined){
       this.msg.WarnNotify('Enter the Rent Charges')
-    }else if(this.Description == '' || this.Description == undefined){
+    }
+    else if(this.Description == '' || this.Description == undefined){
       this.Description = '-';
     }
     else{
@@ -96,7 +98,7 @@ export class AddRentComponent implements OnInit{
           RentTitle:this.rentTitle,
           RentCharges:this.rentCharges,
           RentDescription:this.Description,
-          UserID:this.global.currentUserValue.userID,
+          UserID:this.global.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Saved Successfully'){
@@ -126,7 +128,7 @@ export class AddRentComponent implements OnInit{
       RentTitle:this.rentTitle,
       RentCharges:this.rentCharges,
       RentDescription:this.Description,
-      UserID:this.global.currentUserValue.userID,
+      UserID:this.global.getUserID(),
     }).subscribe(
       (Response:any)=>{
         if(Response.msg == 'Data Updated Successfully'){

@@ -52,7 +52,7 @@ export class AddFloorComponent implements OnInit{
       if(this.actionbtn == 'Save'){
         this.http.post(environment.mallApiUrl +'InsertFloor',{
           ShopFloorName:this.floorName,
-          UserID:this.global.currentUserValue.userID,
+          UserID:this.global.getUserID(),
         }).subscribe(
           (Response:any)=>{
             if(Response.msg == 'Data Saved Successfully'){
@@ -83,7 +83,7 @@ export class AddFloorComponent implements OnInit{
     this.http.post(environment.mallApiUrl+'UpdateFloor',{
       ShopFloorID : this.floorID,
       ShopFloorName:this.floorName,
-      UserID:this.global.currentUserValue.userID,
+      UserID:this.global.getUserID(),
     }).subscribe(
       (Response:any)=>{
         if(Response.msg == 'Data Updated Successfully'){

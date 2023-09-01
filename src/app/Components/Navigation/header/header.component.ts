@@ -30,10 +30,12 @@ export class HeaderComponent implements OnInit {
    
     
     this.globalData.header_title$.subscribe((str:string)=>{this.title = str});
-    setTimeout(() => {
-      this.UserName = '';
-      this.UserName = this.globalData.setUserName();
-    }, 1000);
+    // setTimeout(() => {
+    //   this.UserName = '';
+    //   this.UserName = this.globalData.setUserName();
+    // }, 1000);
+
+    this.UserName = this.globalData.getUserName().toUpperCase();
 
     
 

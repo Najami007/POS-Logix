@@ -7,4 +7,7 @@ export interface userInterface{
   sectionID:number;
   roleId: number;
   token?: string;
+  _culId:any;
+  _culName:any;
+  _curID:any;
 }
