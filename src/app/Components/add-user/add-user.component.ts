@@ -31,7 +31,7 @@ export class AddUserComponent implements OnInit{
 
   btntype = 'Save';
   uName: String = '';
-  uEmail: String = '';
+  loginName: String = '';
   uPassword: String = '';
   confirmPassword : String = '';
   uId = '';
@@ -40,7 +40,7 @@ export class AddUserComponent implements OnInit{
   uPinCode:any;
 
    userData:any = [];
-   progressbar = true;
+   progressbar = false;
 
 
 
@@ -54,130 +54,58 @@ export class AddUserComponent implements OnInit{
  
 
   getUserData(){
-     return this.http.get(environment.apiUrl+'api/user/getUserData').subscribe((value:any)=>{
-      this.userData = value;
-      this.progressbar = false;
-    });
+    this.http.get(environment.mallApiUrl+'getuser').subscribe(
+      (Response)=>{
+        console.log(Response);
+        this.userData = Response;
+      }
+    )
   }
 
   addUser(){
     // var currentUser = this.userData.find((e :any)=>{return e.UserEmail == this.uEmail });
 
-    if(this.btntype == 'Save'){
+   
       if(this.uName == '' || this.uName == undefined)
       {
           this.msg.WarnNotify('Enter UserName');
-      }else if(this.uEmail == '' || this.uEmail == undefined){
+      }else if(this.loginName == '' || this.loginName == undefined){
         this.msg.WarnNotify('Enter Email Address');
-      }else if(this.uPassword == '' || this.uPassword == undefined){
+      }else if(this.uContact == '' || this.uContact == undefined){
+        this.msg.WarnNotify('Enter User Contact');
+      }else if(this.uRoleID == '' || this.uRoleID == undefined){
+        this.msg.WarnNotify('Select User Role')
+      }
+      else if(this.uPassword == '' || this.uPassword == undefined){
         this.msg.WarnNotify('Enter Password')
       }else if(this.confirmPassword == '' || this.confirmPassword == undefined){
         this.msg.WarnNotify('Enter Confirm Password')
+      }else if(this.uPassword != this.confirmPassword){
+        this.msg.WarnNotify('Password Donot Match with Eachother');
+      }else if(this.uPinCode == '' || this.uPinCode == undefined){
+        this.msg.WarnNotify('Enter The Pin Code')
       }
-      // else if(currentUser.userEmail == this.uEmail){
-      //   this.msg.WarnNotify("User Email Already Exists!");
-      // }
       else{
-        if(this.uPassword != this.confirmPassword){
-          this.msg.WarnNotify('Password Donot Match with Eachother');
-        }else if(this.uPassword == this.confirmPassword){
-           this.http.post(environment.apiUrl+'api/user/insertUserData',{
-            userName:this.uName,
-            userEmail:this.uEmail,
-            userPassword:this.uPassword,
-            userID:this.globalData.getUserID(),
-            // token: this.globalData.currentUserValue.token,
-          },{responseType: 'text'})
-          .subscribe(
-            {
-              next: (value )=>{
-               ////////get the response value and shows the notification as it is/////////////
-                if(value == 'User Added Succesfully'){
-                  this.msg.SuccessNotify(value);
-                  this.getUserData();
-                  this.reset();
-                }else{
-                    this.msg.WarnNotify(value+'! Please Check The Credentials');
-                }
-              },
-              error : error=>{
-                console.log(error);
-              }
-
-            }
-          )
-        }
+         if(this.btntype == 'Save'){
+          this.insertUser();
+         }else if(this.btntype == 'Update'){
+          this.updateUser();
+         }
       }
 
    
-    }else if(this.btntype == 'Update'){
-      if(this.uName == '' || this.uName == undefined)
-      {
-          this.msg.WarnNotify('Enter UserName');
-      }else if(this.uEmail == '' || this.uEmail == undefined){
-        this.msg.WarnNotify('Enter Email Address');
-      }else if(this.uPassword == '' || this.uPassword == undefined){
-        this.msg.WarnNotify('Enter Password')
-      }else if(this.confirmPassword == '' || this.confirmPassword == undefined){
-        this.msg.WarnNotify('Enter Confirm Password')
-      }
-      // else if(currentUser.userEmail == this.uEmail && currentUser.userID != this.uId){
-      //   this.msg.WarnNotify("User Email Already Exists!");
-      // }
-      else{
-        if(this.uPassword != this.confirmPassword){
-          this.msg.WarnNotify('Password Donot Match with Eachother');
-        }else if(this.uPassword == this.confirmPassword){
-          this.http.put(environment.apiUrl+'api/user/updateUserData?id='+this.uId,{
-            userName:this.uName,
-            userEmail:this.uEmail,
-            userPassword:this.uPassword,
-            userID:this.globalData.getUserID(),
-            // token: this.globalData.currentUserValue.token,
-          },{responseType:'text'}).subscribe({
-            next: value =>{
-
-
-                if(value == "User Data Updated Succesfully"){
-                  this.msg.SuccessNotify("User Data Updated Succesfully");
-                  this.getUserData();
-                    this.reset();
-                 
-                }else{
-                  this.msg.WarnNotify(value);
-                }
-               
-            },
-            error: error=>{
-              console.log(error);
-              this.msg.WarnNotify('An Error Occured While Updating Data!');
-            }
-            
-          });
-        }
-        
-      }
-      
-      
-    }  
+   
    
   }
 
 
 
 
-
-
-
-
-
-  
-
   insertUser(){
     this.http.post(environment.mallApiUrl+'insertuser',{
       UserName: this.uName,
       MobileNo: this.uContact,
-      LoginName: this.uEmail,
+      LoginName: this.loginName,
       Password: this.uPassword,
       PinCode: this.uPinCode,
       RoleID: this.uRoleID,
@@ -199,7 +127,7 @@ export class AddUserComponent implements OnInit{
     this.http.post(environment.mallApiUrl+'updateuser',{
       UserName: this.uName,
       MobileNo: this.uContact,
-      LoginName: this.uEmail,
+      LoginName: this.loginName,
       Password: this.uPassword,
       PinCode: this.uPinCode,
       RoleID: this.uRoleID,
@@ -282,7 +210,7 @@ export class AddUserComponent implements OnInit{
   getUserById(item:any){
 
     this.uName = item.userName;
-    this.uEmail = item.userEmail;
+    this.loginName = item.userEmail;
     this.uPassword = item.userPassword;
     this.confirmPassword = item.userPassword;
     this.uId = item.userID;
@@ -345,7 +273,7 @@ export class AddUserComponent implements OnInit{
 
   reset(){
     this.uName='';
-    this.uEmail='';
+    this.loginName='';
     this.uPassword='';
     this.confirmPassword='';
     this.btntype= 'Save';

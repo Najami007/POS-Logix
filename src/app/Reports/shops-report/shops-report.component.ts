@@ -12,6 +12,10 @@ import { environment } from 'src/environments/environment.development';
 })
 export class ShopsReportComponent implements OnInit {
 
+  logo:any;
+  logo1:any;
+
+
   constructor(
     private http:HttpClient,
     private msg:NotificationService,
@@ -24,6 +28,8 @@ export class ShopsReportComponent implements OnInit {
   ngOnInit(): void {
    this.getShop();
    this.global.setHeaderTitle("list of shop's")
+   this.logo = this.global.Logo;
+   this.logo1 = this.global.Logo1;
    
   }
 
@@ -34,7 +40,7 @@ export class ShopsReportComponent implements OnInit {
       this.http.get(environment.mallApiUrl+'GetShop').subscribe(
         {
           next:value=>{
-            //console.log(value);
+          
             this.shopData = value;
             this.app.stopLoaderDark();
           },

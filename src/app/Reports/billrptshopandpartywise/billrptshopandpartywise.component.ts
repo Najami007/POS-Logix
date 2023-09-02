@@ -14,6 +14,8 @@ import { environment } from 'src/environments/environment.development';
 })
 export class BillrptshopandpartywiseComponent implements OnInit{
 
+  logo:any;
+  logo1:any
 
   constructor(
 
@@ -30,6 +32,8 @@ export class BillrptshopandpartywiseComponent implements OnInit{
     this.getShop();
     this.getParty();
     this.global.setHeaderTitle('Bill Report Shop & Customerwise')
+    this.logo = this.global.Logo;
+    this.logo1 = this.global.Logo1;
   }
 
   shopSearch:any;
@@ -100,13 +104,11 @@ export class BillrptshopandpartywiseComponent implements OnInit{
     }else if(this.partyID == '' || this.partyID == undefined){
       this.msg.WarnNotify('Select The Customer Name')
     }else{
-
-      this.global.newDateFormate(this.fromDate);
-      this.global.newDateFormate(this.toDate);
+        console.log(this.global.dateFormater(this.fromDate,'-'),this.global.dateFormater(this.toDate,'-'));
     
 
-      this.http.get(environment.mallApiUrl+'GetBillRptShopAndPartywise??startdate=+'+this.fromDate.toISOString().substring(0,10)+
-      '&enddate='+this.toDate.toISOString().substring(0,10)+'&shopid='+this.shopID+'&partyid='+this.partyID).subscribe(
+      this.http.get(environment.mallApiUrl+'GetBillRptShopAndPartywise??startdate='+this.global.dateFormater(this.fromDate,'-')+
+      '&enddate='+this.global.dateFormater(this.toDate,'-')+'&shopid='+this.shopID+'&partyid='+this.partyID).subscribe(
         (Response)=>{
           console.log(Response);
           this.ReportData = Response;

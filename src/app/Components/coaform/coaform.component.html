@@ -14,7 +14,7 @@
                         
                             <mat-form-field appearance="outline" class=""> 
                                 <mat-label >Select Type </mat-label>
-                                <mat-select [(ngModel)]="CoaType"  (selectionChange)="onCoaTypeChange()"  Data-live-Search="true">
+                                <mat-select [(ngModel)]="CoaType"  (selectionChange)="onCoaTypeChange();noteEnable()"  Data-live-Search="true">
                                     <mat-option *ngFor="let item of coaTypesList "
                                         value="{{item.coaTypeID}}">{{item.coaTypeTitle}}</mat-option>
     
@@ -118,26 +118,25 @@
     
                        
                  
-                            <h1 class="text-danger mt-3">Is Transaction Allowed in this head?</h1>
-                            <mat-checkbox class="example-margin" [(ngModel)]="TransactionAllowed"
+                            <div>
+                                <h1 class="text-danger mt-3">Is Transaction Allowed in this head?</h1>
+                            <mat-checkbox class="example-margin" [(ngModel)]="TransactionAllowed" (change)="noteEnable()"
                              *ngFor="let item of Allow" value="{{item.value}}" (change)="valueChange()">
                                 {{item.text}}
                             </mat-checkbox>
-                            <!-- <mat-radio-group [(ngModel)]="TransactionAllowed" >
-                                <mat-radio-button class="radio-button" #transactionAllow *ngFor="let item of Allow"
-                                    [value]="item.value">
-                                    {{item.text}}
-                                </mat-radio-button>
-                            </mat-radio-group> -->
+                            </div>
+                           
                             
                       
-                        <br><br>
-                        <!-- <span *ngIf="false">
-                            <h1 class="text-danger">Is it member Receipt?</h1>
-                            <mat-radio-button class="radio-button" *ngFor="let item of Allow" [value]="item.val">
-                                {{item.val}}
-                            </mat-radio-button>
-                        </span> -->
+                
+                        <mat-form-field  appearance="outline"  class="w-100 mt-2">
+                            <mat-label>Enter Note</mat-label>
+                            <mat-select [disabled]="disableNote " [(ngModel)]="NoteID" >
+                                <mat-option *ngFor="let item of notesList" [value]="item.noteID">{{item.noteTitle}}</mat-option>
+                            </mat-select>
+                            
+                               <mat-hint>Must Be a Number</mat-hint>
+                        </mat-form-field>
                     </span>
     
     
@@ -175,6 +174,7 @@
                                 <th>Account Code</th>
                                 <th>Account Title</th>
                                 <th>Type</th>
+                                <th>Note</th>
                                 <th>
                                     Transaction Allowed
                                 </th>
@@ -184,11 +184,13 @@
                         </thead>
         
                         <tbody>
-                            <tr *ngFor="let item of ChartsofAccountsData | filter : txtSearch; let i=index" >
+                            <tr  *ngFor="let item of ChartsofAccountsData | filter : txtSearch; let i=index" >
                                 <td>{{i+1}}</td>
-                                <td>{{item.accountCode}}</td>
+                                <td class="cursorPointer" (click)="updateCoa(item)">{{item.accountCode}}</td>
                                 <td>{{item.coaTitle}}</td>
                                 <td>{{item.coaTypeTitle}}</td>  
+                                <td>{{item.noteID}}</td>  
+
                                 <td *ngIf="item.transactionAllowed == true"><mat-icon class="text-success" >remove_circle</mat-icon></td>   
                                 <td *ngIf="item.transactionAllowed == false"><mat-icon class="text-danger" >remove_circle</mat-icon></td>   
                                 <td >
@@ -203,6 +205,9 @@
                     </table>
         
                 </div>
+
+
+  
         
             </mat-tab>
         </mat-tab-group>

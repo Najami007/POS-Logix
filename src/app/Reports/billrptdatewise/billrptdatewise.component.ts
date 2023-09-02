@@ -15,6 +15,8 @@ import { environment } from 'src/environments/environment.development';
 export class BillrptdatewiseComponent implements OnInit{
  
 
+  logo:any;
+  logo1:any;
 
   constructor(
     private http:HttpClient,
@@ -28,7 +30,10 @@ export class BillrptdatewiseComponent implements OnInit{
 
   ngOnInit(): void {
     
-    this.global.setHeaderTitle('Bill Report DateWise')
+    
+    this.global.setHeaderTitle('Bill Report DateWise');
+    this.logo = this.global.Logo;
+    this.logo1 = this.global.Logo1;
   }
 
 
@@ -47,7 +52,7 @@ export class BillrptdatewiseComponent implements OnInit{
     this.http.get(environment.mallApiUrl+'GetBillRptDatewise?startdate='+this.fromDate.toISOString().substring(0,10)+
     '&enddate='+this.toDate.toISOString().substring(0,10)).subscribe(
       (Response)=>{
-        console.log(Response);
+     
         this.reportData = Response;
         this.app.stopLoaderDark();
       },
@@ -77,11 +82,21 @@ export class BillrptdatewiseComponent implements OnInit{
       (Response:any)=>{
        
         if(Response.length > 0){
-          this.tableData.push(
-            {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},
-            {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
-          
-           );
+
+          if(Response[0].rentCharges != 0){
+            this.tableData.push(
+              {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},          
+             );
+            
+          }
+
+          if(Response[0].camCharges != 0){
+            this.tableData.push(
+              {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},  
+             );
+          }
+
+         
           
          
          for(var i = 0; Response.length > i;i++ ){

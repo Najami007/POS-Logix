@@ -27,6 +27,8 @@ import { BillRptShopwiseComponent } from 'src/app/Reports/bill-rpt-shopwise/bill
 import { BillrptdatewiseComponent } from 'src/app/Reports/billrptdatewise/billrptdatewise.component';
 import { BillrptshopandpartywiseComponent } from 'src/app/Reports/billrptshopandpartywise/billrptshopandpartywise.component';
 import { CashbookComponent } from 'src/app/Reports/cashbook/cashbook.component';
+import { BillSupervisionComponent } from '../bill-supervision/bill-supervision.component';
+import { BillReportMonthwiseComponent } from 'src/app/Reports/bill-report-monthwise/bill-report-monthwise.component';
 
 
 
@@ -42,10 +44,10 @@ const routes: Routes = [
   {path:'party', component: PartyComponent},
   {path:'AddUser', component: AddUserComponent},
   {path:'Settings',component:SettingsComponent},
-  {path:'product',component:ProductComponent},
-  {path:'sale',component:SaleComponent},
-  {path:'purchase',component:PurchaseComponent},
-  {path:'bank',component:BankComponent},
+  // {path:'product',component:ProductComponent},
+  // {path:'sale',component:SaleComponent},
+  // {path:'purchase',component:PurchaseComponent},
+  // {path:'bank',component:BankComponent},
   {path:'OwnerProfile',component:OwnerProfileComponent},
   {path:'shop',component:ShopComponent},
   {path:'mapshop',component:MapShopComponent},
@@ -56,6 +58,8 @@ const routes: Routes = [
   {path:'BRptDW',component:BillrptdatewiseComponent},
   {path:'BRptS&PW',component:BillrptshopandpartywiseComponent},
   {path:'CBRpt',component:CashbookComponent},
+  {path:'spvsb',component:BillSupervisionComponent},
+  {path:'SBRptMW',component:BillReportMonthwiseComponent},
 
   {path:'', redirectTo:'/main/dashBoard',pathMatch:'full'}
   ]},

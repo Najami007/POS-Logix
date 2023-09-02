@@ -25,6 +25,10 @@ export class ShopBillComponent implements OnInit{
 
 // @ViewChild(BillformComponent) billForm:any;
 
+  MehriaMallLogo :any;
+ MehriaTownLogo:any
+
+
   mappedShopData:any
   searchShop:any;
   searchBill:any;
@@ -71,6 +75,8 @@ export class ShopBillComponent implements OnInit{
     ){}
 
   ngOnInit(): void {
+    this.MehriaMallLogo = this.globaldata.Logo;
+    this.MehriaTownLogo = this.globaldata.Logo1;
     this.globaldata.setHeaderTitle('Shop Billing')
  this.getMappedData();
  this.getSavedBill();
@@ -150,14 +156,9 @@ export class ShopBillComponent implements OnInit{
     }).afterClosed().subscribe(
       {
         next:value=>{
-            this.getSavedBill();
-
-
             ///////////////////////// will print out bill after Save////////
              if(value > 0){
-               setTimeout(() => {
-                this.printAfterSave(value);
-               }, 500);
+              this.getSavedBill();
              }
           
         }

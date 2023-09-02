@@ -14,6 +14,9 @@ import { environment } from 'src/environments/environment.development';
 export class TrialBalanceComponent {
 
 
+  logo:any;
+  logo1:any;
+
   constructor(private globalData: GlobalDataModule,
     private http:HttpClient,
     private msg:NotificationService,
@@ -23,6 +26,8 @@ export class TrialBalanceComponent {
 
   ngOnInit(): void {
     this.globalData.setHeaderTitle('Trial Balance');
+    this.logo = this.globalData.Logo;
+    this.logo1 = this.globalData.Logo1;
   }
 
 

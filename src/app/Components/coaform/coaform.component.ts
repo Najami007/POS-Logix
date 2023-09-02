@@ -9,6 +9,8 @@ import { AppComponent } from 'src/app/app.component';
 import { environment } from 'src/environments/environment.development';
 import Swal from 'sweetalert2';
 import * as $ from 'jquery';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateCoaComponent } from './update-coa/update-coa.component';
 
 
 declare function numonly():any;
@@ -25,7 +27,8 @@ export class CoaformComponent implements OnInit {
     private app:AppComponent,
     private formBuilder: FormBuilder,
     private globalData: GlobalDataModule,
-    private http:HttpClient
+    private http:HttpClient,
+    private dialogue:MatDialog
     ) { }
 
   ngOnInit(): void {
@@ -33,6 +36,7 @@ export class CoaformComponent implements OnInit {
     this.getCoaType();
     this.GetChartOfAccount();
     this.globalData.numberOnly();
+    this.getNotes();
   
    
   }
@@ -53,6 +57,10 @@ export class CoaformComponent implements OnInit {
   level4='';
   CoaTitle:any;
   TransactionAllowed:any;
+
+  NoteID:any = 0;
+
+  disableNote = true;
   
   
 
@@ -66,10 +74,13 @@ export class CoaformComponent implements OnInit {
   coaLevel4List:any;
 
   LevelList:any;
+  notesList:any;
+
+
 
   Allow = [
     {value:true, text: 'Yes' },
-    // {value:'false', text: 'No' },
+    
   ]
 
   valueChange(){
@@ -79,6 +90,8 @@ export class CoaformComponent implements OnInit {
   //////////////setting the value of account head level above Head Name field/////////////////
 
   AccountLabelHeadValue:any = '';
+
+
   setvalue(){
     
       if(this.coaLevel == 1){
@@ -133,15 +146,23 @@ onlevel3Change(){
   this.getLevel4();
 }
   
-// $(".numOnly").on("keypress keyup blur", function (event) {
-//   $(this).val($(this).val().replace(/[^\d].+/, ""));
-//   if ((event.which < 48 || event.which > 57) ) {
-//       event.preventDefault();
-//   }
-// });
 
 
+//////////////////////////////////////////////////
 
+  noteEnable(){
+    this.disableNote = true;
+    
+    if(this.CoaType == 1 && this.TransactionAllowed == true){
+      this.disableNote = false;
+    }else if(this.CoaType == 4 && this.TransactionAllowed == true){
+      this.disableNote = false;
+    }else if(this.CoaType == 5 && this.TransactionAllowed == true){
+      this.disableNote = false;
+    }else if(this.CoaType == 2 || this.CoaType == 3 ){
+      this.NoteID = 0;
+    }
+  }
 
 
 
@@ -162,6 +183,17 @@ onlevel3Change(){
   }
 
 
+  
+  getNotes(){
+    this.http.get(environment.mallApiUrl+'GetNote').subscribe(
+      (Response )=>{
+        this.notesList = Response;
+
+      }
+      
+    )
+  }
+
 
 
   //////////////////////////////////////////////////////////
@@ -169,7 +201,7 @@ onlevel3Change(){
     this.http.get(environment.mallApiUrl+'GetChartOfAccount').subscribe(
       {
         next:value=>{
-          //console.log(value);
+    
           this.ChartsofAccountsData = value;
         },
         error:error=>{
@@ -305,6 +337,7 @@ onlevel3Change(){
     TransactionAllowed: this.TransactionAllowed,
     Editable: false,
     IsService: false,
+    noteID:this.NoteID,
     UserID: this.globalData.getUserID(),
     
       }).subscribe(
@@ -324,6 +357,29 @@ onlevel3Change(){
     }
    
   }
+
+
+
+  updateCoa(row:any){
+    this.dialogue.open(UpdateCoaComponent,{
+      width:"40%",
+      data:row,
+
+    }).afterClosed().subscribe(val=>{
+      
+      if(val == 'Update'){
+        this.GetChartOfAccount();
+      }
+    })
+  }
+
+
+
+
+
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -386,6 +442,7 @@ onlevel3Change(){
     this.AccountLabelHeadValue = '';
     this.CoaTitle = '';
     this.TransactionAllowed = "";
+    this.NoteID = 0;
 
   }
 

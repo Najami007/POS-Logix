@@ -24,7 +24,7 @@
                 </mat-form-field>
                 <mat-form-field class="col-md-5" appearance="outline">
                     <mat-label>User Email</mat-label>
-                    <input [(ngModel)]="uEmail" name="UEmail" matInput type="text">
+                    <input [(ngModel)]="loginName" name="UEmail" matInput type="text">
                     <mat-icon matSuffix class="text-secondary">email</mat-icon>
                 </mat-form-field>
             </div>
@@ -99,7 +99,7 @@
                     <tr *ngFor="let item of userData  |filter:txtSearch index as index">
                         <td>{{index+1}}</td>
                         <td>{{item.userName}}</td>
-                        <td>{{item.userEmail}}</td>
+                        <td>{{item.loginName}}</td>
                         <td><mat-icon class="text-success cursorPointer " (click)="getUserById(item)">edit</mat-icon>
                             <mat-icon class="text-danger cursorPointer" (click)="deleteUser(item.userID)">delete</mat-icon></td>
                     </tr>

@@ -21,6 +21,9 @@ export class LedgerComponent {
 
   CoaList:any;
 
+  logo:any;
+  logo1:any;
+
   constructor( private globalData: GlobalDataModule,
     private http:HttpClient,
     private msg:NotificationService,
@@ -32,6 +35,8 @@ export class LedgerComponent {
     // this.getTotal();
     this.app.startLoaderDark();
     this.globalData.setHeaderTitle('Ledger');
+    this.logo = this.globalData.Logo;
+    this.logo1 = this.globalData.Logo1;
     this.getCoa();
   }
 

@@ -12,6 +12,9 @@ import { environment } from 'src/environments/environment.development';
 })
 export class OwnersReportComponent implements OnInit{
 
+  logo:any;
+  logo1:any;
+
   constructor(
     private http:HttpClient,
     private msg:NotificationService,
@@ -25,6 +28,8 @@ export class OwnersReportComponent implements OnInit{
   
     this.global.setHeaderTitle("list of Owner's")
     this.getOwner();
+    this.logo = this.global.Logo;
+    this.logo1 = this.global.Logo1;
 
   }
 
@@ -37,7 +42,6 @@ export class OwnersReportComponent implements OnInit{
       {
         next:value=>{
           this.ownerData = value;
-          console.log(value);
           this.app.stopLoaderDark();
         },
         error:error=>{

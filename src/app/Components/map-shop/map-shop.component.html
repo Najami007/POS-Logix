@@ -167,16 +167,16 @@
             <table class="table table-hover text-center">
                 <thead>
                    <tr>
-                    <th>S.NO</th>
-                    <th>Shop Title</th>
-                    <th>Area</th>
-                    <th>partyName</th>
-                    <th>Payment Date</th>
-                    <th>CAM</th>
-                    <th>Rent</th>
-                    <th>Start Date</th>
-                    <th >Add Service</th>
-                    <th >UnMap</th>
+                    <th class="col-lg-1">S.NO</th>
+                    <th class="col-lg-1">Shop Title</th>
+                    <th class="col-lg-1">Area</th>
+                    <th class="text-start">Customer Name</th>
+                    <th class="col-lg-1">Payment Date</th>
+                    <th class="col-lg-2">CAM</th>
+                    <th class="col-lg-2">Rent</th>
+                    <th class="col-lg-1">Start Date</th>
+                    <th class="col-lg-1" >Add Service</th>
+                    <th class="col-lg-1">UnMap</th>
                    </tr>
                 </thead>
                 <tbody>
@@ -184,7 +184,7 @@
                         <td>{{index+1}}</td>
                         <td>{{item.shopTitle}}</td>
                         <td>{{item.shopAreaSQ}}(Sqf.)</td>
-                        <td>{{item.partyName}}</td>
+                        <td class="text-start">{{item.partyName}}</td>
                         <td>{{item.rentPaymentDate}}</td>
                         <td>{{item.camCharges}} x {{item.shopAreaSQ}} = <b>{{item.camCharges * item.shopAreaSQ |number}}</b> </td>
                         <td>{{item.rentCharges}} x {{item.shopAreaSQ}} =<b>{{item.rentCharges * item.shopAreaSQ |number}}</b> </td>

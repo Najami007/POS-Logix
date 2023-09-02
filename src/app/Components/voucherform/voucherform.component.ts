@@ -25,6 +25,8 @@ export class VoucherformComponent implements OnInit{
     ) { }
 
   ngOnInit(): void {
+    this.logo = this.globalData.Logo;
+    this.logo1 = this.globalData.Logo1;
     this.globalData.setHeaderTitle('Voucher');
     
     this.getSavedVoucher();
@@ -44,7 +46,8 @@ export class VoucherformComponent implements OnInit{
 
   
 
-
+  logo:any;
+  logo1:any;
 
   /////////////////declared Variables//////////////////////
   cash = 'Cash';
@@ -245,6 +248,10 @@ export class VoucherformComponent implements OnInit{
     
     if(this.vType == '' || this.vType == undefined){
       this.msg.WarnNotify('Select Voucher Type')
+    }else if(this.VoucherData == ''){
+      this.msg.WarnNotify('Data Table is Empty');
+    }else if(this.refrenceCOA == '' && (this.vType == 'CPV' || this.vType == 'CRV'  || this.vType == 'BPV' || this.vType == 'BRV')){
+      this.msg.WarnNotify('Select Refrence Chart of Account')
     } else if(this.vType == 'JV' && this.creditTotal != this.debittotal){
       this.msg.WarnNotify('Debit And Credit Total Side Must Be Equal')
     } 
@@ -462,8 +469,10 @@ export class VoucherformComponent implements OnInit{
     this.invoiceDate = new Date();
     this.refrenceCOA = '';
     this.refCoaList = [];
-    // this.partyID = '';
     this.bankReceiptNo = '';
+    this.COATitleID = '';
+    this.DebitAmount = 0;
+    this.CreditAmount = 0;
     this.VoucherData = [];
     this.debittotal = 0;
     this.creditTotal = 0;

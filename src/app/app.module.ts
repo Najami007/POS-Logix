@@ -68,6 +68,13 @@ import { BillRptShopwiseComponent } from './Reports/bill-rpt-shopwise/bill-rpt-s
 import { BillrptdatewiseComponent } from './Reports/billrptdatewise/billrptdatewise.component';
 import { BillrptshopandpartywiseComponent } from './Reports/billrptshopandpartywise/billrptshopandpartywise.component';
 import { CashbookComponent } from './Reports/cashbook/cashbook.component';
+import { BillSupervisionComponent } from './Components/bill-supervision/bill-supervision.component';
+import { CoaNotesComponent } from './Components/settings/coa-notes/coa-notes.component';
+import { AddNoteComponent } from './Components/settings/coa-notes/add-note/add-note.component';
+import { UpdateCoaComponent } from './Components/coaform/update-coa/update-coa.component';
+import { BillReportMonthwiseComponent } from './Reports/bill-report-monthwise/bill-report-monthwise.component';
+
+
 
 
 
@@ -132,6 +139,13 @@ import { CashbookComponent } from './Reports/cashbook/cashbook.component';
     BillrptdatewiseComponent,
     BillrptshopandpartywiseComponent,
     CashbookComponent,
+    BillSupervisionComponent,
+    CoaNotesComponent,
+    AddNoteComponent,
+    UpdateCoaComponent,
+    BillReportMonthwiseComponent
+
+ 
 
     
    

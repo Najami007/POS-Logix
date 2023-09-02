@@ -16,8 +16,8 @@
                 <th>S#</th>
                 <th>Shop Title</th>
                 <th>Shop Code</th>
-                <th>Owner Name</th>
-                <th>Purchase Date</th>
+                <th class="text-start"> Owner Name</th>
+                <th class="text-start">Purchase Date</th>
                 <th>Area</th>
                 <th>CAM </th>
                 <th>Rent </th>
@@ -29,8 +29,8 @@
                     <td>{{index+1}}</td>
                     <td>{{item.shopTitle}}</td>
                     <td>{{item.shopCode}}</td>
-                    <td>{{item.partyName}}</td>
-                    <td>{{item.purchaseDate | date}}</td>
+                    <td  class="text-start">{{item.partyName}}</td>
+                    <td class="text-start">{{item.purchaseDate | date}}</td>
                     <td>{{item.shopAreaSQ}} (Sqf.)</td>
                     <td>{{item.camCharges}} x {{item.shopAreaSQ}} =<b>{{item.camCharges*item.shopAreaSQ |number}}</b> </td>
                     <td>{{item.rentCharges}}  x {{item.shopAreaSQ}} = <b>{{item.rentCharges*item.shopAreaSQ |number}}</b> </td>

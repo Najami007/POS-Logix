@@ -27,9 +27,14 @@ export class BillRptShopwiseComponent implements OnInit{
 
 
   ngOnInit(): void {
+    this.logo = this.globalData.Logo;
+    this.logo1 = this.globalData.Logo1;
     this.getShop();
     this.globalData.setHeaderTitle('Bill Rpt ShopWise')
   }
+
+  logo:any;
+  logo1:any;
 
   txtSearch:any;
 

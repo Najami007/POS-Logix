@@ -15,6 +15,9 @@ import * as $ from 'jquery';
 export class CashbookComponent  implements OnInit{
 
 
+  logo:any;
+  logo1:any;
+
   constructor(
     private http:HttpClient,
     private msg:NotificationService,
@@ -25,6 +28,9 @@ export class CashbookComponent  implements OnInit{
 
   ngOnInit(): void {
     $('.cashSummary').hide();
+    this.logo = this.globalData.Logo;
+    this.logo1 = this.globalData.Logo1;
+    this.globalData.setHeaderTitle('cash Book')
   }
 
 
@@ -36,6 +42,9 @@ export class CashbookComponent  implements OnInit{
   tableData:any;
 
   cashSummary:any;
+  DebitTotal:any = 0;
+  creditTotal:any = 0;
+ 
   
  //////////////// print Variables/////////////////////
 
@@ -48,22 +57,42 @@ export class CashbookComponent  implements OnInit{
  lblCreditTotal:any;
  lblVoucherPrintDate = new Date();
  invoiceDetails:any;
+ 
 
 
+
+
+ getTotal(){
+  this.DebitTotal = 0;
+  this.creditTotal = 0;
+  
+ this.tableData.forEach((e:any) => {
+  
+  this.DebitTotal += e.debit;
+  this.creditTotal += e.credit;
+
+ });
+   
+
+
+ }
 
 /////////////////////////////////////////////////////////////////
   getDetailReport(){
-
+    this.tableData = [];
     this.app.startLoaderDark();
 
     $('#CashBookDetail').show();
+    $('.cashSummary').hide();
 
     this.http.get(environment.mallApiUrl+'GetCashBookDetailRpt?fromdate='+this.globalData.dateFormater(this.fromDate,'-')+
     '&todate='+this.globalData.dateFormater(this.toDate,'-')).subscribe(
       (Response:any)=>{
-        console.log(Response);
+        
         this.tableData = Response;
+        this.getTotal();
         this.app.stopLoaderDark();
+    
       },
       (Error)=>{
         this.msg.WarnNotify('Error Occured While Loading Report')
@@ -84,8 +113,6 @@ export class CashbookComponent  implements OnInit{
     this.http.get(environment.mallApiUrl+'GetCashBookSummaryRpt?fromdate='+this.globalData.dateFormater(this.fromDate,'-')+
     '&todate='+this.globalData.dateFormater(this.toDate,'-')).subscribe(
       (Response)=>{
-        
-        console.log(Response);
         this.cashSummary = Response;
         this.app.stopLoaderDark();
       },
