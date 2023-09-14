@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment.development';
 import Swal from 'sweetalert2';
 import { BillDetailsComponent } from '../shop-bill/bill-details/bill-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-bill-supervision',
@@ -22,41 +23,113 @@ export class BillSupervisionComponent implements OnInit{
   tableData: any;
 
 
+  logo:any;
+  logo1:any;
+
   constructor(
     private http:HttpClient,
     private globalData:GlobalDataModule,
     private msg:NotificationService,
-    private dialogue:MatDialog
+    private dialogue:MatDialog,
+    private app:AppComponent
     
   ){}
 
 
   ngOnInit(): void {
+    this.globalData.setHeaderTitle('Voucher Supervision');
+    this.logo = this.globalData.Logo;
+    this.logo1 = this.globalData.Logo1;
   
   }
 
-  fromDate:any;
-  toDate:any;
+  fromDate = new Date();
+  toDate = new Date();
 
 
+  voucherList:any = [];
 
-  getUnApprovedBill(){
+  ////////////////////////////////////
 
+  lblDebitTotal = 0;
+  lblCreditTotal=0;
+  invoiceDetails:any;
+
+  lblInvoiceNo:any;
+  lblInvoiceDate:any;
+  lblRemarks:any
+
+  /////////////////////////////////////
+
+  getVouchers(){
+    this.voucherList = [];
+    this.app.startLoaderDark();
+      this.http.get(environment.mallApiUrl+'GetSavedVoucherDetailDateWise?fromdate='+this.globalData.dateFormater(this.fromDate,'-')+
+      '&todate='+this.globalData.dateFormater(this.toDate,'-')).subscribe(
+        (Response)=>{
+        
+          this.voucherList = Response;
+          this.app.stopLoaderDark();
+        },
+        (Error)=>{
+          this.app.stopLoaderDark();
+        }
+      )
   }
 
-  getapproved(){
+  
+
+
+
+
+  /////////////////////////////////////////////
+
+  getInvoiceDetail(invoiceNo:any){
+
+    this.lblDebitTotal = 0;
+    this.lblCreditTotal = 0;
+    this.invoiceDetails = [];
+
     
+    this.http.get(environment.mallApiUrl+'GetSpecificVocherDetail?InvoiceNo='+invoiceNo).subscribe(
+      (Response:any)=>{
+        // console.log(Response);
+        this.invoiceDetails = Response;
+        if(Response != ''){
+         
+          Response.forEach((e:any) => {
+            this.lblDebitTotal += e.debit;
+            this.lblCreditTotal += e.credit;
+          });
+        }
+      },
+      (error:any)=>{
+        console.log(error);
+        this.msg.WarnNotify('Error Occured While Printing');
+      }
+    )
   }
 
 
+///////////////// will temorarily delete the row from array /////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////// 
+
+
+  delRow(item: any) {
+    var index = this.voucherList.indexOf(item);
+    this.voucherList.splice(index, 1);
+   
+  }
+
+   ////////////////////////////////////////////////
 
   approveBill(row:any){
+
     Swal.fire({
-      title:'success',
-      text:'Confirm to Approve Bill',
+      title:'Alert!',
+      text:'Confirm To Approve Invoice',
       position:'center',
       icon:'success',
-      iconColor:'green',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
@@ -65,146 +138,96 @@ export class BillSupervisionComponent implements OnInit{
       if(result.isConfirmed){
 
         //////on confirm button pressed the api will run
-        this.http.post(environment.mallApiUrl+'ApproveBill',{
-          BillNo:row.billNo,
-        PartyID: row.partyID,
-        ShopID:row.shopID,
+        this.http.post(environment.mallApiUrl+'ApproveVoucher',{
+          InvoiceNo: row.invoiceNo,
         UserID: this.globalData.getUserID(),
         }).subscribe(
           (Response:any)=>{
-            if(Response.msg == 'Data Saved Successfully'){
-              this.msg.SuccessNotify('Bill Approved');
-                  
-             }else{
+            // console.log(Response.msg);
+            if(Response.msg == 'Voucher Approved Successfully'){
+              this.msg.SuccessNotify(Response.msg);
+              this.delRow(row);
+            }else{
               this.msg.WarnNotify(Response.msg);
-             }
+            }
+            
           }
         )
       }
     });
-    
+
+
+   
   }
 
 
+  //////////////////////////////////////////////
 
-   ////////////////////////////////////////////////
+  DeleteVoucher(row:any){
 
-   PrintBill(row:any) {
+    Swal.fire({
+      title:'Alert!',
+      text:'Confirm to Delete the Data',
+      position:'center',
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm',
+    }).then((result)=>{
+      if(result.isConfirmed){
+
+        //////on confirm button pressed the api will run
+        this.http.post(environment.mallApiUrl+'DeleteVoucher',{
+          InvoiceNo: row.invoiceNo,
+          UserID: this.globalData.getUserID(),
+        }).subscribe(
+          (Response:any)=>{
+            if(Response.msg == 'Data Deleted Successfully'){
+              this.msg.SuccessNotify(Response.msg);
+              this.delRow(row);
+            }else{
+              this.msg.WarnNotify(Response.msg);
+            }
+          }
+        ) 
+      }
+    });
+
    
-    this.pBillNo = row.billNo;
-    this.pBillDate = row.billDate;
-    this.pShopName = row.shopTitle;
-    this.pCustomername = row.partyName;
-    this.TotalCharges = row.charges;
-    this.billRemarks = row.remarks;
+  }
+
+
+   ///////////////////////////////////////////////////
+
+   printBill(row:any){
+
+    
+    this.lblInvoiceNo = row.invoiceNo;
+    this.lblInvoiceDate = row.invoiceDate;
+    this.lblRemarks = row.invoiceRemarks;
+
+    this.getInvoiceDetail(row.invoiceNo);
+    
+
+    
+      setTimeout(() => {
+        if(this.invoiceDetails != ''){
+          this.globalData.printData('#InvociePrint');
+        }else{
+          this.msg.WarnNotify('Error Occured While Printing');
+        }
+      }, 500);
+
+    
+  
+
+    
+  }
+
  
 
-    this.getSingleBill(row.billNo,'#printBill');
-   
 
-    
-    
-    
-  }
-
-
-
-  ////////////////////////////////////////////////////////
-
-  getSingleBill(billNo:any,printDiv:any){
-    
-    this.http.get(environment.mallApiUrl+'getsinglebill?billno='+billNo).subscribe(
-      (Response:any)=>{
-        console.log(Response);
-        this.pBillDate = Response;
-        if(Response.length > 0){
-
-          ///////////////// will push the rent if cam is not zero
-          if(Response[0].rentCharges != 0){
-            this.tableData.push(   
-              {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},    
-             );
-          }
-
-          ///////////////// will push the cam if cam is not zero
-          if(Response[0].camCharges != 0){
-            this.tableData.push(
-              {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
-             );
-          }
-          
-         
-           
-         for(var i = 0; Response.length > i;i++ ){
-          if(Response[i].serviceTitle != '-'){
-            this.tableData.push(
-              {title:Response[i].serviceTitle,charges:Response[i].serviceCharges});
-          }
-          
-            
-         }
-         
-         if(printDiv != ''){
-          setTimeout(() => {
-            this.globalData.printData('#printBill');
-          }, 500);
-         }
-        
-           
-        }
-      }
-    )
-  }
-
-
-
-   //////////////////////////////////////////////////////////////
-
-   getBillDetails(billNo:any){
-    this.tableData = [];
-
-    this.http.get(environment.mallApiUrl+'getsinglebill?billno='+billNo).subscribe(
-      (Response:any)=>{
-        
-       
-        if(Response.length > 0){
-          if(Response[0].rentCharges != 0){
-            this.tableData.push(   
-              {title:'Rent',charges:Response[0].rentCharges * Response[0].shopAreaSQ},    
-             );
-          }
-          if(Response[0].camCharges != 0){
-            this.tableData.push(
-
-              {title:'CAM',charges:Response[0].camCharges * Response[0].shopAreaSQ},
-            
-             );
-          }
-         
-          
-         
-         for(var i = 0; Response.length > i;i++ ){
-          if(Response[i].serviceTitle != '-'){
-            this.tableData.push(
-              {title:Response[i].serviceTitle,charges:Response[i].serviceCharges});
-          }
-         }
-        
-         
-       
-          this.dialogue.open(BillDetailsComponent,{
-            width:"50%",
-            data:this.tableData,
-          }).afterClosed().subscribe(val=>{
-            
-          })
-         
-     
-           
-        }
-      }
-    )
-  }
 
 
 

@@ -1,5 +1,10 @@
 @import url('./app/Shared/Navbar/navbar.scss');
 
+@font-face {
+  font-family: 'digital';
+  src: url('./assets/fonts/digital-7.ttf');
+}
+
 
 // @font-face {
 //   font-family: Prospekt;
@@ -16,6 +21,7 @@ body {
   margin: 0;
   // font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
 
 
 

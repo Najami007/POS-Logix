@@ -362,10 +362,10 @@
                         <td><mat-icon class="text-success" 
                              (click)="getBillDetails(item.billNo)">receipt</mat-icon></td>
                         <td>
-                        <span *ngIf="item.approvedStatus == false"><mat-icon class="text-success" (click)="approveBill(item)">check</mat-icon></span>
-                        <span *ngIf="item.approvedStatus == true"><mat-icon class="text-danger" >check</mat-icon></span>
+                        <span *ngIf="item.approvedStatus == false && RoleID == 1"><mat-icon class="text-success" (click)="approveBill(item)">check</mat-icon></span>
+                        <span *ngIf="item.approvedStatus == true"><mat-icon class="text-success" >done_all</mat-icon></span>
                         <span *ngIf="item.approvedStatus == true"><mat-icon class="text-primary" (click)="PrintBill(item)">print</mat-icon></span>
-                        <span><mat-icon class="text-danger" (click)="DeleteBill(item)">delete</mat-icon></span></td>
+                        <span><mat-icon class="text-danger" *ngIf="RoleID == 1" (click)="DeleteBill(item)">delete</mat-icon></span></td>
 
                     </tr>
 
@@ -605,6 +605,11 @@
                             </tbody>
                         </table>
 
+                        <div class="text-end d-flex justify-content-between mt-1">
+                            <p >Previous Balance : <b class="border-bottom">{{previousBalance -TotalCharges}}</b></p>
+                            <p >Current Bill : <b class="border-bottom">{{TotalCharges}}</b></p>
+                            <p >Balance : <b class="border-bottom">{{previousBalance}}</b></p>
+                        </div>
 
                     </div>
                 </div>
@@ -717,7 +722,11 @@
                                 </tbody>
                             </table>
     
-    
+                            <div class="text-end d-flex justify-content-between mt-1">
+                                <p >Previous Balance : <b class="border-bottom">{{previousBalance -TotalCharges |number}}</b></p>
+                                <p >Current Bill : <b class="border-bottom">{{TotalCharges |number}}</b></p>
+                                <p >Balance : <b class="border-bottom">{{previousBalance |number}}</b></p>
+                            </div>
                         </div>
                     </div>
     

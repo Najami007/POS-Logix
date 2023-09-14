@@ -18,6 +18,9 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class VoucherformComponent implements OnInit{
 
+
+  RoleID:any;
+
   constructor(private msg: NotificationService,
     private globalData:GlobalDataModule,
     private http:HttpClient,
@@ -28,11 +31,13 @@ export class VoucherformComponent implements OnInit{
     this.logo = this.globalData.Logo;
     this.logo1 = this.globalData.Logo1;
     this.globalData.setHeaderTitle('Voucher');
+   this.RoleID = this.globalData.getRoleId();
     
     this.getSavedVoucher();
     this.getParty();
   }
 
+ 
 
 
 
@@ -63,7 +68,7 @@ export class VoucherformComponent implements OnInit{
   DebitAmount: any = 0 ;
   CreditAmount: any = 0 ;
   VoucherData: any = [];
-  bankReceiptNo:any;
+  bankReceiptNo:any = '';
   invoiceDetails:any = [];
 
   
@@ -184,22 +189,18 @@ export class VoucherformComponent implements OnInit{
       (Response:any)=>{
         // console.log(Response);
         this.SavedVoucherData = Response;
-        this.app.stopLoaderDark();
+       
       },
       (error:any)=>{
         console.log(error)
         this.msg.WarnNotify('Error Occured While Retreiving Data');
-        this.app.stopLoaderDark();
+       
       }
     )
   }
 
 
-  formateDate(){
-    
-    this.globalData.newDateFormate(this.invoiceDate);//////////// will send the current date to DB////////////////////
-    this.invoiceDate.toISOString().substring(0,10);  //////////// will send only the date Section////////////////
-  }
+ 
 
   ///////////////////////////////////////////////////////////
 
@@ -258,12 +259,11 @@ export class VoucherformComponent implements OnInit{
     else{
 
       
-
+   
 
       this.app.startLoaderDark();  ///////////// will start the loader
       this.http.post(environment.mallApiUrl+'InsertVoucher',{
-        InvoiceDate: this.invoiceDate,
-        PartyID: this.partyID,
+        InvoiceDate: this.globalData.dateFormater(this.invoiceDate,'-'),
         RefCOAID: this.refrenceCOA,
         Type: this.vType,
         InvoiceRemarks: this.narration,
@@ -467,7 +467,7 @@ export class VoucherformComponent implements OnInit{
   reset(){
     this.vType = '';
     this.invoiceDate = new Date();
-    this.refrenceCOA = '';
+    this.refrenceCOA = 0;
     this.refCoaList = [];
     this.bankReceiptNo = '';
     this.COATitleID = '';

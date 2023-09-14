@@ -73,6 +73,19 @@ import { CoaNotesComponent } from './Components/settings/coa-notes/coa-notes.com
 import { AddNoteComponent } from './Components/settings/coa-notes/add-note/add-note.component';
 import { UpdateCoaComponent } from './Components/coaform/update-coa/update-coa.component';
 import { BillReportMonthwiseComponent } from './Reports/bill-report-monthwise/bill-report-monthwise.component';
+import { ChangePinComponent } from './Components/add-user/change-pin/change-pin.component';
+import { ShopDetailOwnerWiseComponent } from './Reports/shop-detail-owner-wise/shop-detail-owner-wise.component';
+
+
+import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
+import * as more from 'highcharts/highcharts-more.src';
+import * as exporting from 'highcharts/modules/exporting.src';
+import { ListofCustomersComponent } from './Reports/listof-customers/listof-customers.component';
+import { BudgettingComponent } from './Components/budgetting/budgetting.component';
+import { BudgetReportComponent } from './Reports/budget-report/budget-report.component';
+import { DailyTransactionRptComponent } from './Reports/daily-transaction-rpt/daily-transaction-rpt.component';
+
+
 
 
 
@@ -86,7 +99,9 @@ import { BillReportMonthwiseComponent } from './Reports/bill-report-monthwise/bi
 
 @NgModule({
   declarations: [
+    
     AppComponent,
+    
     HeaderComponent,
     SideNavbarComponent,
     VoucherformComponent,
@@ -116,6 +131,11 @@ import { BillReportMonthwiseComponent } from './Reports/bill-report-monthwise/bi
     AddFloorComponent,
     ShopCategoryComponent,
     AddShopCategoryComponent,
+
+
+
+
+    
   
     CAMComponent,
     AddCAMComponent,
@@ -143,7 +163,15 @@ import { BillReportMonthwiseComponent } from './Reports/bill-report-monthwise/bi
     CoaNotesComponent,
     AddNoteComponent,
     UpdateCoaComponent,
-    BillReportMonthwiseComponent
+    BillReportMonthwiseComponent,
+    ChangePinComponent,
+    ShopDetailOwnerWiseComponent,
+    ListofCustomersComponent,
+    BudgettingComponent,
+    BudgetReportComponent,
+    DailyTransactionRptComponent,
+    
+
 
  
 
@@ -156,6 +184,8 @@ import { BillReportMonthwiseComponent } from './Reports/bill-report-monthwise/bi
     
   ],
   imports: [
+    ChartModule,
+    
     BrowserModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
@@ -182,7 +212,7 @@ import { BillReportMonthwiseComponent } from './Reports/bill-report-monthwise/bi
   
 
   ],
-  providers: [],
+  providers: [{ provide: HIGHCHARTS_MODULES, useFactory: () => [ more, exporting ] }],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

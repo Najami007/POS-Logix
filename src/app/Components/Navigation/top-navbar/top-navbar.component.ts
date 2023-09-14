@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module';
+import { NotificationService } from 'src/app/Shared/service/notification.service';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-top-navbar',
@@ -8,16 +11,19 @@ import { GlobalDataModule } from 'src/app/Shared/global-data/global-data.module'
 })
 export class TopNavbarComponent implements OnInit{
 
-constructor(private globalData:GlobalDataModule){
+constructor(private globalData:GlobalDataModule,
+  private msg:NotificationService,
+  private http:HttpClient,
+  ){
 
 }
 
   ngOnInit(): void {
-    
+    this.getMenu();
   }
 
 
-
+    menuList:any;
   
   reporticon = 'arrow_drop_up';
   accountsDropDownIcon='arrow_drop_up';
@@ -50,5 +56,17 @@ constructor(private globalData:GlobalDataModule){
       this.POSDropDownIcon ='arrow_drop_up';
     }
   }
+
+
+
+
+  getMenu(){
+    this.http.get(environment.mallApiUrl+'getusermenu?userid='+this.globalData.getUserID()).subscribe(
+      (Response:any)=>{
+       this.menuList = Response;
+      }
+    )
+  }
+
 
 }

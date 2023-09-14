@@ -29,6 +29,12 @@ import { BillrptshopandpartywiseComponent } from 'src/app/Reports/billrptshopand
 import { CashbookComponent } from 'src/app/Reports/cashbook/cashbook.component';
 import { BillSupervisionComponent } from '../bill-supervision/bill-supervision.component';
 import { BillReportMonthwiseComponent } from 'src/app/Reports/bill-report-monthwise/bill-report-monthwise.component';
+import { ShopDetailOwnerWiseComponent } from 'src/app/Reports/shop-detail-owner-wise/shop-detail-owner-wise.component';
+import { ListofCustomersComponent } from 'src/app/Reports/listof-customers/listof-customers.component';
+import { BudgettingComponent } from '../budgetting/budgetting.component';
+import { BudgetReportComponent } from 'src/app/Reports/budget-report/budget-report.component';
+import { DailyTransactionRptComponent } from 'src/app/Reports/daily-transaction-rpt/daily-transaction-rpt.component';
+
 
 
 
@@ -58,9 +64,13 @@ const routes: Routes = [
   {path:'BRptDW',component:BillrptdatewiseComponent},
   {path:'BRptS&PW',component:BillrptshopandpartywiseComponent},
   {path:'CBRpt',component:CashbookComponent},
-  {path:'spvsb',component:BillSupervisionComponent},
+  {path:'spvsn',component:BillSupervisionComponent},
   {path:'SBRptMW',component:BillReportMonthwiseComponent},
-
+  {path:'SRptOW',component:ShopDetailOwnerWiseComponent},
+  {path:'rptcust',component:ListofCustomersComponent},
+  {path:'bdgtng',component:BudgettingComponent},
+  {path:'bdgtrpt',component:BudgetReportComponent},
+  {path:'Dtranrpt',component:DailyTransactionRptComponent},
   {path:'', redirectTo:'/main/dashBoard',pathMatch:'full'}
   ]},
 ];

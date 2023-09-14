@@ -1,5 +1,5 @@
-<mat-tab-group>
-    <mat-tab label="Add User" class="h-100">
+
+  
         <mat-progress-bar mode="query" *ngIf="progressbar == true"></mat-progress-bar>
 
 
@@ -61,7 +61,7 @@
             <div class="d-flex justify-content-around  col-lg-12 mt-1">
                 <mat-form-field class="col-md-5" appearance="outline">
                     <mat-label>Pin Code</mat-label>
-                    <input [(ngModel)]="uPinCode" maxlength="4" matInput type="password">
+                    <input [(ngModel)]="uPinCode" [disabled]="disablePin" maxlength="4" matInput type="password">
                     <mat-icon matSuffix class="text-secondary"> vpn_key</mat-icon>
                 </mat-form-field>
             </div>
@@ -72,16 +72,10 @@
             <Button class="btn btn-success m-2 w-25 h-25" (click)="addUser()"><mat-icon class="pt-1" >save</mat-icon>{{btntype}}</Button>
             <Button class="btn btn-danger m-2 w-25 h-25" (click)="reset()"><mat-icon class="pt-1" >cached</mat-icon>Reset</Button>
         </div>
-    </div>
 
 
-    <!-- Saved Record Side of the page  -->
-    <div class="mt-2 col-lg-6 border-start">
-        <div class="border-bottom ">
-            <h2 style="margin-left:10px;">Saved Record </h2>
-        </div>
-       
-        <mat-form-field class="col-md-11 m-3" appearance="outline">
+        <!--------------------    saved Data------------------>
+        <div><mat-form-field class="col-md-11 m-3" appearance="outline">
             <mat-label>Search</mat-label>
             <input [(ngModel)]="txtSearch" matInput type="search" class="text-secondary">
             <mat-icon matPrefix class="text-secondary">search</mat-icon>
@@ -93,21 +87,48 @@
                     <th>S#</th>
                     <th>User Name</th>
                     <th>User Email</th>
-                    <th colSpan="2">Action</th>
+                    <th>Edit</th>
+                    <th>Block</th>
+                    <th>Edit Pin</th>
+                    <th>Reset Pin</th>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of userData  |filter:txtSearch index as index">
                         <td>{{index+1}}</td>
                         <td>{{item.userName}}</td>
                         <td>{{item.loginName}}</td>
-                        <td><mat-icon class="text-success cursorPointer " (click)="getUserById(item)">edit</mat-icon>
-                            <mat-icon class="text-danger cursorPointer" (click)="deleteUser(item.userID)">delete</mat-icon></td>
+                        <td><mat-icon class="text-primary cursorPointer " (click)="EditUser(item)">edit</mat-icon></td>
+                        <td *ngIf="item.tempBlock == false"><mat-icon class="text-warning cursorPointer "  (click)="blockUser(item)">block</mat-icon></td>
+                        <td *ngIf="item.tempBlock == true"><mat-icon class="text-danger cursorPointer "  (click)="unBlockUser(item)">check_circle</mat-icon></td>
+                        <td><mat-icon class="text-success cursorPointer "  (click)="changePin(item)">vpn_key</mat-icon></td>
+                        <td><mat-icon class="text-success cursorPointer "  (click)="resetPin(item)">rotate_right</mat-icon></td>
+
+                            <!-- <mat-icon class="text-danger cursorPointer" (click)="deleteUser(item.userID)">delete</mat-icon></td> -->
                     </tr>
                 </tbody>
             </table>
+        </div></div>
+    </div>
+
+
+    <!-- Saved Record Side of the page  -->
+    <div class="d-flex flex-column mt-2 col-lg-6 border-start">
+       
+        <div>
+
+            <mat-checkbox class="example-margin col-lg-6 "(click)="changeStatus(item)" *ngFor="let item of menuList"  [checked]="item.selectStatus" >
+
+                               <b *ngIf="item.menuText != null"> {{item.menuText}}   </b>
+                               <b *ngIf="item.menuText == null"> {{item.subMenuText}}  </b>
+
+                            </mat-checkbox>
+
+
         </div>
+
+
+
     </div>
 </div>
-    </mat-tab>
-    <mat-tab label="User Roles" class="h-100"></mat-tab>
-</mat-tab-group>
+ 
+    

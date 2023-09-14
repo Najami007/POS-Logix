@@ -28,6 +28,9 @@ export class TrialBalanceComponent {
     this.globalData.setHeaderTitle('Trial Balance');
     this.logo = this.globalData.Logo;
     this.logo1 = this.globalData.Logo1;
+    this.getNotes();
+
+    $('#summary2').hide();
   }
 
 
@@ -42,20 +45,62 @@ export class TrialBalanceComponent {
   cDebitTotal:any = 0;
   cCreditTotal:any = 0;
 
+  notesList:any =[];
+
 
   
 
 
   getTrialBalance(){
+    $('#summary2').hide();
+    $('#summary1').show();
 this.TrialBalanceData = [];
     this.app.startLoaderDark();
 
     this.http.get(environment.mallApiUrl+'GetTrailBalanceRpt?fromdate='
     +this.globalData.dateFormater(this.fromDate,'-')+'&todate='+this.globalData.dateFormater(this.toDate,'-')).subscribe(
       (Response)=>{
+      
         this.TrialBalanceData = Response;
-        this.getTotal();
-        this.app.stopLoaderDark();
+       
+        if(Response != null){
+          this.oDebitTotal = 0;
+        this.oCreditTotal = 0;
+        this.debitTotal = 0;
+        this.creditTotal = 0;
+        this.cDebitTotal = 0;
+        this.cCreditTotal = 0;
+
+
+         for(var i=0;i<this.TrialBalanceData.length;i++){
+
+          if(this.TrialBalanceData[i].coaTypeID == 2){
+            this.TrialBalanceData[i].noteID = 0.2;
+          }
+
+          if(this.TrialBalanceData[i].coaTypeID == 3){
+            this.TrialBalanceData[i].noteID = 0.3;
+          }
+           this.oDebitTotal += this.TrialBalanceData[i].oDebit;
+           this.oCreditTotal += this.TrialBalanceData[i].oCredit;
+           this.debitTotal += this.TrialBalanceData[i].debit;
+           this.creditTotal += this.TrialBalanceData[i].credit;
+           this.cDebitTotal += this.TrialBalanceData[i].cDebit;
+           this.cCreditTotal += this.TrialBalanceData[i].cCredit;
+           
+
+           this.notesList.forEach((n:any) => {
+            
+            if(n.noteID == this.TrialBalanceData[i].noteID){
+              n.debitTotal += this.TrialBalanceData[i].cDebit;
+              n.creditTotal += this.TrialBalanceData[i].cCredit;
+            }
+
+           });
+     
+         }
+        }
+         this.app.stopLoaderDark();
       },
       (Error)=>{
         this.app.stopLoaderDark();
@@ -68,24 +113,50 @@ this.TrialBalanceData = [];
 
   }
 
-  getTotal(){
-
-   this.oDebitTotal = 0;
-   this.oCreditTotal = 0;
-   this.debitTotal = 0;
-   this.creditTotal = 0;
-   this.cDebitTotal = 0;
-   this.cCreditTotal = 0;
-    for(var i=0;i<this.TrialBalanceData.length;i++){
-      this.oDebitTotal += this.TrialBalanceData[i].oDebit;
-      this.oCreditTotal += this.TrialBalanceData[i].oCredit;
-      this.debitTotal += this.TrialBalanceData[i].debit;
-      this.creditTotal += this.TrialBalanceData[i].credit;
-      this.cDebitTotal += this.TrialBalanceData[i].cDebit;
-      this.cCreditTotal += this.TrialBalanceData[i].cCredit;
-
-    }
+  getSummary2(){
+    $('#summary1').hide();
+    $('#summary2').show();
   }
+
+  getTotal(note:any){
+
+    this.oDebitTotal = 0;
+    this.oCreditTotal = 0;
+    this.debitTotal = 0;
+    this.creditTotal = 0;
+    this.cDebitTotal = 0;
+    this.cCreditTotal = 0;
+     for(var i=0;i<this.TrialBalanceData.length;i++){
+      
+ 
+     }
+  }
+ 
+
+
+
+  ///////////////////////////// will get the notes list
+  
+  getNotes(){
+    this.notesList = [];
+    this.http.get(environment.mallApiUrl+'GetNote').subscribe(
+      (Response:any )=>{
+        // console.log(Response);
+
+        Response.forEach((e:any) => {
+          this.notesList.push({noteID:e.noteID,noteTitle:e.noteTitle,coaTypeID:e.coaTypeID,debitTotal:0,creditTotal:0,})
+        });
+
+        this.notesList.push({noteID:0.2,noteTitle:'Expense',coaTypeID:2,debitTotal:0,creditTotal:0},
+        {noteID:0.3,noteTitle:'Income',coaTypeID:3,debitTotal:0,creditTotal:0})
+
+        
+      }
+      
+    )
+  }
+
+
 
 
   PrintTable() {

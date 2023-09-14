@@ -60,9 +60,10 @@ export class BsstatComponent implements OnInit {
 
   getBalanceSheet(){
 
-    this.currentYear = this.toDate.getFullYear();
-    this.previousYear = this.toDate.getFullYear()-1;
+    this.currentYear = this.getYear();
    
+    this.previousYear = this.currentYear-1
+
     this.http.get(environment.mallApiUrl+'GetMainBalanceSheet?todate='+this.globalData.dateFormater(this.toDate,'-')).subscribe(
       (Response:any)=>{
         this.assetList = [];
@@ -117,6 +118,18 @@ export class BsstatComponent implements OnInit {
     
     )
   
+  }
+
+  getYear(){
+    
+      var year = this.toDate.getFullYear();
+      var month = this.toDate.getMonth();
+      if(month < 6){
+        return year - 1;
+      }else{
+        return year;
+      }
+    
   }
 
 

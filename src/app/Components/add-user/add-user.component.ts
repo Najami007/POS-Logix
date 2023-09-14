@@ -8,6 +8,8 @@ import { data, error } from 'jquery';
 import { NotificationService } from 'src/app/Shared/service/notification.service';
 
 import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePinComponent } from './change-pin/change-pin.component';
 
 
 
@@ -21,10 +23,12 @@ export class AddUserComponent implements OnInit{
   constructor(private globalData:GlobalDataModule,
     private http : HttpClient,
     private msg:NotificationService,
+    private dialogue:MatDialog
     ){}
   ngOnInit(): void {
     this.globalData.setHeaderTitle('Add User');
     this.getUserData();
+    this.getMenu();
   }
 
   txtSearch='';
@@ -38,12 +42,18 @@ export class AddUserComponent implements OnInit{
   uContact:any;
   uRoleID:any;
   uPinCode:any;
+  userID:any;
+
+  disablePin = false;
+
+
+  selectedMenu:any = [];
 
    userData:any = [];
    progressbar = false;
 
 
-
+  menuList:any=[];
 
    roleList:any=[
     {title:'Administrator',id:1},
@@ -56,15 +66,24 @@ export class AddUserComponent implements OnInit{
   getUserData(){
     this.http.get(environment.mallApiUrl+'getuser').subscribe(
       (Response)=>{
-        console.log(Response);
+        
         this.userData = Response;
       }
     )
   }
 
+  ///////////////////////////////////
+
   addUser(){
     // var currentUser = this.userData.find((e :any)=>{return e.UserEmail == this.uEmail });
 
+    var menuStatus = false;
+
+    this.menuList.forEach((e:any) => {
+      if(e.selectStatus == true){
+        menuStatus =  true;
+      }
+    });
    
       if(this.uName == '' || this.uName == undefined)
       {
@@ -84,8 +103,13 @@ export class AddUserComponent implements OnInit{
         this.msg.WarnNotify('Password Donot Match with Eachother');
       }else if(this.uPinCode == '' || this.uPinCode == undefined){
         this.msg.WarnNotify('Enter The Pin Code')
+      }else if(menuStatus == false){
+        this.msg.WarnNotify('Select Atleast One Menu');
+       
       }
       else{
+        
+
          if(this.btntype == 'Save'){
           this.insertUser();
          }else if(this.btntype == 'Update'){
@@ -100,8 +124,11 @@ export class AddUserComponent implements OnInit{
 
 
 
+  ///////////////////////////////////////////////
+
 
   insertUser(){
+    
     this.http.post(environment.mallApiUrl+'insertuser',{
       UserName: this.uName,
       MobileNo: this.uContact,
@@ -109,12 +136,15 @@ export class AddUserComponent implements OnInit{
       Password: this.uPassword,
       PinCode: this.uPinCode,
       RoleID: this.uRoleID,
+      MenuDetail:JSON.stringify(this.menuList),
       UserID: this.globalData.getUserID(),
     }).subscribe(
       (Response:any)=>{
         if(Response.msg == 'Data Saved Successfully'){
           this.msg.SuccessNotify(Response.msg);
           this.reset();
+          this.getMenu();
+          this.getUserData();
           
         }else{
           this.msg.WarnNotify(Response.msg);
@@ -122,6 +152,9 @@ export class AddUserComponent implements OnInit{
       }
     )
   }
+
+
+  /////////////////////////////////////////////
 
   updateUser(){
     this.http.post(environment.mallApiUrl+'updateuser',{
@@ -131,13 +164,16 @@ export class AddUserComponent implements OnInit{
       Password: this.uPassword,
       PinCode: this.uPinCode,
       RoleID: this.uRoleID,
-      UserID: this.globalData.getUserID(),
-      reqUserID: 1
+      MenuDetail:JSON.stringify(this.menuList),
+      UserID: this.userID,
+      reqUserID: this.globalData.getUserID()
     }).subscribe(
       (Response:any)=>{
         if(Response.msg == 'Data Updated Successfully'){
           this.msg.SuccessNotify(Response.msg);
           this.reset();
+          this.getUserData();
+          this.getMenu();
           
         }else{
           this.msg.WarnNotify(Response.msg);
@@ -147,6 +183,8 @@ export class AddUserComponent implements OnInit{
   }
 
   
+  ////////////////////////////////////////////////
+
   delUser(item:any){
     this.http.post(environment.mallApiUrl+'deleteuser',{
       UserID:item.userID,
@@ -164,60 +202,202 @@ export class AddUserComponent implements OnInit{
   }
 
 
+  ////////////////////////////////////////////////
+
   blockUser(item:any){
-    this.http.post(environment.mallApiUrl+'blockuser',{
-      TempBlock:true,
-      UserID: item.userID,
-    }).subscribe(
-      
-    )
+
+
+    Swal.fire({
+      title:'Alert!',
+      text:'Confirm to Block User',
+      position:'center',
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm',
+    }).then((result)=>{
+      if(result.isConfirmed){
+
+        //////on confirm button pressed the api will run
+        this.http.post(environment.mallApiUrl+'blockuser',{
+          TempBlock:true,
+          UserID: item.userID,
+        }).subscribe(
+          (Response:any)=>{
+            if(Response.msg == 'Data Updated Successfully'){
+              this.msg.SuccessNotify(Response.msg);
+              this.getUserData();
+              this.getMenu();
+            }else{
+              this.msg.WarnNotify(Response.msg)
+            }
+          }
+        )
+      }
+    });
+
+    
   }
+
+
+  ////////////////////////////////////////////////
+
+  unBlockUser(item:any){
+
+
+    Swal.fire({
+      title:'Alert!',
+      text:'Confirm to UnBlock User',
+      position:'center',
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm',
+    }).then((result)=>{
+      if(result.isConfirmed){
+
+        //////on confirm button pressed the api will run
+        this.http.post(environment.mallApiUrl+'blockuser',{
+          TempBlock:false,
+          UserID: item.userID,
+        }).subscribe(
+          (Response:any)=>{
+            if(Response.msg == 'Data Updated Successfully'){
+              this.msg.SuccessNotify(Response.msg);
+              this.getUserData();
+              this.getMenu();
+            }else{
+              this.msg.WarnNotify(Response.msg)
+            }
+          }
+        )
+      }
+    });
+
+    
+  }
+
+  /////////////////////////////////////////////////
 
   resetPin(item:any){
-    this.http.post(environment.mallApiUrl+'resetpin',{
-      UserID: item.userID,
-      reqUserID: item.reqUserID,
-    }).subscribe(
-      
+
+    Swal.fire({
+      title:'Alert!',
+      text:'Confirm to Reset Pin',
+      position:'center',
+      icon:'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirm',
+    }).then((result)=>{
+      if(result.isConfirmed){
+
+        //////on confirm button pressed the api will run
+        this.http.post(environment.mallApiUrl+'resetpin',{
+          UserID: item.userID,
+          reqUserID: this.globalData.getUserID(),
+        }).subscribe(
+        (Response:any)=>{
+          if(Response.msg == 'Data Updated Successfully'){
+            this.msg.SuccessNotify(Response.msg);
+            this.getUserData();
+    
+          }else{
+            this.msg.WarnNotify(Response.msg);
+          }
+        }
+        )
+      }
+    });
+
+    
+  }
+
+
+  ////////////////////////////////////
+
+  getMenu(){
+    this.http.get(environment.mallApiUrl+'getmenu').subscribe(
+      (Response)=>{
+        // console.log(Response);
+        this.menuList = Response;
+      }
     )
   }
 
 
+  ///////////////////////////////////
+  changeStatus(item:any){
 
+    if(item.selectStatus == false){
+      item.selectStatus = true;
+    }else{
+      item.selectStatus = false;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  getUserById(item:any){
-
-    this.uName = item.userName;
-    this.loginName = item.userEmail;
-    this.uPassword = item.userPassword;
-    this.confirmPassword = item.userPassword;
-    this.uId = item.userID;
-    this.btntype = 'Update';
 
   }
 
+
+  
+
+
+  /////////////////////////////////
+
+  EditUser(row:any){
+
+    this.uName = '';
+    this.loginName = '';
+    this.uContact = '';
+    this.uPassword = '';
+    this.confirmPassword = '';
+    this.uRoleID = '';
+    this.uPinCode = '';
+    this.btntype = '';
+    this.userID = '';
+    this.disablePin = false;
+
+    this.menuList.forEach((e:any) => {
+          
+      e.selectStatus = false;
+
+    });
+
+
+    ///////////////////////////////////////
+    
+    this.uName = row.userName;
+    this.loginName = row.loginName;
+    this.uContact = row.mobileNo;
+    this.uPassword = atob(atob(row.password));
+    this.confirmPassword = atob(atob(row.password));
+    this.uRoleID = row.roleID;
+    this.uPinCode = atob(atob(row.pinCode));
+    this.btntype = 'Update';
+    this.userID = row.userID;
+    this.disablePin = true;
+
+    this.http.get(environment.mallApiUrl+'getusermenu?userid='+row.userID).subscribe(
+      (Response:any)=>{
+        Response.forEach((e:any) => {
+          
+          this.menuList.forEach((m:any)=>{
+            if(e.menuID == m.menuID){
+              m.selectStatus = true;
+            }
+          })
+
+        });
+      }
+    )
+
+  }
+
+
+  //////////////////////////
   deleteUser(id:any){
     Swal.fire({
       title:'Alert!',
@@ -258,18 +438,31 @@ export class AddUserComponent implements OnInit{
 
  
 
+ ////////////Mobile no field formate//////////////////////////
+ mobileNoFormate(){
+  if(this.uContact.length == 4){
+    this.uContact = this.uContact + '-';
+  }
+}
 
 
+///////////////////////////////////////
 
+ changePin(row:any){
+  this.dialogue.open(ChangePinComponent,{
+    width:"40%",
+    data:row,
+  
 
+  }).afterClosed().subscribe(val=>{
+    
+    if(val == 'Update'){
+     this.getUserData();
+    }
+  })
+ }
 
-
-
-
-
-
-
-
+/////////////////////////////////////////////
 
   reset(){
     this.uName='';
@@ -279,6 +472,12 @@ export class AddUserComponent implements OnInit{
     this.btntype= 'Save';
     this.uPinCode = '';
     this.uRoleID = '';
+    this.userID= '';
+    this.disablePin = false;
+    
+    this.menuList.forEach((e:any)=>{
+      e.selectStatus = false;
+    })
   }
 
 

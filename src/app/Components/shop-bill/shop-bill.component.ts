@@ -21,9 +21,8 @@ import { BillDetailsComponent } from './bill-details/bill-details.component';
 })
 export class ShopBillComponent implements OnInit{
 
-  // @Output() eventEmitterprint = new EventEmitter();
 
-// @ViewChild(BillformComponent) billForm:any;
+  RoleID:any;
 
   MehriaMallLogo :any;
  MehriaTownLogo:any
@@ -63,7 +62,7 @@ export class ShopBillComponent implements OnInit{
   billRemarks:any;
   billDetails:any;
   search:any;
-
+  previousBalance:any;
 
 
   constructor(private http:HttpClient,
@@ -77,7 +76,8 @@ export class ShopBillComponent implements OnInit{
   ngOnInit(): void {
     this.MehriaMallLogo = this.globaldata.Logo;
     this.MehriaTownLogo = this.globaldata.Logo1;
-    this.globaldata.setHeaderTitle('Shop Billing')
+    this.globaldata.setHeaderTitle('Shop Billing');
+    this.RoleID = this.globaldata.getRoleId();
  this.getMappedData();
  this.getSavedBill();
  this.getParty();
@@ -106,16 +106,20 @@ export class ShopBillComponent implements OnInit{
   //////////////////////////////////////////
 
   getMappedData(){
+    
+    this.app.startLoaderDark();
     this.http.get(environment.mallApiUrl+'GetMappedShop').subscribe(
       {
         next:value=>{
           // console.log(value);
           this.mappedShopData = value;
+          this.app.stopLoaderDark();
         },
 
       error:error=>{
         console.log(error);
         this.msg.WarnNotify('Error Occured While loading data');
+        this.app.stopLoaderDark();
       }
       }
     )
@@ -127,19 +131,18 @@ export class ShopBillComponent implements OnInit{
 
    getSavedBill(){
 
-    this.app.startLoaderDark();
     
     this.http.get(environment.mallApiUrl+'getbill').subscribe(
       {
         next:value=>{
           // console.log(value);
           this.SavedBillList = value;
-          this.app.stopLoaderDark();
+       
         },
         error:error=>{
           this.msg.WarnNotify('Error Occured While Loading Data');
           console.log(error);
-          this.app.stopLoaderDark();
+         
         }
       }
     )
@@ -177,6 +180,7 @@ export class ShopBillComponent implements OnInit{
     this.pCustomername = row.partyName;
     this.TotalCharges = row.charges;
     this.billRemarks = row.remarks;
+    
  
 
     this.getSingleBill(row.billNo,'#printBill');
@@ -203,6 +207,8 @@ export class ShopBillComponent implements OnInit{
     this.TotalCharges = curRow.charges;
     this.billRemarks = curRow.remarks;
 
+    this.previousBalance = curRow.balance;
+
     this.getSingleBill(billNo,'#afterSavePrint');
    
   }
@@ -211,9 +217,12 @@ export class ShopBillComponent implements OnInit{
 
   getSingleBill(billNo:any,printDiv:any){
     
+    this.previousBalance = 0;
+    
     this.http.get(environment.mallApiUrl+'getsinglebill?billno='+billNo).subscribe(
       (Response:any)=>{
         console.log(Response);
+        this.previousBalance = Response[0].balance;
         this.billData = Response;
         if(Response.length > 0){
 
@@ -445,7 +454,7 @@ export class ShopBillComponent implements OnInit{
         {
           next:value=>{
             this.shopServicesData  = value;
-            // console.log(value);
+            
             
           },
           error:error=>{

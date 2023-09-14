@@ -1,17 +1,17 @@
 <div class="bckgrnd">
-    <div class="container-fluid">
-        <h1 class="rptTitle">Profit & Loss Statement</h1>
-            <div class="selRow container-fluid ">
-                <div class="row text-center">
+    <div class="container-fluid p-3">
+  
+            <div class=" container-fluid ">
+                <div class="selrow row text-center">
          
-                        <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4 " >
+                        <mat-form-field class="w-25 " >
                             <mat-label>From Date</mat-label>
                             <input matInput type="text"  readonly="true" [(ngModel)]="fromDate" [matDatepicker]="startDate">
                             <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                             <mat-datepicker #startDate></mat-datepicker>
                         </mat-form-field>
 
-                        <mat-form-field class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <mat-form-field class="w-25">
                             <mat-label>To Date</mat-label>
                             <input matInput type="text" readonly="true" [(ngModel)]="toDate"  [matDatepicker]="EndDate">
                             <mat-datepicker-toggle matSuffix [for]="EndDate"></mat-datepicker-toggle>
@@ -19,14 +19,16 @@
                         </mat-form-field>
                     
 
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt-4 text-end">
-                        <button class="fw-bold" (click)="getReport()" >
-                            <mat-icon class="text-success">insert_drive_file</mat-icon>Get Rpt
+                    <div class="w-50  ">
+                        <button class="btn btn-primary w-25 btn-rpt me-2" (click)="getReport('R1')" >
+                            Summary 1
                         </button>   
-                    </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt-4 text-end">
-                        <button class="fw-bold" (click)="PrintTable()">
-                            <mat-icon class="text-primary">print</mat-icon>Print
+                        <button class=" btn btn-primary w-25 btn-rpt me-2" (click)="getReport('R2')" >
+                            Summary 2
+                        </button>   
+                    
+                        <button class=" btn btn-primary w-25 btn-rpt" (click)="PrintTable()">
+                           Print
                         </button>
                     </div>
                 </div>

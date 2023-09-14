@@ -83,14 +83,13 @@ export class CoaformComponent implements OnInit {
     
   ]
 
-  valueChange(){
-    // console.log(this.TransactionAllowed);
-  }
+  
   
   //////////////setting the value of account head level above Head Name field/////////////////
 
   AccountLabelHeadValue:any = '';
 
+  ///////////////////////////////
 
   setvalue(){
     
@@ -112,6 +111,8 @@ export class CoaformComponent implements OnInit {
 
   
 
+  /////////////////////////////
+
 onCoaTypeChange(){
   this.LevelList =[
     {value:1,level: 'level 1' },
@@ -123,6 +124,8 @@ onCoaTypeChange(){
   this.getLevel1();
   
 }
+
+/////////////////////////////
 
 onCoaLevelChange(){
   this.level1 = '';
@@ -136,12 +139,18 @@ onCoaLevelChange(){
   this.coaLevel4List = '';
 }
 
+
+/////////////////////////////
 onlevel1Change(){
   this.getLevel2();
 }
+
+/////////////////////////////
 onlevel2Change(){
   this.getLevel3();
 }
+
+/////////////////////////////
 onlevel3Change(){
   this.getLevel4();
 }
@@ -152,6 +161,7 @@ onlevel3Change(){
 
   noteEnable(){
     this.disableNote = true;
+    this.NoteID = 0;
     
     if(this.CoaType == 1 && this.TransactionAllowed == true){
       this.disableNote = false;
@@ -183,6 +193,8 @@ onlevel3Change(){
   }
 
 
+
+  ///////////////////////////// will get the notes list
   
   getNotes(){
     this.http.get(environment.mallApiUrl+'GetNote').subscribe(
@@ -323,10 +335,12 @@ onlevel3Change(){
     // }
     else if(this.CoaTitle == '' || this.CoaTitle == undefined){
       this.msg.WarnNotify('COA Title Required')
+    }else if((this.CoaType == 1 || this.CoaType == 3 || this.CoaType == 5 && this.TransactionAllowed == true) 
+    && (this.NoteID == 0 || this.NoteID == undefined || this.NoteID == '' ) ){
+      this.msg.WarnNotify('Select The Note')
     }
     else{
-      // alert();
-      // alert(this.TransactionAllowed);
+      
       this.http.post(environment.mallApiUrl+'InsertChartOfAccount',{
     CoaTitle: this.CoaTitle,
     CoaTypeID: this.CoaType,

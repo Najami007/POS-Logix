@@ -75,6 +75,14 @@ export class GlobalDataModule  {
  }
 
 
+ getRoleId(){
+   var credentials = JSON.parse(localStorage.getItem('curVal') || '{}');
+
+  return  atob(atob(credentials.value._cuRId)).toString();
+
+ }
+
+
 
 
 
@@ -88,60 +96,7 @@ export class GlobalDataModule  {
 ///////////////////////////////////////////////////////////
   /////////////////////login funciton///////////////////////
   ////////////////////////////////////////////////////////
-  // login(Email:String,password:string){
-
-  //   // if(Email == 'a' && password == 'a'){
-  //   //   this.rout.navigate(["main"]);
-  //   // }else{
-  //   //   this.msg.WarnNotify('Enter Valid Email or password')
-  //   // }
-
-  //   this.http.post(environment.apiUrl+'api/user/auth',{
-  //     loginEmail: Email,
-  //     loginPassword: password,
-  //   }).subscribe({
-  //     next:(value)=>{
-  //       console.log(Response);
-        
-       
-  //      if(value !=null ){
-  //       Swal.fire({
-  //         title:'',
-  //         text:"Login Successful",
-  //         position:'center',
-  //         icon:'success',
-  //         showConfirmButton:true,
-  //         confirmButtonText:'OK',
-  //         confirmButtonColor:'Green',
-  //         timer:2000,
-  //         timerProgressBar:true,
-
-  //       }).then((value)=>{
-   
-  //         this.rout.navigate(["main"]);
-  //       })
-        
-        
-  //       // this.curUserValue = window.btoa(value.toString());
-  //       // this.UserValue._encuid=window.btoa(this.curUserValue.userID);;
-  //       // this.UserValue._encuname= window.btoa(this.curUserValue.userName);
-        
-
-  //       // localStorage.setItem('_usercur',JSON.stringify(this.curUserValue));
-  //       localStorage.setItem('currentUser',JSON.stringify(value));
-  //      }else{
-  //       this.msg.WarnNotify('Error Occurred While Login Process');
-  //      }
-  //     },
-  //     error:error=>{
-  //       console.log(error);
-  //       this.msg.WarnNotify('Error Occurred While Login Process')
-  //     }
-  //   })
-
-    
-  // }
-
+ 
 
 
 
@@ -152,7 +107,7 @@ export class GlobalDataModule  {
       Password: password,
     }).subscribe({
       next:(value:any)=>{
-        console.log(value);
+        
         
        
        if(value.msg == 'Logged in Successfully' ){
@@ -185,7 +140,7 @@ export class GlobalDataModule  {
        }
       },
       error:error=>{
-        console.log(error);
+       
         this.msg.WarnNotify('Error Occurred While Login Process')
       }
     })
@@ -201,9 +156,26 @@ export class GlobalDataModule  {
 
 
 logout(){
+    this.http.post(environment.mallApiUrl+'_userLogout',{
+      UserID: this.getUserID(),
+    }).subscribe(
+      (Response:any)=>{
+        if(Response.msg = 'Logged Out Successfully'){
+          this.msg.SuccessNotify(Response.msg);
 
-    localStorage.removeItem('curVal');
-    this.rout.navigate(['login']);
+          
+          localStorage.removeItem('curVal');
+           this.rout.navigate(['login']);
+        }else{
+          this.msg.WarnNotify(Response.msg);
+        }
+       
+      },
+      (Error)=>{
+        this.msg.WarnNotify('Error Occured Check Connection!');
+      }
+    )
+    
   }
 
 
@@ -216,14 +188,7 @@ logout(){
     this._headerTitleSource.next(title.toUpperCase());
   }
 
-  public setUserName()
-  {
- 
-      return this.currentUserValue.userName;
-   
-
-  }
-
+  
 
 
 
@@ -258,11 +223,11 @@ logout(){
       '<style type="text/css" media="print">@page { size: portrait; }</style>'
     );
     frameDoc.document.write(
-      // '<link rel="stylesheet" href="../../../../../../apps/society/src/styles.scss" type="text/scss"  media="print"/>'
-      // '<link rel="stylesheet" href="../../../../../ui/src/lib/styles/print/styles.css" type="text/css"  media="print"/>'
-      // '<link rel="stylesheet" href="../styles.css" type="text/css"  media="print"/>'
-      '<link rel="stylesheet" href="../../assets/style/ownStyle.css" type="text/css" media="print"/>'+
-      '<link rel="stylesheet" href="../../assets/style/bootstrap.min.css" type="text/css" media="print"/>'
+      
+      '<link rel="stylesheet" href="../../assets/style/ownStyle.css" type="text/css" media="print"/>'
+      +
+      '<link rel="stylesheet" href="../../assets/style/bootstrap.min.css" type="text/css" media="print"/>'+
+      '<link rel="stylesheet" href="../../assets/style/bootstrap.min.css.map" type="text/css" />'
       // '<link rel="stylesheet" href="../css/bootstrap.css" type="text/css"  media="print"/>'
     );
     frameDoc.document.write('</head><body>');
@@ -320,7 +285,7 @@ logout(){
     }
   }
 
-
+/////////////////////////////////// will validate the numonly field
   numberOnly(){
     $('.numOnly').on('keypress keyup blur',(event:any)=>{
       // console.log(event.which);

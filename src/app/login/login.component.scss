@@ -10,11 +10,16 @@ body {
     justify-content: right;
     align-items: center;
     // min-height: 100vh;
-    background-image: url(../../assets/Images/login-background.jpg);
+    background-size:100px;
+     background-image: url(../../assets/Images/bckgrnd3.jpg);
+     
   
-    background-position:bottom;
-    background-repeat:no-repeat;
+    background-position:left;
+    
+    background-repeat:space;
     background-size:cover;
+    
+  
 }
 
 .box {
@@ -43,11 +48,11 @@ body {
     left: -50%;
     width: 500px;
     height: 450px;
-    background: linear-gradient(0deg,transparent, transparent, #0c0c0c, #050505,#0c0c0c);
+    background: linear-gradient(0deg,transparent, transparent, #1a3e19, #3b7337,#0c0c0c);
     z-index: 1;
     transform-origin: bottom right;
-    animation: animate 8s linear infinite;  
-    animation-delay: -1.5s;
+    animation: animate 5s reverse infinite;  
+ 
 }
 
 .borderline::after
@@ -61,8 +66,8 @@ body {
     background: linear-gradient(0deg,transparent, transparent, #080808, #030303,#0e0d0d);
     z-index: 1;
     transform-origin: bottom right;
-    animation: animate 8s linear infinite;  
-    animation-delay: -4.5s;
+    animation: animate 5s reverse infinite;  
+    
 }
 
 @keyframes animate
@@ -82,7 +87,7 @@ body {
 .box form{
     position: absolute;
     inset: 4px;
-    background-color: rgb(245, 242, 242);
+    background-color: rgb(255, 255, 255);
     padding:20px;
     border-radius: 8px; 
     z-index: 2;

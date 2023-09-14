@@ -69,7 +69,7 @@ export class PlstatComponent implements OnInit {
   }
 
 
-  getReport(){
+  getReport(reqFunc:any){
   
     this.incDebitTotal = 0;
     this.incCreditTotal = 0;
@@ -80,29 +80,53 @@ export class PlstatComponent implements OnInit {
     this.IncomeData = [];
     this.ExpenseData = [];
 
-    this.http.get(environment.mallApiUrl+'GetProfitRpt?fromdate='+this.globalData.dateFormater(this.fromDate,'-')+'&todate='
-    +this.globalData.dateFormater(this.toDate,'-')).subscribe(
-      (Response)=>{
-       
-        $('#printDiv').show();
-        console.log(Response);
-        this.IncomeData = Response;
-        this.getIncomeTotal();
-        this.app.stopLoaderDark();
-        
 
-      },
-      (Error)=>{
-        this.msg.WarnNotify('Error occured While Loading Expense');
-        this.app.stopLoaderDark();
-      }
-    )
+    if(reqFunc == 'R1'){
+      this.http.get(environment.mallApiUrl+'GetProfitRpt?fromdate='+this.globalData.dateFormater(this.fromDate,'-')+'&todate='
+      +this.globalData.dateFormater(this.toDate,'-')).subscribe(
+        (Response)=>{
+         
+          $('#printDiv').show();
+          
+          this.IncomeData = Response;
+          this.getIncomeTotal();
+          this.app.stopLoaderDark();
+          
+  
+        },
+        (Error)=>{
+          this.msg.WarnNotify('Error occured While Loading Expense');
+          this.app.stopLoaderDark();
+        }
+      )
+    }
+
+    if(reqFunc == 'R2'){
+      this.http.get(environment.mallApiUrl+'GetProfitDetailRpt?fromdate='+this.globalData.dateFormater(this.fromDate,'-')+'&todate='
+      +this.globalData.dateFormater(this.toDate,'-')).subscribe(
+        (Response)=>{
+        
+         
+          $('#printDiv').show();
+        
+          this.IncomeData = Response;
+          this.getIncomeTotal();
+          this.app.stopLoaderDark();
+          
+  
+        },
+        (Error)=>{
+          this.msg.WarnNotify('Error occured While Loading Expense');
+          this.app.stopLoaderDark();
+        }
+      )
+    }
 
     
     this.http.get(environment.mallApiUrl+'GetLossRpt?fromdate='+this.globalData.dateFormater(this.fromDate,'-')+'&todate='
     +this.globalData.dateFormater(this.toDate,'-')).subscribe(
       (Response)=>{
-        console.log(Response);
+
         this.ExpenseData = Response;
         this.getExpenseTotal();
         this.app.stopLoaderDark();
@@ -114,6 +138,8 @@ export class PlstatComponent implements OnInit {
       }
     )
   }
+  
+
   
 
   PrintTable() {
